@@ -1,4 +1,4 @@
-PR = "openxt-01
+PR = "openxt-01"
 EXTRA_OECONF += "--with-selinux"
 DEPENDS += "libselinux"
 
