@@ -1,0 +1,13 @@
+diff --git a/libopkg/opkg_conf.c b/libopkg/opkg_conf.c
+index 1e65bad..7f68aee 100644
+--- a/libopkg/opkg_conf.c
++++ b/libopkg/opkg_conf.c
+@@ -513,7 +513,7 @@ opkg_conf_load(void)
+ 	else
+ 		sprintf_alloc (&lock_file, "%s", OPKGLOCKFILE);
+ 
+-	lock_fd = creat(lock_file, S_IRUSR | S_IWUSR | S_IRGRP);
++	lock_fd = creat(lock_file, S_IRUSR | S_IWUSR | S_IRGRP | O_CLOEXEC);
+ 	if (lock_fd == -1) {
+ 		opkg_perror(ERROR, "Could not create lock file %s", lock_file);
+ 		goto err2;
