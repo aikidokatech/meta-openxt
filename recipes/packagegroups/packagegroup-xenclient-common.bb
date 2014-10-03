@@ -24,7 +24,10 @@ RDEPENDS_${PN} = " \
     procps \
     rsync \
     strace \
-    vim-tiny \
+    vim \
     sysvinit-pidof \
     nano \
 "
+
+# How to get vim-tiny now.
+PACKAGECONFIG_append_vim = " tiny"
