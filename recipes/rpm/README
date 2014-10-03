@@ -1,0 +1,4 @@
+The meta-selinux maintainer did a dora release but did not do a daisy release.  There 
+no branch that stays with OE daisy.  This causes issues as recipes are added to 
+meta-selinux that are only in OE master.  Until moving to the OE master branch this will
+be needed here to provide rpm to meta-selinux.  After moving to OE master it can be removed.
