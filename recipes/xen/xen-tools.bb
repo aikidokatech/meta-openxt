@@ -12,7 +12,7 @@ SRC_URI += "file://xenstored.initscript \
 DEPENDS += " gettext ncurses openssl python zlib seabios ipxe gmp lzo glib-2.0"
 DEPENDS += "util-linux"
 # lzo2 required by libxenguest.
-RDEPENDS += " lzo"
+RDEPENDS_${PN} += " lzo"
 
 PACKAGES = "${PN}-libxenstore ${PN}-libxenstore-dev ${PN}-libxenstore-dbg ${PN}-libxenstore-staticdev   \
             ${PN}-xenstore-utils ${PN}-xenstore-utils-dbg                                               \

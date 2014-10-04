@@ -4,7 +4,7 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 DEPENDS = "polkit-gnome libnotify networkmanager dbus-glib libglade gconf gnome-keyring libgnome-keyring iso-codes"
 
-#RDEPENDS = "${@base_conditional('MACHINE', 'xenclient-uivm', '', 'networkmanager', d)} notification-daemon"
+#RDEPENDS_${PN} = "${@base_conditional('MACHINE', 'xenclient-uivm', '', 'networkmanager', d)} notification-daemon"
 
 RDEPENDS_${PN} = "libnmglib libnmutil libnmglib-vpn gnome-keyring networkmanager-certs"
 RRECOMMENDS_${PN} = ""

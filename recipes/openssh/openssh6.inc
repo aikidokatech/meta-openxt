@@ -12,7 +12,7 @@ INC_PR = "r3"
 DEPENDS = "zlib openssl"
 DEPENDS += "${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
 
-RDEPENDS += " pam-plugin-keyinit pam-plugin-loginuid "
+RDEPENDS_${PN} += " pam-plugin-keyinit pam-plugin-loginuid "
 
 RPROVIDES = "ssh sshd"
 

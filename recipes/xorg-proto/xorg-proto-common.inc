@@ -8,7 +8,7 @@ DEPENDS = "util-macros"
 
 XORG_PN = "${PN}"
 
-ALLOW_EMPTY = "1"
+ALLOW_EMPTY_${PN} = "1"
 
 SRC_URI = "${XORG_MIRROR}/individual/proto/${XORG_PN}-${PV}.tar.bz2"
 

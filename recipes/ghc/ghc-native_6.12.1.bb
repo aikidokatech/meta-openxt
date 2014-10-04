@@ -4,7 +4,7 @@ DESCRIPTION = "ghc-native"
 LICENSE = "Glasgow"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=7cb08deb79c4385547f57d6bb2864e0f"
 
-PR = "r2"
+PR = "openxt-01"
 
 SRC_URI = "http://www.haskell.org/ghc/dist/6.12.1/ghc-6.12.1-src.tar.bz2"
 
@@ -26,12 +26,10 @@ python() {
     d.setVarFlag('do_package', 'fakeroot', 1)
     d.setVarFlag('do_package', 'umask', 022)
     d.setVarFlag('do_package_setscene', 'fakeroot', 1)
-
 }
 
-
-
 PACKAGES =+ "ghc-runtime-native"
+RPROVIDES_${PN} = "ghc-runtime-native"
 RDEPENDS_${PN} =+ "ghc-runtime-native"
 
 FILES_ghc-runtime-native += "/usr/lib/*.so"

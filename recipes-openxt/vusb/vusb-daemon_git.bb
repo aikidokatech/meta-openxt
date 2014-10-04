@@ -2,7 +2,7 @@ DESCRIPTION = "Citrix USB Daemon for XenClient"
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM="file://COPYING;md5=4641e94ec96f98fabc56ff9cc48be14b"
 DEPENDS = " libusb-compat xen-tools libv4v libxcdbus xenclient-idl xenclient-rpcgen-native libevent libxcxenstore"
-RDEPENDS += "libxcxenstore"
+RDEPENDS_${PN} += "libxcxenstore"
 
 SRC_URI = "${OPENXT_GIT_MIRROR}/xc-vusb-daemon.git;protocol=git;tag=${OPENXT_TAG} \
            file://xenclient-vusb.initscript \

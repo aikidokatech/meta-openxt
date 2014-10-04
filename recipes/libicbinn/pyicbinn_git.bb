@@ -8,7 +8,7 @@ S = "${WORKDIR}/git/pyicbinn"
 SRC_URI = "${OPENXT_GIT_MIRROR}/icbinn.git;protocol=git;tag=${OPENXT_TAG}"
 
 DEPENDS = "swig-native libicbinn-resolved xenclient-rpcgen-native"
-RDEPENDS += "python-lang"
+RDEPENDS_${PN} += "python-lang"
 
 inherit distutils
 inherit xenclient

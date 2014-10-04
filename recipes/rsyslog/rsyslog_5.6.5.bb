@@ -26,12 +26,12 @@ do_install_append() {
         install ${WORKDIR}/rsyslog.logrotate ${D}${sysconfdir}/logrotate.d/rsyslog
 }
 
-pkg_postinst() {
+pkg_postinst_${PN}() {
         update-rc.d -f syslog remove
 }
 
 # TODO: Remove when syslogd is kicked out from our busybox.
-pkg_postrm() {
+pkg_postrm_${PN}() {
         update-rc.d syslog add 5
 }
 

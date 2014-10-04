@@ -1,7 +1,7 @@
 PR = "openxt-01"
 
 DEPENDS += "libselinux libv4v xen-tools"
-RDEPENDS += "libselinux"
+RDEPENDS_${PN} += "libselinux"
 
 FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}-${PV}:"
 
