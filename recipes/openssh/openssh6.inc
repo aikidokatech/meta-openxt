@@ -14,7 +14,7 @@ DEPENDS += "${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
 
 RDEPENDS_${PN} += " pam-plugin-keyinit pam-plugin-loginuid "
 
-RPROVIDES = "ssh sshd"
+RPROVIDES_${PN} = "ssh sshd"
 
 CONFLICTS_${PN} = "dropbear"
 RCONFLICTS_${PN}-sshd = "dropbear"
