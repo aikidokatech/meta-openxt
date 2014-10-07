@@ -8,7 +8,7 @@ RPROVIDES_${PN} = ""
 DEFAULT_PREFERENCE = "-99"
 
 # Allow empty, this is just to build the dependencies for initramfs
-ALLOW_EMPTY = "1"
+ALLOW_EMPTY_${PN} = "1"
 
 do_install() {
     :
