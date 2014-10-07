@@ -2,28 +2,10 @@ PR = "openxt-01"
 
 FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}-${PV}:"
 
-# TODO: Port patches listed below to 1.22.1
-SRC_URI = "\
-  file://udhcpscript.patch;patch=1 \
-  file://udhcpc-fix-nfsroot.patch;patch=1 \
-  file://B921600.patch;patch=1 \
-  file://get_header_tar.patch;patch=1 \
-  file://busybox-appletlib-dependency.patch;patch=1 \
-  file://busybox-1.13.2-sysinfo-build-fix.patch \
-  file://find-touchscreen.sh \
-  file://busybox-cron \
-  file://busybox-udhcpd \
-  file://default.script file://simple.script \
-  file://hwclock.sh \
-  file://mount.busybox \
+# TODO: Do we still need mountall?  what about configure and install additions?
+SRC_URI += "\
   file://mountall \
-  file://umount.busybox \
-  file://defconfig \
-  file://mdev \
-  file://mdev.conf \
 "
-
-EXTRA_OEMAKE += "V=1 ARCH=${TARGET_ARCH} CROSS_COMPILE=${TARGET_PREFIX}"
 
 do_configure_prepend () {
     if [ "${TARGET_ARCH}" = "avr32" ] ; then

@@ -94,9 +94,34 @@ ROOTFS_POSTPROCESS_COMMAND += " \
 ROOTFS_POSTPROCESS_COMMAND += " \
     touch ${IMAGE_ROOTFS}/etc/xenclient-host-installer;"
 
-do_rootfs_append() {
-    # What line no is this?
+do_post_rootfs_items() {
+    install -d ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}/netboot
+    install -m 0644 ${IMAGE_ROOTFS}/${datadir}/syslinux/mboot.c32 ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}/netboot/
+    for i in ${WORKDIR}/*.ans ; do
+        install -m 0644 ${i} ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}/netboot/
+    done
+    install -m 0644 ${WORKDIR}/pxelinux.cfg ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}/netboot/
+    install -d ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}/iso
+    install -m 0644 ${IMAGE_ROOTFS}/${datadir}/syslinux/mboot.c32 ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}/iso/
+    install -m 0644 ${IMAGE_ROOTFS}/${datadir}/syslinux/pxelinux.0 ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}/iso/
+    install -m 0644 ${WORKDIR}/bootmsg.txt ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}/iso/
+    install -m 0644 ${IMAGE_ROOTFS}/${datadir}/syslinux/isolinux.bin ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}/iso/
+    install -m 0644 ${WORKDIR}/isolinux.cfg ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}/iso/
+    install -m 0755 ${IMAGE_ROOTFS}/${bindir}/isohybrid ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}/iso/
+    cp ${IMAGE_ROOTFS}/boot/tboot.gz ${DEPLOY_DIR_IMAGE}/
+    cp ${IMAGE_ROOTFS}/boot/xen.gz ${DEPLOY_DIR_IMAGE}/
+    cp ${IMAGE_ROOTFS}/boot/GM45_GS45_PM45_SINIT_51.BIN ${DEPLOY_DIR_IMAGE}/gm45.acm
+    cp ${IMAGE_ROOTFS}/boot/4th_gen_i5_i7_SINIT_75.BIN ${DEPLOY_DIR_IMAGE}/hsw.acm
+    cp ${IMAGE_ROOTFS}/boot/i5_i7_DUAL_SINIT_51.BIN ${DEPLOY_DIR_IMAGE}/duali.acm
+    cp ${IMAGE_ROOTFS}/boot/i7_QUAD_SINIT_51.BIN ${DEPLOY_DIR_IMAGE}/quadi.acm
+    cp ${IMAGE_ROOTFS}/boot/Q35_SINIT_51.BIN ${DEPLOY_DIR_IMAGE}/q35.acm
+    cp ${IMAGE_ROOTFS}/boot/Q45_Q43_SINIT_51.BIN ${DEPLOY_DIR_IMAGE}/q45q43.acm
+    cp ${IMAGE_ROOTFS}/boot/Xeon-5600-3500-SINIT-v1.1.bin ${DEPLOY_DIR_IMAGE}/xeon56.acm
+    cp ${IMAGE_ROOTFS}/boot/Xeon-E7-8800-4800-2800-SINIT-v1.1.bin ${DEPLOY_DIR_IMAGE}/xeone7.acm
+    cp ${IMAGE_ROOTFS}/boot/3rd_gen_i5_i7_SINIT_67.BIN ${DEPLOY_DIR_IMAGE}/ivb_snb.acm
 }
+
+addtask post_rootfs_items after do_rootfs
 
 inherit image
 inherit xenclient-image-src-info
