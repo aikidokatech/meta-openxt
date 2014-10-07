@@ -1,6 +1,6 @@
+PR = "openxt-01"
 
-SHADOW_EXTRAPATH := "${THISDIR}/files"
-FILESPATH .= ":${SHADOW_EXTRAPATH}"
+FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}-${PV}:"
 
 SRC_URI += "file://login.selinux"
 
