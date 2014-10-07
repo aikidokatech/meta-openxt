@@ -4,7 +4,7 @@ PR = "openxt-01"
 # unfortunately there is no way to enforce failure when libselinux is not present
 DEPENDS += "libselinux"
 
-FILESEXTRAPATH_prepend := "${THISDIR}/${PN}-${PV}:"
+FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}-${PV}:"
 SRC_URI += "file://etc-config-passwd.patch;patch=1"
 EXTRA_OECONF += "--disable-nis"
 
