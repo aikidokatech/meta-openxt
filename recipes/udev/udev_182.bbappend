@@ -1,8 +1,9 @@
-PRINC = "4"
+PR = "openxt-01"
+
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 EXTRA_OECONF += "--enable-static --with-selinux"
-FILESEXTRAPATHS := "${THISDIR}/${PN}"
+FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
 
 inherit update-rc.d
 
