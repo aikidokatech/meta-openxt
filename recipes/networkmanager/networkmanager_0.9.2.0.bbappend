@@ -38,7 +38,7 @@ do_install_append () {
         install -m 0755 ${WORKDIR}/01ppp ${D}/etc/NetworkManager/dispatcher.d
 
 }
-FILES_${PN}_append_xenclient-ndvm += " \
+FILES_${PN}_append_openxt-ndvm += " \
                  /usr/share/xenclient/nm_scripts/db_to_nm.awk \
                  /usr/share/xenclient/nm_scripts/nm_to_db.awk \
                  /usr/share/xenclient/nm_scripts/WiredEthernetConnection \
@@ -46,7 +46,7 @@ FILES_${PN}_append_xenclient-ndvm += " \
                  /usr/bin/nm_sync.sh \
 "
 
-SRC_URI_append_xenclient-ndvm += " \
+SRC_URI_append_openxt-ndvm += " \
             file://db-nm-settings.patch;patch=1 \
             file://use-dom0-db-for-seen-bssids.patch;patch=1 \
             file://WiredEthernetConnection \
@@ -55,7 +55,7 @@ SRC_URI_append_xenclient-ndvm += " \
             file://nm_to_db.awk \
 "
 
-do_install_append_xenclient-ndvm() {
+do_install_append_openxt-ndvm() {
         install -m 0755 ${WORKDIR}/nm_sync.sh ${D}/usr/bin/nm_sync.sh
         install -d ${D}/usr/share/xenclient/nm_scripts
         install -m 0755 ${WORKDIR}/db_to_nm.awk ${D}/usr/share/xenclient/nm_scripts/db_to_nm.awk

@@ -14,7 +14,7 @@ DEB_DESC_EXT="This package provides the XenClient v4v kernel module."
 DEB_SECTION="misc"
 DEB_PKG_MAINTAINER = "Citrix Systems <customerservice@citrix.com>"
 
-DEPENDS_append_xenclient-nilfvm += " ${@deb_bootstrap_deps(d)} "
+DEPENDS_append_openxt-nilfvm += " ${@deb_bootstrap_deps(d)} "
 
 inherit ${@"xenclient-simple-deb"if(bb.data.getVar("MACHINE",d,1)=="xenclient-nilfvm")else("null")}
 
@@ -33,7 +33,7 @@ do_install_headers() {
 	install -m 644 linux/v4v_dev.h ${D}/usr/include/linux/v4v_dev.h
 	install -m 644 linux/v4v_dev.h ${STAGING_KERNEL_DIR}/include/linux/v4v_dev.h
 }
-do_install_append_xenclient-nilfvm() {
+do_install_append_openxt-nilfvm() {
 	## to generate deb package
 	sed -i "s|@KERNEL_VERSION@|${KERNEL_VERSION}|g" "${WORKDIR}/DEBIAN_postinst"
 	do_simple_deb_package

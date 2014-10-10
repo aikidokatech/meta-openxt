@@ -5,7 +5,7 @@ DESCRIPTION = "Linux Framebuffer PV driver"
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM="file://../COPYING;md5=4641e94ec96f98fabc56ff9cc48be14b"
 
-DEPENDS_append_xenclient-nilfvm += " ${@deb_bootstrap_deps(d)} "
+DEPENDS_append_openxt-nilfvm += " ${@deb_bootstrap_deps(d)} "
 
 SRC_URI = "${OPENXT_GIT_MIRROR}/xenfb2.git;protocol=git;tag=${OPENXT_TAG}"
 
@@ -36,7 +36,7 @@ do_install_headers() {
 }
 
 # Had to duplicate, can't _append as xenclient-deb overrides it
-do_install_headers_xenclient-nilfvm() {
+do_install_headers_openxt-nilfvm() {
         install -m 0755 -d ${D}/usr/include
         install -m 644 fb2if.h ${D}/usr/include/fb2if.h
 

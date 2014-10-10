@@ -67,7 +67,7 @@ do_install(){
         done
 }
 
-do_install_append_xenclient-stubdomain() {
+do_install_append_openxt-stubdomain() {
         rm -f ${D}/etc/xen/scripts/qemu-ifup
         install -d ${D}/etc/xen
         install -m 755 ${WORKDIR}/qemu-ifup-stubdom ${D}/etc/xen/scripts/qemu-ifup

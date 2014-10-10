@@ -40,7 +40,7 @@ SRC_URI += " \
 EXTRA_OECONF += " \
                   --with-bluetooth=no \
 "
-PACKAGE_ARCH_xenclient-uivm = "${MACHINE_ARCH}"
+PACKAGE_ARCH_openxt-uivm = "${MACHINE_ARCH}"
 
 do_install_append() {
         install -d ${D}${datadir}/icons/hicolor/22x22/xenclient

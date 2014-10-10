@@ -4,7 +4,7 @@ LICENSE = "GPLv2"
 LIC_FILES_CHKSUM="file://../COPYING;md5=4641e94ec96f98fabc56ff9cc48be14b"
 DEPENDS = "xenclient-rpcgen-native xenclient-idl ocaml-dbus xenclient-toolstack"
 
-DEPENDS_append_xenclient-nilfvm += " ${@deb_bootstrap_deps(d)} "
+DEPENDS_append_openxt-nilfvm += " ${@deb_bootstrap_deps(d)} "
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
@@ -70,7 +70,7 @@ do_install() {
 }
 
 # Had to duplicate, can't _append as xenclient-deb overrides it
-do_install_xenclient-nilfvm() {
+do_install_openxt-nilfvm() {
         install -m 0755 -d ${D}/usr/bin
 
         install -m 0755 db-cmd ${D}/usr/bin/db-cmd

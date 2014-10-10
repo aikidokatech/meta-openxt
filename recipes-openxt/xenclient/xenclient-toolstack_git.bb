@@ -4,9 +4,9 @@ LICENSE = "LGPLv2.1"
 LIC_FILES_CHKSUM = "file://COPYING;md5=321bf41f280cf805086dd5a720b37785"
 DEPENDS += " ocaml-cross ocaml-dbus ocaml-camomile xen-tools"
 RDEPENDS_${PN} = " xen-tools-xenstore-utils "
-RDEPENDS_xenclient-ndvm += " db-tools"
+RDEPENDS_openxt-ndvm += " db-tools"
 
-DEPENDS_append_xenclient-nilfvm += " ${@deb_bootstrap_deps(d)} "
+DEPENDS_append_openxt-nilfvm += " ${@deb_bootstrap_deps(d)} "
 
 inherit xenclient
 inherit ${@"xenclient-simple-deb"if(bb.data.getVar("MACHINE",d,1)=="xenclient-nilfvm")else("null")}
@@ -48,11 +48,11 @@ OCAML_INSTALL_LIBS  = "libs/uuid libs/stdext libs/mmap \
                       libs/xb libs/xs libs/netdev \
 		      libs/common"
 
-do_configure_xenclient-nilfvm() {
+do_configure_openxt-nilfvm() {
         :
 }
 
-do_compile_xenclient-nilfvm() {
+do_compile_openxt-nilfvm() {
         :
 }
 
@@ -69,7 +69,7 @@ do_install() {
         done
 }
 
-do_install_append_xenclient-nilfvm() {
+do_install_append_openxt-nilfvm() {
 	## to generate deb package
 	DEB_DO_NOT_INCLUDE="usr/bin/ usr/lib/"
 	do_simple_deb_package

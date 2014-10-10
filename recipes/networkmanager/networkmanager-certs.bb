@@ -21,6 +21,6 @@ do_install () {
         install -m 0755 ${WORKDIR}/populate-certs.sh ${D}${sysconfdir}/init.d
 }
 
-do_install_append_xenclient-uivm() {
+do_install_append_openxt-uivm() {
     install -d ${D}/${localstatedir}/lib/NetworkManager
 }

@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://${TOPDIR}/COPYING.GPLv2;md5=751419260aa954499f7abaaba
 DEPENDS = "libv4v"
 RDEPENDS_${PN} += "xen-tools-libxenstore"
 
-DEPENDS_append_xenclient-nilfvm += " ${@deb_bootstrap_deps(d)} "
+DEPENDS_append_openxt-nilfvm += " ${@deb_bootstrap_deps(d)} "
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
@@ -44,7 +44,7 @@ do_install() {
 }
 
 # Had to duplicate, can't _append as xenclient-deb overrides it
-do_install_xenclient-nilfvm() {
+do_install_openxt-nilfvm() {
         install -d ${D}${sbindir}
         install -m 0755 ${WORKDIR}/dbusbouncer ${D}${sbindir}
         install -d ${D}${sysconfdir}/init.d
