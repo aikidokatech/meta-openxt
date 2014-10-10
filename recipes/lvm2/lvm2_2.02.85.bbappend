@@ -6,6 +6,7 @@ SRC_URI += " \
     file://lvm2-fix-static-compilation.patch \
     file://add-selinux-link-flags.patch\
     file://lvm-conf-cache-dir \
+    file://0001-Replace-CPPFunction-with-rl_completion_func_t.patch \
 "
 
 PACKAGES =+ "${PN}-static"
