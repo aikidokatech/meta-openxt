@@ -1,5 +1,5 @@
 LICENSE = "GPL"
-COMPATIBLE_MACHINE = "(xenclient-nilfvm)"
+COMPATIBLE_MACHINE = "(openxt-nilfvm)"
 
 DEB_PACKAGES = "\
         linux-xenclient-nilfvm \

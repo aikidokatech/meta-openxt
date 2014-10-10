@@ -1,5 +1,5 @@
 DESCRIPTION = "Linux kernel XenClient nilfvm"
-COMPATIBLE_MACHINE = "(xenclient-nilfvm)"
+COMPATIBLE_MACHINE = "(openxt-nilfvm)"
 
 require linux-xenclient-${PV}.inc
 

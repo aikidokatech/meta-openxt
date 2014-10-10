@@ -1,5 +1,5 @@
 LICENSE = "GPL"
-COMPATIBLE_MACHINE = "(xenclient-dom0)"
+COMPATIBLE_MACHINE = "(openxt-dom0)"
 
 DISTROS = "wheezy"
 
