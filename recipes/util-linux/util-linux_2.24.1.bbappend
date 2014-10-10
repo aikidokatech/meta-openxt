@@ -1,5 +1,6 @@
 PR = "openxt-01"
-EXTRA_OECONF += "--with-selinux"
+
+EXTRA_OECONF += "--enable-selinux"
 DEPENDS += "libselinux"
 
 # make ionice a separate package
