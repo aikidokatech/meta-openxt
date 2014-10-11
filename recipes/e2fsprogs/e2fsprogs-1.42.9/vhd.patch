@@ -316,11 +316,11 @@ index 553c361..e45621b 100644
 -TUNE2FS_OBJS=	tune2fs.o util.o
 +TUNE2FS_OBJS=	tune2fs.o util.o vhdio.o
  MKLPF_OBJS=	mklost+found.o
--MKE2FS_OBJS=	mke2fs.o util.o profile.o prof_err.o default_profile.o
-+MKE2FS_OBJS=	mke2fs.o util.o profile.o prof_err.o default_profile.o vhdio.o
+-MKE2FS_OBJS=	mke2fs.o util.o profile.o prof_err.o default_profile.o \
++MKE2FS_OBJS=	mke2fs.o util.o profile.o prof_err.o default_profile.o vhdio.o \
+			create_inode.o
  CHATTR_OBJS=	chattr.o
  LSATTR_OBJS=	lsattr.o
- UUIDGEN_OBJS=	uuidgen.o
 @@ -100,7 +100,7 @@ COMPILE_ET=$(top_builddir)/lib/et/compile_et --build-tree
  .c.o:
  	$(E) "	CC $<"
@@ -374,8 +374,8 @@ index 2e8ba60..4b549da 100644
  	}
  
  	while ((c = getopt (argc, argv,
--		    "b:cg:i:jl:m:no:qr:s:t:vC:DE:FG:I:J:KL:M:N:O:R:ST:U:V")) != EOF) {
-+		    "b:cg:i:jl:m:no:qr:s:t:vC:DE:FG:I:J:KL:M:N:O:R:ST:U:VZ")) != EOF) {
+-		    "b:cg:i:jl:m:no:qr:s:t:d:vC:DE:FG:I:J:KL:M:N:O:R:ST:U:V")) != EOF) {
++		    "b:cg:i:jl:m:no:qr:s:t:d:vC:DE:FG:I:J:KL:M:N:O:R:ST:U:VZ")) != EOF) {
  		switch (c) {
  		case 'b':
  			blocksize = parse_num_blocks2(optarg, -1);

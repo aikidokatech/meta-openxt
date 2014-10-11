@@ -8,6 +8,7 @@ SRC_URI += "file://vhd.patch \
 "
 
 do_configure_append() {
-    autoconf
+    # Not sure why this was needed before.  Causes an error now.
+    #autoconf
 }
 
