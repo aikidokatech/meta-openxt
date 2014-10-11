@@ -50,6 +50,11 @@ do_custom_install() {
 
 addtask custom_install after do_install
 
+do_install_append_openxt-dom0() {
+	# some files are already provided by xenclient-initramfs-tpm-config-files
+	rm -f ${D}${sysconfdir}/tcsd.conf
+}
+
 PACKAGES =+ "${PN}-data"
 FILES_${PN}-data = "${datadir}/trousers/system.data.auth \
 	${datadir}/trousers/system.data.noauth \

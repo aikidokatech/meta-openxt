@@ -23,6 +23,8 @@ do_install_append_openxt-dom0 () {
 	install -m 0755 -d ${D}/storage
         install -m 0755 -d ${D}/var/lib/dbus
         install -m 0644 ${WORKDIR}/fstab.xenclient-dom0 ${D}${sysconfdir}/fstab
+	# some files are already provided by xenclient-initramfs-tpm-config-files
+	rm -f ${D}${sysconfdir}/nsswitch.conf
 }
 
 do_install_append_openxt-ndvm () {
