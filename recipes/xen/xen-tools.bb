@@ -1,6 +1,6 @@
 require xen.inc
 
-inherit pkgconfig update-rc.d
+inherit pkgconfig update-rc.d pythonnative
 
 SRC_URI += "file://xenstored.initscript \
 	    file://xenconsoled.initscript \
