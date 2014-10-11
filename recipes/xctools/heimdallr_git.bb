@@ -2,7 +2,7 @@ DESCRIPTION = "Application to fill pciback quirks"
 # Aurelien has not specified a license for this project so we
 # set it to CLOSED to keep bb happy.
 LICENSE = "CLOSED"
-DEPENDS = "libjson pciutils"
+DEPENDS = "json-c pciutils"
 
 SRC_URI = "git://github.com/achartier/heimdallr.git;protocol=git \
            file://pci-quirks.json \
