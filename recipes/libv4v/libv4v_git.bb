@@ -3,6 +3,8 @@ LICENSE = "LGPLv2.1"
 LIC_FILES_CHKSUM = "file://COPYING;md5=321bf41f280cf805086dd5a720b37785"
 DEPENDS = "xen-tools linux-v4v-headers v4v-module"
 
+FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}-${PV}:"
+
 SRC_URI = "${OPENXT_GIT_MIRROR}/v4v.git;protocol=git;tag=${OPENXT_TAG} \
 	   file://13-v4v.rules"
 
