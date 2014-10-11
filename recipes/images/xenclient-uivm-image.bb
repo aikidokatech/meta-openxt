@@ -27,11 +27,11 @@ IMAGE_INSTALL = "\
     ${ROOTFS_PKGMANAGE} \
     ${XSERVER} \
     modules \
-    task-xenclient-common \
-    task-xenclient-xfce-minimal \
+    packagegroup-xenclient-common \
+    packagegroup-xenclient-xfce-minimal \
     openssh \
-    task-core-boot \
-    task-base \
+    packagegroup-core-boot \
+    packagegroup-base \
     xenfb2 \
     kernel-modules \
     v4v-module \

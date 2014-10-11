@@ -16,9 +16,9 @@ DEPENDS = "packagegroup-base"
 IMAGE_INSTALL = "\
     ${ROOTFS_PKGMANAGE} \
     modules \
-    task-core-boot \
-    task-base \
-    task-xenclient-common \
+    packagegroup-core-boot \
+    packagegroup-base \
+    packagegroup-xenclient-common \
     bootage \
     kernel-modules \
     v4v-module \

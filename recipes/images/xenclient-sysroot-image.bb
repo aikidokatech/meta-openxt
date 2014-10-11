@@ -23,10 +23,10 @@ IMAGE_INSTALL = "\
     ${ROOTFS_PKGMANAGE} \
     ${IMAGE_INITSCRIPTS} \
     modules \
-    task-base \
-    task-core-boot \
-    task-xenclient-common \
-    task-xenclient-dom0 \
+    packagegroup-base \
+    packagegroup-core-boot \
+    packagegroup-xenclient-common \
+    packagegroup-xenclient-dom0 \
     essential-target-builddepends \
     ${ANGSTROM_EXTRA_INSTALL}"
 

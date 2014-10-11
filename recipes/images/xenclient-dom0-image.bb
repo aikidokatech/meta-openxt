@@ -24,10 +24,10 @@ IMAGE_INSTALL = "\
     ${ROOTFS_PKGMANAGE} \
     ${IMAGE_INITSCRIPTS} \
     modules \
-    task-core-boot \
-    task-base \
-    task-xenclient-common \
-    task-xenclient-dom0 \
+    packagegroup-core-boot \
+    packagegroup-base \
+    packagegroup-xenclient-common \
+    packagegroup-xenclient-dom0 \
     v4v-module \
     xenclient-preload-hs-libs \
     ${ANGSTROM_EXTRA_INSTALL}"
