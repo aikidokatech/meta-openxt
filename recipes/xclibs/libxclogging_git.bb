@@ -4,6 +4,8 @@ LIC_FILES_CHKSUM = "file://../COPYING;md5=321bf41f280cf805086dd5a720b37785"
 
 SRC_URI = "${OPENXT_GIT_MIRROR}/xclibs.git;protocol=git;tag=${OPENXT_TAG}"
 
+CFLAGS_append = " -Wno-unused"
+
 S = "${WORKDIR}/git/xclogging"
 
 inherit autotools
