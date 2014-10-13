@@ -1,18 +1,36 @@
+# Our own GHC recipe as it was not provided in another layer.  GHC uses autotools,
+# so redoing to be styled better and written properly for passing options.
+# - Adam Oliver
+# TODO:  This is an individual native recipe.  Should be changed to and extend using
+# BBCLASSEXTEND in a GHC recipe.
+
+SUMMARY = "ghc-native"
+DESCRIPTION = "GHC"
+LICENSE = "Glasgow"
+
+LIC_FILES_CHKSUM = "file://LICENSE;md5=7cb08deb79c4385547f57d6bb2864e0f"
+
+FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}-${PV}:"
+
+SRC_URI = " \
+	http://www.haskell.org/ghc/dist/6.12.1/ghc-6.12.1-src.tar.bz2 \
+	file://bfd-error.patch \
+	"
+
 SRC_URI[md5sum] = "3a2b23f29013605f721ebdfc29de9c92"
 SRC_URI[sha256sum] = "cdf99f9add677a925ee87a5b87e94eb595ed9b72034453c195ef9379bd26552a"
-DESCRIPTION = "ghc-native"
-LICENSE = "Glasgow"
-LIC_FILES_CHKSUM = "file://LICENSE;md5=7cb08deb79c4385547f57d6bb2864e0f"
+
+S = "${WORKDIR}/${PN}-${PV}"
 
 PR = "openxt-01"
 
-SRC_URI = "http://www.haskell.org/ghc/dist/6.12.1/ghc-6.12.1-src.tar.bz2"
-
 S = "${WORKDIR}/ghc-${PV}"
 
-PARALLEL_MAKE=""
+inherit native autotools
 
-inherit native
+PARALLEL_MAKE=""
+CFLAGS_append = ' -Wno-unused'
+
 # huge hack to be able to generate ipks from native package
 python() {
     bb.data.delVarFlag("do_package", "noexec", d);
@@ -28,12 +46,7 @@ python() {
     d.setVarFlag('do_package_setscene', 'fakeroot', 1)
 }
 
-PACKAGES =+ "ghc-runtime-native"
-RPROVIDES_${PN} = "ghc-runtime-native"
-RDEPENDS_${PN} =+ "ghc-runtime-native"
-
-FILES_ghc-runtime-native += "/usr/lib/*.so"
-
+# Inheriting autotools now so probalby a better way to do this
 do_configure() {
 	cp `which pwd` utils/ghc-pwd/ghc-pwd
 	export CPP=`which cpp`
@@ -58,12 +71,9 @@ do_configure() {
     echo "STANDARD_OPTS += \"-I${STAGING_INCDIR_NATIVE}\"" >> rts/ghc.mk
 }
 
-do_compile() {
-	make
-}
-
-#do_stage() {
-#	make install
+## This is probably preventing the use of CFLAGS_append as it is not oe_make
+#do_compile() {
+#	make
 #}
 
 do_install() {
@@ -93,3 +103,8 @@ do_install() {
     install -m 755 ${S}/libraries/haskell98/dist-install/build/libHShaskell98-1.0.1.1-ghc6.12.1.so ${D}/usr/lib
 
 }
+
+FILES_ghc-runtime-native += "/usr/lib/*.so"
+PACKAGES =+ "ghc-runtime-native"
+RDEPENDS_${PN} =+ "ghc-runtime-native"
+RPROVIDES_${PN} = "ghc-runtime-native"
