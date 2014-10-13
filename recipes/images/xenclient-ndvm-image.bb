@@ -7,7 +7,7 @@ COMPATIBLE_MACHINE = "(openxt-ndvm)"
 
 IMAGE_FSTYPES = "xc.ext3.vhd.gz"
 
-IMAGE_LINGUAS = ""
+#IMAGE_LINGUAS = ""
 
 BAD_RECOMMENDATIONS += "avahi-daemon avahi-autoipd"
 # The above seems to be broken and we *really* don't want avahi!
