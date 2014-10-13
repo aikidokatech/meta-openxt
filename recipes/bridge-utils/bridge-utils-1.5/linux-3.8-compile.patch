@@ -7,6 +7,6 @@ index 016acea..bc22140 100644
  
  #include <sys/socket.h>
 +#include <netinet/in.h>
+ #include <linux/in6.h>
  #include <linux/if.h>
- #include <linux/if_bridge.h>
  
