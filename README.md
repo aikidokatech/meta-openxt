@@ -25,13 +25,16 @@ The following layers are in use:
   
 Current I am working to get the following steps to build:  
 >  Step initramfs  
-`MACHINE="openxt-dom0" DISTRO="openxt" bitbake xenclient-initramfs-image Builtd on 10/10/2014`  
+`MACHINE="openxt-dom0" DISTRO="openxt" bitbake xenclient-initramfs-image`  
+Built on 10/10/2014  
   
 >  Step stubinitramfs  
-`MACHINE="openxt-stubdomain" DISTRO="openxt" bitbake xenclient-stubdomain-initramfs-image libdmbus not detecting v4v_socket`  
+`MACHINE="openxt-stubdomain" DISTRO="openxt" bitbake xenclient-stubdomain-initramfs-image`  
+libdmbus not detecting v4v_socket  
   
 >  Step dom0  
-`MACHINE="openxt-dom0" DISTRO="openxt" bitbake xenclient-dom0-image ghc-transforms do_configure error`  
+`MACHINE="openxt-dom0" DISTRO="openxt" bitbake xenclient-dom0-image ghc-transforms`  
+do_configure error  
   
 >  Step uivm  
 `MACHINE="openxt-uivm" DISTRO="openxt" bitbake xenclient-uivm-image`  
