@@ -23,8 +23,37 @@ The following layers are in use:
 >  /home/aikidoka/oe-core/meta-openxt  
 >  /home/aikidoka/oe-core/meta-selinux  
   
-Current I am working to get the following command to complete parsing (ignoring QA Issues for now):  
-`MACHINE="openxt-dom0" DISTRO="openxt" bitbake -e -n -k xenclient-installer-image`
+Current I am working to get the following steps to build:  
+>  Step initramfs  
+`MACHINE="openxt-dom0" DISTRO="openxt" bitbake xenclient-initramfs-image Builtd on 10/10/2014`  
+  
+>  Step stubinitramfs  
+`MACHINE="openxt-stubdomain" DISTRO="openxt" bitbake xenclient-stubdomain-initramfs-image libdmbus not detecting v4v_socket`  
+  
+>  Step dom0  
+`MACHINE="openxt-dom0" DISTRO="openxt" bitbake xenclient-dom0-image ghc-transforms do_configure error`  
+  
+>  Step uivm  
+`MACHINE="openxt-uivm" DISTRO="openxt" bitbake xenclient-uivm-image`  
+  
+`DEBUG: Assuming gtk+-locale-de is a dynamic package, but it may not exist  
+ERROR: Command execution failed: Traceback (most recent call last):  
+  File "/home/aikidoka/oe-core/bitbake/lib/bb/command.py", line 102, in runAsyncCommand  
+    commandmethod(self.cmds_async, self, options)  
+  File "/home/aikidoka/oe-core/bitbake/lib/bb/command.py", line 302, in buildTargets  
+    command.cooker.buildTargets(pkgs_to_build, task)  
+  File "/home/aikidoka/oe-core/bitbake/lib/bb/cooker.py", line 1201, in buildTargets  
+    taskdata, runlist, fulltargetlist = self.buildTaskData(targets, task, self.configuration.abort)  
+  File "/home/aikidoka/oe-core/bitbake/lib/bb/cooker.py", line 489, in buildTaskData  
+    taskdata.add_unresolved(localdata, self.recipecache)  
+  File "/home/aikidoka/oe-core/bitbake/lib/bb/taskdata.py", line 602, in add_unresolved  
+    self.add_rprovider(cfgData, dataCache, target)  
+  File "/home/aikidoka/oe-core/bitbake/lib/bb/taskdata.py", line 477, in add_rprovider  
+    all_p = bb.providers.getRuntimeProviders(dataCache, item)  
+  File "/home/aikidoka/oe-core/bitbake/lib/bb/providers.py", line 366, in getRuntimeProviders  
+    for pattern in dataCache.packages_dynamic:  
+RuntimeError: dictionary changed size during iteration`  
+
 
 Recipes ported to OE daisy  
 ----------------------------------------------------------  
