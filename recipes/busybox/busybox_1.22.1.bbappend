@@ -29,6 +29,6 @@ do_install_append() {
     # SELinux doesn't like busybox links
     install -d ${D}${base_sbindir}
     cp -a ${D}${base_bindir}/busybox ${D}${base_sbindir}/udhcpc
-    grep -v '/udhcpc' ${D}${sysconfdir}/busybox.links > ${S}/busybox.links.tmp
-    install -m 0644 ${S}/busybox.links.tmp ${D}${sysconfdir}/busybox.links
+    grep -v '/udhcpc' ${D}${sysconfdir}/busybox.links.nosuid > ${S}/busybox.links.nosuid.tmp
+    install -m 0644 ${S}/busybox.links.nosuid.tmp ${D}${sysconfdir}/busybox.links.nosuid
 }
