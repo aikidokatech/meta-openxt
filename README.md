@@ -30,11 +30,11 @@ Built on 10/10/2014
   
 >  Step stubinitramfs  
 `MACHINE="openxt-stubdomain" DISTRO="openxt" bitbake xenclient-stubdomain-initramfs-image`  
-libdmbus not detecting v4v_socket  
+Built on 10/14/2014   
   
 >  Step dom0  
-`MACHINE="openxt-dom0" DISTRO="openxt" bitbake xenclient-dom0-image ghc-transforms`  
-do_configure error  
+`MACHINE="openxt-dom0" DISTRO="openxt" bitbake xenclient-dom0-image`  
+ghc-transforms do_configure error  
   
 >  Step uivm  
 `MACHINE="openxt-uivm" DISTRO="openxt" bitbake xenclient-uivm-image`  
@@ -63,7 +63,7 @@ Recipes ported to OE daisy
 - dnsmasq 2.55 -> 2.68  
 - readline 6.2 -> 6.3  
 - pango 1.29.4 -> 1.36.2  
-- tirpc 0.2.2 -> 0.2.4  
+- tirpc 0.2.2 -> 0.2.4 (reinstated 0.2.2 until libicbinn issue is resolved)  
 - wpa-supplicant 0.7.3 -> 2.1  
 - gdk-pixbuf 2.24.1 -> 2.30.3  
 - iproute2 3.2.0 -> 3.12.0  

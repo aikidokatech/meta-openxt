@@ -2,7 +2,9 @@ SECTION = "devel"
 LICENSE = "QPL-1.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=524443efef4a3e092cca058d99996c88"
 
-PR .= "+xc1"
+PR .= "openxt-01"
+
+FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
 
 SRC_URI = "${OPENXT_GIT_MIRROR}/ocaml.git;protocol=git;tag=${OPENXT_TAG} \
            file://0007-Fix-ocamlopt-w.r.t.-binutils-2.21.patch;patch=1 \
