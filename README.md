@@ -57,6 +57,19 @@ ERROR: Command execution failed: Traceback (most recent call last):
     for pattern in dataCache.packages_dynamic:  
 RuntimeError: dictionary changed size during iteration`  
 
+> Step ndvm  
+`MACHINE="openxt-ndvm" DISTRO="openxt" bitbake xenclient-ndvm-image`  
+ghc-transforms do_configure error  
+
+> Step syncvm  
+`MACHINE="openxt-syncvm" DISTRO="openxt" bitbake xenclient-syncvm-image`  
+
+> Step installer image  
+`MACHINE="openxt-dom0" bitbake xenclient-installer-image`  
+
+> Step installer part2 image  
+`MACHINE="xenclient-dom0" ./bb xenclient-installer-part2-image`  
+
 
 Recipes ported to OE daisy  
 ----------------------------------------------------------  
