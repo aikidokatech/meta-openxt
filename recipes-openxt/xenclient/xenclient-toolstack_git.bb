@@ -9,7 +9,7 @@ RDEPENDS_openxt-ndvm += " db-tools"
 DEPENDS_append_openxt-nilfvm += " ${@deb_bootstrap_deps(d)} "
 
 inherit xenclient
-inherit ${@"xenclient-simple-deb"if(bb.data.getVar("MACHINE",d,1)=="xenclient-nilfvm")else("null")}
+inherit ${@"xenclient-simple-deb"if(bb.data.getVar("MACHINE",d,1)=="openxt-nilfvm")else("null")}
 
 PACKAGES += "${PN}-libs-dbg ${PN}-libs-staticdev ${PN}-libs-dev ${PN}-libs"
 FILES_${PN}-libs-dbg = "${ocamllibdir}/*/.debug/*"
