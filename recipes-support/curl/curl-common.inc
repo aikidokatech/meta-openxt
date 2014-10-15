@@ -3,9 +3,14 @@ LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://COPYING;md5=c22eb7159a02f1b2ea4bae1e680300ad"
 SECTION = "console/network"
 
-SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2;name=tarball \
+FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
+
+SRC_URI = "http://curl.haxx.se/download/archeology/curl-${PV}.tar.gz \
            file://pkgconfig_fix.patch;patch=1"
 S = "${WORKDIR}/curl-${PV}"
+
+SRC_URI[md5sum] = "ecb2e37e45c9933e2a963cabe03670ab"
+SRC_URI[sha256sum] = "98d247406d2b5ef7621d7a5475dfcf48836b2b454e22c954cfbb379e6dbb44c7"
 
 INC_PR = "r3"
 

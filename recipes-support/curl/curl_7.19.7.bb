@@ -1,8 +1,10 @@
 
 CURL_FEATURES = "zlib,openssl,cookies,crypto-auth,dict,file,ftp,http,telnet,tftp"
 
-require recipes/curl/curl-common.inc
-require recipes/curl/curl-target.inc
+require curl-common.inc
+require curl-target.inc
+
+FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}-${PV}:"
 
 SRC_URI += "file://off_t_abi_fix.patch;patch=1;pnum=0"
 SRC_URI += "file://libcurl-7.19.7-certdata_url.patch;patch=1"
