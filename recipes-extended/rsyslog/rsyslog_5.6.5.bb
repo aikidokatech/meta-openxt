@@ -8,6 +8,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=51d9635e646fb75e1b74c074f788e973  \
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 PR = "r3"
 
+FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
+
 SRC_URI = "http://rsyslog.com/files/download/rsyslog/rsyslog-${PV}.tar.gz \
            file://rsyslog.conf                                           \
            file://rsyslog.init                                            \

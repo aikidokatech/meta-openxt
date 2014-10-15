@@ -1,3 +1,3 @@
-PRINC = "1"
+PR = "openxt-01"
 
 BBCLASSEXTEND = "native"

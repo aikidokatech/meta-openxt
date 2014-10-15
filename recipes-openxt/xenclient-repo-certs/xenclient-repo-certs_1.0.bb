@@ -2,6 +2,8 @@ DESCRIPTION = "OpenXT repository certificates"
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://${TOPDIR}/COPYING.GPLv2;md5=751419260aa954499f7abaabaa882bbe"
 
+FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
+
 SRC_URI = "file://prod-cacert.pem;localpath=${REPO_PROD_CACERT} \
            file://dev-cacert.pem;localpath=${REPO_DEV_CACERT} \
            file://verify-repo-metadata"

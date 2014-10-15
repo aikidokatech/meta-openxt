@@ -1,5 +1,7 @@
-PRINC = "1"
-FILESEXTRAPATHS := "${THISDIR}/${PN}"
+PR = "openxt-01"
+
+FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
+
 EXTRA_OECONF += "--enable-static_link --enable-udev_rules --enable-udev_sync --with-udevdir=/etc/udev/rules.d"
 DEPENDS += "udev"
 SRC_URI += " \
