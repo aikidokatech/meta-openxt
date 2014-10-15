@@ -64,7 +64,10 @@ python __anonymous() {
 }
 
 do_configure_prepend() {
-	sed -i s:OPT_GNUTLS/bin:OPT_GNUTLS:g configure.ac
+    # Only run if configure.ac exists.  If not, this has already been done previously.
+    if [ -f configure.ac ]; then
+        sed -i s:OPT_GNUTLS/bin:OPT_GNUTLS:g configure.ac
+    fi
 }
 
 #do_stage () {
