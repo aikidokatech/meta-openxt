@@ -11,6 +11,8 @@ IMAGE_INITSCRIPTS = "initscripts"
 
 PR = "r15"
 
+FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
+
 SRC_URI += " \
             file://network.ans \
             file://network_upgrade.ans \
