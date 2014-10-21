@@ -5,6 +5,8 @@ LIC_FILES_CHKSUM = "file://xf86drmMode.h;beginline=16;endline=32;md5=538ffe991bd
 PR = "r0"
 DEPENDS = "libpciaccess"
 
+FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}-${PV}:"
+
 SRC_URI = "http://dri.freedesktop.org/libdrm/${PN}-${PV}.tar.gz;name=tarball \
            file://libdrm-userptr.patch;patch=1 \
            file://libdrm-foreign.patch;patch=1"

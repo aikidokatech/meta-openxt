@@ -4,10 +4,12 @@ SECTION = "devel"
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM="file://COPYING;md5=c46082167a314d785d012a244748d803"
 DEPENDS = "virtual/libx11"
-PR = "r0"
+PR = "openxt-01"
 
 ##disable CCACHE, valgrind does not like it
 CCACHE_pn-valgrind = ""
+
+FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}-${PV}:"
 
 SRC_URI = "http://www.valgrind.org/downloads/valgrind-${PV}.tar.bz2 \
            file://xenclient-4.3-support.patch;striplevel=1"
