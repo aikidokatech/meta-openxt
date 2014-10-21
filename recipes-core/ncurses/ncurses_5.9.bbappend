@@ -1,4 +1,4 @@
-PRINC = "1"
+PR = "openxt-01"
 
 # Disable parallel make to work around the bug described in this commit:
 #

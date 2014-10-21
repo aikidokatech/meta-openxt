@@ -1,4 +1,4 @@
-require recipes/openssh/openssh6.inc
+require openssh6.inc
 DEPENDS += "libselinux"
 RDEPENDS_${PN} += "libselinux"
 PR = "${INC_PR}.4"

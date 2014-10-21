@@ -142,8 +142,11 @@ ROOTFS_POSTPROCESS_COMMAND += "sed -i 's|root:x:0:0:root:/home/root:/bin/sh|root
 
 ROOTFS_POSTPROCESS_COMMAND += "echo '1.0.0.0 dom0' >> ${IMAGE_ROOTFS}/etc/hosts;"
 
-ROOTFS_POSTPROCESS_COMMAND += "opkg-cl ${IPKG_ARGS} -force-depends \
-                                remove ${PACKAGE_REMOVE};"
+strip_unwanted_packages() {
+	opkg-cl -f ${IPKGCONF_TARGET} -o ${IMAGE_ROOTFS} ${OPKG_ARGS} -force-depends remove ${PACKAGE_REMOVE}
+}
+
+ROOTFS_POSTPROCESS_COMMAND += "strip_unwanted_packages;"
 
 # readonly rootfs prevents sshd from creating dirs
 ROOTFS_POSTPROCESS_COMMAND += "mkdir ${IMAGE_ROOTFS}/root/.ssh;"

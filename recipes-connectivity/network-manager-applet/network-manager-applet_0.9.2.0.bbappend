@@ -1,4 +1,5 @@
-PRINC = "1"
+PR = "openxt-01"
+
 FILESEXTRAPATHS := "${THISDIR}/${PN}"
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 

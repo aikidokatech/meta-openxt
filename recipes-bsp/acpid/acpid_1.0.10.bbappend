@@ -1,5 +1,7 @@
-PRINC = "1"
+PR = "openxt-01"
+
 FILESEXTRAPATHS := "${THISDIR}/${PN}"
+
 SRC_URI += " \
                    file://powerbtn \
                    file://ac \

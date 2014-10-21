@@ -1,4 +1,4 @@
-require recipes/busybox/busybox.inc
+require busybox.inc
 PR = "${INC_PR}.3"
 
 SRC_URI = "\
