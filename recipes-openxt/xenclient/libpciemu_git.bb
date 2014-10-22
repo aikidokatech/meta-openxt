@@ -10,6 +10,8 @@ S = "${WORKDIR}/git"
 EXTRA_OECONF += "--with-libxc=yes"
 EXTRA_OEMAKE += "LIBDIR=${STAGING_LIBDIR}"
 
+CFLAGS_append = " -Wno-strict-aliasing "
+
 inherit autotools
 inherit pkgconfig
 inherit lib_package

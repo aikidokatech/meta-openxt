@@ -11,6 +11,8 @@ SRC_URI = "${OPENXT_GIT_MIRROR}/surfman.git;protocol=git;tag=${OPENXT_TAG} \
 
 EXTRA_OECONF += "--with-idldir=${STAGING_IDLDIR}"
 
+CFLAGS_append = " -Wno-unused-parameter "
+
 S = "${WORKDIR}/git/surfman"
 
 inherit autotools
