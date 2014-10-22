@@ -22,11 +22,14 @@ inherit xenclient-image-src-package
 inherit xenclient-licences
 require xenclient-version.inc
 
-ROOTFS_POSTPROCESS_COMMAND += " \
-    mv ${IMAGE_ROOTFS}/etc/xenclient.conf ${IMAGE_ROOTFS}/config/; \
-    rm -rf ${IMAGE_ROOTFS}/dev; \
-    rm -rf ${IMAGE_ROOTFS}/etc; \
-    rm -rf ${IMAGE_ROOTFS}/usr;"
+cleanup_after_rootfs () {
+	mv ${IMAGE_ROOTFS}/etc/xenclient.conf ${IMAGE_ROOTFS}/config/;
+	rm -rf ${IMAGE_ROOTFS}/dev;
+	rm -rf ${IMAGE_ROOTFS}/etc;
+	rm -rf ${IMAGE_ROOTFS}/usr;
+}
+
+IMAGE_PREPROCESS_COMMAND += " cleanup_after_rootfs; "
 
 LICENSE = "GPLv2 & MIT"
 LIC_FILES_CHKSUM = "file://${TOPDIR}/COPYING.GPLv2;md5=751419260aa954499f7abaabaa882bbe      \
