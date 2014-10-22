@@ -4,15 +4,19 @@ def is_xc_repo(url, d):
     xc_repo_prefix = bb.data.getVar("OPENXT_GIT_MIRROR", d, True)
     return url.startswith(xc_repo_prefix)
 
+def is_aiki_repo(url, d):
+    aiki_repo_prefix = bb.data.getVar("AIKI_GIT_MIRROR", d, True)
+    return url.startswith(aiki_repo_prefix)
+
 def filter_out_xc_repos(d):
     """Removes all occurences of XC Git repositories from SRC_URI variable"""
     uris = (bb.data.getVar("SRC_URI", d, True) or "").split()
-    filtered_uris = [ uri for uri in uris if not is_xc_repo(uri, d) ]
+    filtered_uris = [ uri for uri in uris if not (is_xc_repo(uri, d) or is_aiki_repo(uri, d)) ]
     bb.data.setVar("SRC_URI", " ".join(filtered_uris), d)
 
 def get_xc_repos(d):
     uris = (bb.data.getVar("SRC_URI", d, True) or "").split()
-    return [ uri for uri in uris if is_xc_repo(uri, d) ]
+    return [ uri for uri in uris if is_xc_repo(uri, d) or is_aiki_repo(uri, d) ]
 
 # filter out XC Git repos in prefuncs, so that XC Git repos are not handled by OE
 python do_fetch_prefunc() {
