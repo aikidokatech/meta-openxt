@@ -15,6 +15,7 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}-${PV}:"
 SRC_URI = " \
 	http://www.haskell.org/ghc/dist/6.12.1/ghc-6.12.1-src.tar.bz2 \
 	file://bfd-error.patch \
+	file://ghc6-fix-linking-with-newer-binutils.patch \
 	"
 
 SRC_URI[md5sum] = "3a2b23f29013605f721ebdfc29de9c92"
