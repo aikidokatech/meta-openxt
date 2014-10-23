@@ -19,6 +19,8 @@ EXTRA_OEMAKE += "CONFIG_IOEMU=n"
 
 TARGET_CC_ARCH += "${LDFLAGS}"
 
+inherit pythonnative
+
 do_configure() {
 	DESTDIR=${D} ./configure --enable-seabios --prefix=${prefix}
 }
