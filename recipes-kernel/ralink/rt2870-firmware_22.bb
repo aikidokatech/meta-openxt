@@ -4,6 +4,9 @@ LICENSE = "Ralink"
 LIC_FILES_CHKSUM = "file://LICENSE.ralink-firmware.txt;md5=682eac07428a4e8f138bc082f090ecac"
 DESCRIPTION = "Firmare for RT2870/RT2770/RT3572/RT3070"
 
+RDEPENDS_${PN} = "kernel (${KERNEL_VERSION})"
+DEPENDS = "virtual/kernel"
+
 SRC_URI = "${OPENXT_MIRROR}/RT2870_Firmware_V22.zip"
 
 S = "${WORKDIR}/RT2870_Firmware_V22"
