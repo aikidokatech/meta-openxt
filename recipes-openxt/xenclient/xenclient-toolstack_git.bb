@@ -4,7 +4,7 @@ LICENSE = "LGPLv2.1"
 LIC_FILES_CHKSUM = "file://COPYING;md5=321bf41f280cf805086dd5a720b37785"
 DEPENDS += " ocaml-cross ocaml-dbus ocaml-camomile xen-tools"
 RDEPENDS_${PN} = " xen-tools-xenstore-utils "
-RDEPENDS_openxt-ndvm += " db-tools"
+RDEPENDS_${PN}_openxt-ndvm += " db-tools"
 
 DEPENDS_append_openxt-nilfvm += " ${@deb_bootstrap_deps(d)} "
 
