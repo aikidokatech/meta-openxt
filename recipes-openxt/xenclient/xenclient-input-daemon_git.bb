@@ -10,6 +10,8 @@ SRC_URI = "${OPENXT_GIT_MIRROR}/input.git;protocol=git;tag=${OPENXT_TAG} \
 "
 EXTRA_OECONF += "--with-idldir=${STAGING_IDLDIR}"
 
+CFLAGS_append += " -Wno-unused-parameters "
+
 S = "${WORKDIR}/git"
 
 inherit autotools

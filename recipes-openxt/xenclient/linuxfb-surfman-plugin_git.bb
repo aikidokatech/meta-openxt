@@ -8,6 +8,8 @@ SRC_URI = "${OPENXT_GIT_MIRROR}/surfman.git;protocol=git;tag=${OPENXT_TAG}"
 
 S = "${WORKDIR}/git/plugins/linuxfb"
 
+CFLAGS_append += " -Wno-unused-parameter "
+
 PACKAGES = "${PN}-dev ${PN}-dbg ${PN}"
 FILES_${PN}-dev += " /usr/lib/surfman/*.a /usr/lib/surfman/*.la "
 FILES_${PN}-dbg += " /usr/lib/surfman/.debug/* "
