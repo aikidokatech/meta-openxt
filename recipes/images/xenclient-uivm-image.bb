@@ -47,11 +47,6 @@ IMAGE_INSTALL = "\
     network-manager-applet-locale-fr \
     network-manager-applet-locale-ja \
     network-manager-applet-locale-zh-cn \
-    gtk+-locale-de \
-    gtk+-locale-es \
-    gtk+-locale-fr \
-    gtk+-locale-ja \
-    gtk+-locale-zh-cn \
     gnome-keyring-locale-de \
     gnome-keyring-locale-es \
     gnome-keyring-locale-fr \
@@ -92,6 +87,14 @@ IMAGE_INSTALL = "\
     matchbox-keyboard \
     matchbox-keyboard-im \
     ${ANGSTROM_EXTRA_INSTALL}"
+
+# these cause a python dictionary changed size during iteration error
+#    gtk+-locale-de \
+#    gtk+-locale-es \
+#    gtk+-locale-fr \
+#    gtk+-locale-ja \
+#    gtk+-locale-zh-cn \
+#
 
 # OE upgrade - temporarly disabled:
 
