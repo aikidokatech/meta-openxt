@@ -3,9 +3,7 @@ SRC_URI[sha256sum] = "1cb144a8d85db2b732bf30ad64dbf89c466c67866312273baea6de3506
 DESCRIPTION = "Ralink usb wifi driver"
 HOMEPAGE = "http://www.ralinktech.com/support.php?s=2"
 LICENSE = "GPL-2.0+"
-# Apparently space in filenames are not dealt with properly. So we copy it with a better name.
-# And that does not seem to work reliably so just take it out for now...
-#LIC_FILES_CHKSUM = "file://LICENSE-ralink-GPL.txt;md5=848110d2a28fcf38a63b8c9a604f169c"
+LIC_FILES_CHKSUM = 'file://LICENSE-ralink-GPL.txt;md5=848110d2a28fcf38a63b8c9a604f169c'
 
 SRC_URI = "${OPENXT_MIRROR}/2011_0427_RT3572_Linux_STA_v2.5.0.0.DPO.tar.gz \
            file://config-mk-wpa.patch;patch=1 \
@@ -23,7 +21,10 @@ inherit module-base
 addtask move_lic before do_populate_lic after do_unpack
 
 do_move_lic () {
-    cp ${S}/LICENSE\ ralink-GPL.txt ${S}/LICENSE-ralink-GPL.txt
+    # only attempt to rename the license file if it has not yet been done
+    if [ ! -f "${S}/LICENSE-ralink-GPL.txt" ]; then
+        cp ${S}/LICENSE\ ralink-GPL.txt ${S}/LICENSE-ralink-GPL.txt
+    fi
 }
 
 do_compile() {
