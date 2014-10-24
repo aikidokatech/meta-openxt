@@ -9,6 +9,10 @@ SRC_URI = "${OPENXT_GIT_MIRROR}/xctools.git;protocol=git;tag=${OPENXT_TAG} \
 
 EXTRA_OECONF += "--with-idldir=${STAGING_IDLDIR}"
 
+CFLAGS_prepend  += " -I${STAGING_INCDIR}/libnl3 "
+
+CFLAGS_append += " -Wno-unused-parameter -Wno-deprecated-declarations "
+
 S = "${WORKDIR}/git/xcpmd"
 
 inherit autotools
