@@ -21,7 +21,7 @@ do_install(){
 	mkdir -p ${D}/etc/xen/xenrefpolicy/users/
 	touch ${D}/etc/xen/xenrefpolicy/users/system.users
 	touch ${D}/etc/xen/xenrefpolicy/users/local.users
-	DESTDIR=${D} BINDIR=${STAGING_BINDIR_NATIVE} oe_runmake install
+	oe_runmake DESTDIR=${D} BINDIR=${STAGING_BINDIR_NATIVE} install
 }
 
 inherit xenclient
