@@ -1,2 +1,3 @@
-SELINUX=enforcing
+#SELINUX=enforcing
+SELINUX=permissive
 SELINUXTYPE=xc_policy
