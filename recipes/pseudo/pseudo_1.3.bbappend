@@ -1,3 +1,3 @@
-FILESEXTRAPATHS := "${THISDIR}/${PN}"
+FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
 SRC_URI += "file://pseudo-xattr-support.patch"
 DEPENDS += "attr"

@@ -1,6 +1,6 @@
 PR = "openxt-01"
 
-FILESEXTRAPATHS_append := "${THISDIR}/${PN}-${PV}:"
+FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}-${PV}:"
 
 SRC_URI += "\
   file://enable_hybi_by_default.patch;patch=1 \

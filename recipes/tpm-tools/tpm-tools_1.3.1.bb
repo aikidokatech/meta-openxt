@@ -6,8 +6,6 @@ DEPENDS = "trousers"
 LICENSE = "CPL-1.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=059e8cd6165cb4c31e351f2b69388fd9"
 
-FILESEXTRAPATHS = "${THISDIR}/${PN}"
-
 SRC_URI = "http://downloads.sourceforge.net/trousers/${PN}-${PV}.tar.gz \
            file://tpm-tools-extendpcr-tool.patch;patch=1 \
            file://tpm-tools-unsealdata-tool.patch;patch=1 \

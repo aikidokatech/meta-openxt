@@ -1,6 +1,6 @@
 PR = "openxt-01"
 
-FILESEXTRAPATHS_append := "${THISDIR}/${PN}-${PV}:"
+FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}-${PV}:"
 
 # this even get used?
 SRC_URI += " \

@@ -1,6 +1,6 @@
 PR = "openxt-01"
 
-FILESEXTRAPATHS := "${THISDIR}/${PN}"
+FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 DEPENDS = "polkit-gnome libnotify networkmanager dbus-glib libglade gconf gnome-keyring libgnome-keyring iso-codes"

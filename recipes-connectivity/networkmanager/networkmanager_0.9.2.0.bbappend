@@ -4,7 +4,7 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 # add SE Linux dependency, so selinux is detected and pam selinux module is build
 # unfortunately there is no way to enforce failure when libselinux is not present
-FILESEXTRAPATHS := "${THISDIR}/${PN}"
+FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
 DEPENDS = "libnl dbus dbus-glib udev wireless-tools gnutls util-linux ppp"
 RDEPENDS_${PN} += "libgudev wireless-tools dnsmasq iproute2 networkmanager-certs" 
 

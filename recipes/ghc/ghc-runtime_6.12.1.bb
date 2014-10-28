@@ -99,7 +99,7 @@ do_prep_runtime_files() {
     install -m 755 ${S}/libraries/haskell98/dist-install/build/libHShaskell98-1.0.1.1-ghc6.12.1.so ${D}/usr/lib
 }
 
-addtask prep_runtime_files after do_install before do_populate_sysroot
+addtask prep_runtime_files after do_install before do_package
 
 # RPROVIDES is coming up empty for this package.  Workaround until cause is discovered.
 RPROVIDES_${PN} = "ghc-runtime"
