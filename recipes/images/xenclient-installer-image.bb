@@ -45,56 +45,51 @@ IMAGE_FSTYPES = "cpio.gz"
 
 # IMAGE_PREPROCESS_COMMAND = "create_etc_timestamp"
 
-# Create /init symlink
-ROOTFS_POSTPROCESS_COMMAND += " \
-    ln -s sbin/init ${IMAGE_ROOTFS}/init;"
+post_rootfs_commands() {
+	# Create /init symlink
+	ln -s sbin/init ${IMAGE_ROOTFS}/init;
 
-# Update /etc/inittab
-ROOTFS_POSTPROCESS_COMMAND += " \
-    sed -i '/^1:/d' ${IMAGE_ROOTFS}/etc/inittab; \
-    { \
-        echo '1:2345:once:/install/part1/autostart-main < /dev/tty1 > /dev/tty1'; \
-        echo '2:2345:respawn:/usr/bin/tail -F /var/log/installer > /dev/tty2'; \
-        echo '3:2345:respawn:/sbin/getty 38400 tty3'; \
-        echo '4:2345:respawn:/usr/bin/tail -F /var/log/messages > /dev/tty4'; \
-        echo '5:2345:respawn:/sbin/getty 38400 tty5'; \
-        echo '6:2345:respawn:/sbin/getty 38400 tty6'; \
-        echo '7:2345:respawn:/install/part1/autostart-status < /dev/tty7 > /dev/tty7'; \
-        echo 'ca::ctrlaltdel:/sbin/reboot'; \
-    } >> ${IMAGE_ROOTFS}/etc/inittab;"
+	# Update /etc/inittab
+	sed -i '/^1:/d' ${IMAGE_ROOTFS}/etc/inittab;
+	{
+		echo '1:2345:once:/install/part1/autostart-main < /dev/tty1 > /dev/tty1';
+		echo '2:2345:respawn:/usr/bin/tail -F /var/log/installer > /dev/tty2';
+		echo '3:2345:respawn:/sbin/getty 38400 tty3';
+		echo '4:2345:respawn:/usr/bin/tail -F /var/log/messages > /dev/tty4';
+		echo '5:2345:respawn:/sbin/getty 38400 tty5';
+		echo '6:2345:respawn:/sbin/getty 38400 tty6';
+		echo '7:2345:respawn:/install/part1/autostart-status < /dev/tty7 > /dev/tty7';
+		echo 'ca::ctrlaltdel:/sbin/reboot';
+	} >> ${IMAGE_ROOTFS}/etc/inittab;
+	
+	# Update /etc/fstab
+	sed -i '/^\/dev\/mapper\/xenclient/d' ${IMAGE_ROOTFS}/etc/fstab;
 
-# Update /etc/fstab
-ROOTFS_POSTPROCESS_COMMAND += " \
-    sed -i '/^\/dev\/mapper\/xenclient/d' ${IMAGE_ROOTFS}/etc/fstab;"
+	# Update /etc/network/interfaces
+	{
+		echo 'auto lo';
+		echo 'iface lo inet loopback';
+	} > ${IMAGE_ROOTFS}/etc/network/interfaces;
 
-# Update /etc/network/interfaces
-ROOTFS_POSTPROCESS_COMMAND += " \
-    { \
-        echo 'auto lo'; \
-        echo 'iface lo inet loopback'; \
-    } > ${IMAGE_ROOTFS}/etc/network/interfaces;"
+	# Password files are expected in /config
+	mkdir -p ${IMAGE_ROOTFS}/config/etc;
+	mv ${IMAGE_ROOTFS}/etc/shadow ${IMAGE_ROOTFS}/config/etc/shadow;
+	mv ${IMAGE_ROOTFS}/etc/passwd ${IMAGE_ROOTFS}/config/etc/passwd;
+	ln -s /config/etc/shadow ${IMAGE_ROOTFS}/etc/shadow; 
+	ln -s /config/etc/passwd ${IMAGE_ROOTFS}/etc/passwd;
 
-# Password files are expected in /config
-ROOTFS_POSTPROCESS_COMMAND += " \
-    mkdir -p ${IMAGE_ROOTFS}/config/etc; \
-    mv ${IMAGE_ROOTFS}/etc/shadow ${IMAGE_ROOTFS}/config/etc/shadow; \
-    mv ${IMAGE_ROOTFS}/etc/passwd ${IMAGE_ROOTFS}/config/etc/passwd; \
-    ln -s /config/etc/shadow ${IMAGE_ROOTFS}/etc/shadow; \
-    ln -s /config/etc/passwd ${IMAGE_ROOTFS}/etc/passwd;"
+	# Use bash as login shell
+	sed -i 's|root:x:0:0:root:/home/root:/bin/sh|root:x:0:0:root:/root:/bin/bash|' ${IMAGE_ROOTFS}/config/etc/passwd;
 
-# Use bash as login shell
-ROOTFS_POSTPROCESS_COMMAND += " \
-    sed -i 's|root:x:0:0:root:/home/root:/bin/sh|root:x:0:0:root:/root:/bin/bash|' \
-        ${IMAGE_ROOTFS}/config/etc/passwd;"
+	# Don't start blktapctrl daemon
+	rm -f ${IMAGE_ROOTFS}/etc/init.d/blktap;
+	rm -f ${IMAGE_ROOTFS}/etc/rc*.d/*blktap;
 
-# Don't start blktapctrl daemon
-ROOTFS_POSTPROCESS_COMMAND += " \
-    rm -f ${IMAGE_ROOTFS}/etc/init.d/blktap; \
-    rm -f ${IMAGE_ROOTFS}/etc/rc*.d/*blktap;"
+	# Create file to identify this as the host installer filesystem
+	touch ${IMAGE_ROOTFS}/etc/xenclient-host-installer;
+}
 
-# Create file to identify this as the host installer filesystem
-ROOTFS_POSTPROCESS_COMMAND += " \
-    touch ${IMAGE_ROOTFS}/etc/xenclient-host-installer;"
+ROOTFS_POSTPROCESS_COMMAND = " post_rootfs_commands; "
 
 do_post_rootfs_items() {
     install -d ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}/netboot
