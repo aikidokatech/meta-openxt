@@ -1,10 +1,8 @@
-require recipes/ghc/ghc-xcprog.inc
-
 DESCRIPTION = "bash completion for human beings"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=acbef28775875450fdedef37d178f5c4"
-DEPENDS = "ghc-native ghc-parsec"
-RDEPENDS_${PN} += "glibc-gconv-utf-32 ghc-runtime-native"
+DEPENDS = "ghc-parsec"
+RDEPENDS_${PN} += "glibc-gconv-utf-32"
 
 # Ocaml stuff is built with the native compiler with "-m32".
 
@@ -12,7 +10,7 @@ SRC_URI = "${OPENXT_GIT_MIRROR}/xctools.git;protocol=git;tag=${OPENXT_TAG}"
 
 S = "${WORKDIR}/git/compleat"
 
-inherit xenclient
+inherit xenclient ghc ghc-xc
 
 do_install() {
 	install -m 0755 -d ${D}/usr

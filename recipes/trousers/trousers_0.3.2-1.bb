@@ -59,3 +59,5 @@ PACKAGES =+ "${PN}-data"
 FILES_${PN}-data = "${datadir}/trousers/system.data.auth \
 	${datadir}/trousers/system.data.noauth \
 "
+
+RPROVIDES_${PN} =+ "${PN}-data"

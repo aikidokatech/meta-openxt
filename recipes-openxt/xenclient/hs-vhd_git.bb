@@ -1,16 +1,16 @@
-require recipes/ghc/ghc-pkg.inc
-
-BBCLASSEXTEND = "native"
-
 DESCRIPTION = "Haskell VHD tool"
 LICENSE = "BSD-3-Clause"
 LIC_FILES_CHKSUM = "file://LICENCE;md5=cc8224b3041a54c20bd7becce249bb02"
-DEPENDS = "ghc-native ghc-vhd"
-RDEPENDS_${PN} += "glibc-gconv-utf-32 ghc-runtime-native"
+DEPENDS = "ghc-vhd"
+RDEPENDS_${PN} += "glibc-gconv-utf-32"
+
+BBCLASSEXTEND = "native"
 
 SRC_URI = "git://github.com/jonathanknowles/hs-vhd;tag=0.2;nobranch=1"
 
 S = "${WORKDIR}/git"
+
+inherit ghc
 
 CABAL_CONFIGURE_EXTRA_OPTS = "--flag=executable"
 

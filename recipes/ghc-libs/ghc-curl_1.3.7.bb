@@ -1,6 +1,7 @@
 SRC_URI[md5sum] = "5fc326cec592b0e2085b7884e079428b"
 SRC_URI[sha256sum] = "f1410ca81fffff241678d287588b201285c6c9637d6db5d90af6952bc639cd44"
-require recipes/ghc-libs/ghc-lib-common.inc
+
+inherit ghc ghc-lib-common
 
 DEPENDS += "curl"
 DESCRIPTION = "Haskell binding to libcurl. libcurl is a client-side URL transfer library."

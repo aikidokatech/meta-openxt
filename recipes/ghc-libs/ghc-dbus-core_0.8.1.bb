@@ -1,7 +1,8 @@
 BBCLASSEXTEND = "native"
 SRC_URI[md5sum] = "f635e99147a6ef7b1fa3212c6767fa83"
 SRC_URI[sha256sum] = "6da338e54d1cd4bcfbbc12bf6af08f7e90b420cb809f59e8aa94451cd17e08d1"
-require recipes/ghc-libs/ghc-lib-common.inc
+
+inherit ghc ghc-lib-common
 
 SRC_URI += "file://expose-customisable-transport.patch;patch=1 \
             file://functor-fix.patch;patch=1 \

@@ -1,6 +1,7 @@
 SRC_URI[md5sum] = "2a8bd79ba3a374c15151b7b03a9c65ce"
 SRC_URI[sha256sum] = "f3bf4bf47565cb0245afb0e8ffa3f79635b02f0032081845a5999964d828f4db"
-require recipes/ghc-libs/ghc-lib-common.inc
+
+inherit ghc ghc-lib-common
 
 DEPENDS += ""
 DESCRIPTION = "syslog for GHC"

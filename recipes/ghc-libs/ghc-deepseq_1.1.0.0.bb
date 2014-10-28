@@ -1,7 +1,8 @@
 BBCLASSEXTEND = "native"
 SRC_URI[md5sum] = "41194f8633be8e30cacad88146dbf7c2"
 SRC_URI[sha256sum] = "947c45e7ee862159f190fb8e905c1328f7672cb9e6bf3abd1d207bbcf1eee50a"
-require recipes/ghc-libs/ghc-lib-common.inc
+
+inherit ghc ghc-lib-common
 
 DEPENDS += ""
 DESCRIPTION = "Fully evaluate data structures for GHC"

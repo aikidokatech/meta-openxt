@@ -1,7 +1,9 @@
 BBCLASSEXTEND = "native"
-require recipes/ghc-libs/ghc-lib-common.inc
+
 SRC_URI[md5sum] = "e9e5b415af8acd9e7ecf79adf973ba09"
 SRC_URI[sha256sum] = "0f520338a8d075a6cabe3bdeb73e3602110a3bc7dcfe5833140524867bbf79e8"
+
+inherit ghc ghc-lib-common
 
 DEPENDS += "ghc-semigroupoids ghc-semigroups ghc-transformers"
 DESCRIPTION = "Haskell 98 either monad transformer"

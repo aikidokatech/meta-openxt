@@ -1,10 +1,8 @@
-require recipes/ghc/ghc-pkg.inc
-
 DESCRIPTION = "XenClient Network Slave"
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM="file://../COPYING;md5=4641e94ec96f98fabc56ff9cc48be14b"
-DEPENDS = "carrier-detect libxchutils xenclient-rpcgen-native xenclient-idl ghc-native ghc-hsyslog libxch-rpc libxchxenstore networkmanager ghc-regex-posix ghc-deepseq ghc-text ghc-mtl ghc-network"
-RDEPENDS_${PN} += "glibc-gconv-utf-32 ghc-runtime-native"
+DEPENDS = "carrier-detect libxchutils xenclient-rpcgen-native xenclient-idl ghc-hsyslog libxch-rpc libxchxenstore networkmanager ghc-regex-posix ghc-deepseq ghc-text ghc-mtl ghc-network"
+RDEPENDS_${PN} += "glibc-gconv-utf-32"
 
 SRC_URI = "${OPENXT_GIT_MIRROR}/network.git;protocol=git;tag=${OPENXT_TAG}"
 
@@ -12,7 +10,7 @@ S = "${WORKDIR}/git/nws"
 IDL_DIR = "${STAGING_DATADIR}/idl"
 NM_IDL_DIR = "${STAGING_DATADIR}/nm-idl"
 
-inherit xenclient update-rc.d
+inherit xenclient ghc update-rc.d
 
 INITSCRIPT_PACKAGES = "${PN}"
 INITSCRIPT_NAME_${PN} = "network-slave"

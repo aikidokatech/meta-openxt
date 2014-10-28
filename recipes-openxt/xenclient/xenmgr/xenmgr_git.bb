@@ -1,10 +1,8 @@
-require recipes/ghc/ghc-xcprog.inc
-
 DESCRIPTION = "XenClient xenmgr"
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://../COPYING;md5=4641e94ec96f98fabc56ff9cc48be14b"
-DEPENDS = "libxenmgr-core libxchutils libxchv4v libxchxenstore libxchdb xenclient-rpcgen-native xenclient-idl xen-tools xenmgr-data ghc-native ghc-json ghc-hsyslog ghc-regex-posix ghc-network libxch-rpc ghc-attoparsec ghc-zlib ghc-parsec ghc-deepseq ghc-text ghc-mtl"
-RDEPENDS_${PN} += "glibc-gconv-utf-32 xenclient-eula ghc-runtime-native xenclient-caps heimdallr"
+DEPENDS = "libxenmgr-core libxchutils libxchv4v libxchxenstore libxchdb xenclient-rpcgen-native xenclient-idl xen-tools xenmgr-data ghc-json ghc-hsyslog ghc-regex-posix ghc-network libxch-rpc ghc-attoparsec ghc-zlib ghc-parsec ghc-deepseq ghc-text ghc-mtl"
+RDEPENDS_${PN} += "glibc-gconv-utf-32 xenclient-eula xenclient-caps heimdallr"
 
 SRC_URI = "${OPENXT_GIT_MIRROR}/manager.git;protocol=git;tag=${OPENXT_TAG}"
 
@@ -15,7 +13,7 @@ SRC_URI += "file://xenmgr_dbus.conf \
 
 S = "${WORKDIR}/git/xenmgr"
 
-inherit xenclient update-rc.d
+inherit xenclient ghc ghc-xc update-rc.d
 
 INITSCRIPT_NAME = "xenmgr"
 INITSCRIPT_PARAMS = "start 80 5 . stop 01 0 1 6 ."
