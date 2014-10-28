@@ -100,9 +100,9 @@ remove_excess_modules() {
 }
 
 ### Stubdomain stuff - temporary
-STUBDOMAIN_DEPLOY_DIR_IMAGE = "${DEPLOY_DIR_IMAGE}"
-STUBDOMAIN_IMAGE = "${STUBDOMAIN_DEPLOY_DIR_IMAGE}/xenclient-stubdomain-initramfs-image-xenclient-stubdomain.cpio.gz"
-STUBDOMAIN_KERNEL = "${STUBDOMAIN_DEPLOY_DIR_IMAGE}/vmlinuz-xenclient-stubdomain.bin"
+STUBDOMAIN_DEPLOY_DIR_IMAGE = "${DEPLOY_DIR}/images/openxt-stubdomain"
+STUBDOMAIN_IMAGE = "${STUBDOMAIN_DEPLOY_DIR_IMAGE}/xenclient-stubdomain-initramfs-image-openxt-stubdomain.cpio.gz"
+STUBDOMAIN_KERNEL = "${STUBDOMAIN_DEPLOY_DIR_IMAGE}/bzImage-openxt-stubdomain.bin"
 process_tmp_stubdomain_items() {
 	mkdir -p ${IMAGE_ROOTFS}/usr/lib/xen/boot ;
 	cat ${STUBDOMAIN_IMAGE} > ${IMAGE_ROOTFS}/usr/lib/xen/boot/stubdomain-initramfs ;
