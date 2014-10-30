@@ -88,7 +88,7 @@ create_mounts() {
 }
 
 remove_unwanted_packages() {
-	opkg-cl ${IPKG_ARGS} -force-depends remove ${PACKAGE_REMOVE};
+	opkg-cl -f ${IPKGCONF_TARGET} -o ${IMAGE_ROOTFS} ${OPKG_ARGS} -force-depends remove ${PACKAGE_REMOVE};
 }
 
 # Remove network modules except netfront

@@ -23,7 +23,7 @@ PACKAGE_REMOVE = "kernel-image-* update-modules udev sysvinit opkg-cl"
 
 
 post_rootfs_commands() {
-	opkg-cl ${IPKG_ARGS} -force-depends remove ${PACKAGE_REMOVE};
+	opkg-cl -f ${IPKGCONF_TARGET} -o ${IMAGE_ROOTFS} ${OPKG_ARGS} -force-depends remove ${PACKAGE_REMOVE};
 	rm -f ${IMAGE_ROOTFS}/sbin/udhcpc;
 	rm -f ${IMAGE_ROOTFS}/sbin/ldconfig;
 	rm -rvf ${IMAGE_ROOTFS}/usr/lib/opkg;
