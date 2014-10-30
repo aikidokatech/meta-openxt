@@ -34,8 +34,10 @@ EXTRA_OECONF_append = " --enable-shared "
 
 inherit autotools pkgconfig
 
-#FILES_${PN} = "${libdir}/*.so"
-#FILES_${PN}-dev = ""
+# We only need the runtime libraries for OpenXT
+PACKAGES = "${PN}-runtime"
+
+FILES_${PN}-runtime = "${libdir}/*.so"
 
 # Inheriting autotools now so probalby a better way to do this but could not get it to work
 #do_configure() {
@@ -75,6 +77,7 @@ addtask tweak_configuration after do_configure before do_compile
 #    make install "DESTDIR=${D}"
 #}
 
-
+# We aren't building any packages other then ghc runtime
+RPROVIDES_${PN} = "ghc-runtime"
 
 

@@ -46,7 +46,7 @@ do_pre_configure() {
 	export CPP=`which cpp`
 }
 
-addtask pre_configure after patch before configure
+addtask pre_configure after do_patch before do_configure
 
 do_tweak_configuration() {
 	# This goes here so we do not depend nor require libgmp installed on target
