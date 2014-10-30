@@ -147,12 +147,12 @@ post_rootfs_commands() {
 	echo 'ca:12345:ctrlaltdel:/sbin/shutdown -t1 -a -r now' >> ${IMAGE_ROOTFS}/etc/inittab;
 	sed -i 's|root:x:0:0:root:/home/root:/bin/sh|root:x:0:0:root:/root:/bin/bash|' ${IMAGE_ROOTFS}/etc/passwd;
 	echo '1.0.0.0 dom0' >> ${IMAGE_ROOTFS}/etc/hosts;
+
+	# readonly rootfs prevents sshd from creating dirs
+	mkdir ${IMAGE_ROOTFS}/root/.ssh;
 }
 
 ROOTFS_POSTPROCESS_COMMAND += "post_rootfs_commands; strip_unwanted_packages;"
-
-# readonly rootfs prevents sshd from creating dirs
-ROOTFS_POSTPROCESS_COMMAND += "mkdir ${IMAGE_ROOTFS}/root/.ssh;"
 
 inherit image
 #inherit validate-package-versions
