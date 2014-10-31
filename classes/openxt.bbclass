@@ -1,9 +1,10 @@
 # Probably should add an OpenXT version variable once it exists
-OUT_DIR = "${TOPDIR}/build-output/OpenXT/raw"
+OUT_DIR_RAW = "${TOPDIR}/build-output/OpenXT/raw"
+
 
 do_ship() {
 	# make the output directory if it does not exist yet
-	mkdir -p "${OUT_DIR}"
+	mkdir -p "${OUT_DIR_RAW}"
 
 	for t in cpio cpio.gz cpio.bz2 \
             tar tar.gz tar.bz2 \
@@ -15,7 +16,7 @@ do_ship() {
 	do
             if [ -f "${DEPLOY_DIR}/images/${MACHINE}/${PN}-${MACHINE}.$t" ]; then
                 echo "${FRIENDLY_NAME} image: $t"
-                cp -f "${DEPLOY_DIR}/images/${MACHINE}/${PN}-${MACHINE}.$t" "${OUT_DIR}/${FRIENDLY_NAME}-rootfs.i686.$t"
+                cp -f "${DEPLOY_DIR}/images/${MACHINE}/${PN}-${MACHINE}.$t" "${OUT_DIR_RAW}/${FRIENDLY_NAME}-rootfs.i686.$t"
             fi
         done
 }

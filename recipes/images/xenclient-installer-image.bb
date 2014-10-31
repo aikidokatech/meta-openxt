@@ -131,7 +131,7 @@ do_post_rootfs_items() {
 addtask do_post_rootfs_items after do_rootfs
 
 
-OUT_DIR_INST = "${OUT_DIR}/installer"
+OUT_DIR_INST = "${OUT_DIR_RAW}/installer"
 BINARIES = "${DEPLOY_DIR}/images/${MACHINE}"
 
 do_ship() {

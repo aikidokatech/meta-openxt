@@ -34,9 +34,9 @@ cleanup_after_rootfs () {
 }
 
 do_ship() {
-	mkdir -p "${OUT_DIR}"
+	mkdir -p "${OUT_DIR_RAW}"
 
-        cp "${DEPLOY_DIR}/images/${MACHINE}/${PN}-${MACHINE}.tar.bz2" "${OUT_DIR}/control.tar.bz2"
+        cp "${DEPLOY_DIR}/images/${MACHINE}/${PN}-${MACHINE}.tar.bz2" "${OUT_DIR_RAW}/control.tar.bz2"
 }
 
 addtask do_ship after do_rootfs before do_licences
