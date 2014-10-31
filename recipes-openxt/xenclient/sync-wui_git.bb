@@ -55,7 +55,7 @@ do_ship() {
         cp -f ${DEPLOY_DIR}/tar/sync-wui-sources-git-*.tar.gz "${OUT_DIR}/sync-wui-sources-${XENCLIENT_RELEASE}.tar.gz"
 }
 
-addtask do_ship after do_rootfs before do_licences
+addtask do_ship after do_populate_sysroot before do_packagedata
 
 PACKAGES += "${PN}-sources"
 

@@ -49,7 +49,7 @@ after_commands() {
 
 ROOTFS_POSTPROCESS_COMMAND += " after_commands; "
 
-addtask do_ship after do_rootfs
+addtask do_ship after do_rootfs before do_licences
 
 inherit image openxt
 #inherit validate-package-versions
