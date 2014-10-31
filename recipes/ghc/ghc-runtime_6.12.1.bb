@@ -36,6 +36,8 @@ inherit autotools pkgconfig
 FILES_${PN} = "${libdir}/*.so"
 FILES_${PN}-dev = ""
 
+PARALLEL_MAKE=""
+
 # Inheriting autotools now so probalby a better way to do this but could not get it to work
 do_configure() {
 	./configure --prefix=${STAGING_DIR} --bindir ${STAGING_BINDIR} --libdir ${STAGING_LIBDIR} --datadir ${STAGING_DATADIR} --enable-shared
