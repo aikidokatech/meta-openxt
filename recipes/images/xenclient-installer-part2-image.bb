@@ -4,6 +4,10 @@
 # XenClient. The resulting image is copied to the control.tar.bz2 file
 # in the XenClient repository.
 
+LICENSE = "GPLv2 & MIT"
+LIC_FILES_CHKSUM = "file://${TOPDIR}/COPYING.GPLv2;md5=751419260aa954499f7abaabaa882bbe      \
+                    file://${TOPDIR}/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+
 COMPATIBLE_MACHINE = "(openxt-dom0)"
 
 export IMAGE_BASENAME = "xenclient-installer-part2-image"
@@ -16,7 +20,7 @@ IMAGE_INSTALL = ""
 IMAGE_LINGUAS = ""
 ONLINE_PACKAGE_MANAGEMENT = "none"
 
-inherit image
+inherit image openxt
 inherit xenclient-image-src-info
 inherit xenclient-image-src-package
 inherit xenclient-licences
@@ -29,11 +33,15 @@ cleanup_after_rootfs () {
 	rm -rf ${IMAGE_ROOTFS}/usr;
 }
 
-IMAGE_PREPROCESS_COMMAND += " cleanup_after_rootfs; "
+do_ship() {
+	mkdir -p "${OUT_DIR}"
 
-LICENSE = "GPLv2 & MIT"
-LIC_FILES_CHKSUM = "file://${TOPDIR}/COPYING.GPLv2;md5=751419260aa954499f7abaabaa882bbe      \
-                    file://${TOPDIR}/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+        cp "${DEPLOY_DIR}/images/${MACHINE}/${PN}-${MACHINE}.tar.bz2" "${OUT_DIR}/control.tar.bz2"
+}
+
+addtask do_ship after do_rootfs before do_licences
+
+IMAGE_PREPROCESS_COMMAND += " cleanup_after_rootfs; "
 
 # prevent ldconfig from being run
 LDCONFIGDEPEND = ""

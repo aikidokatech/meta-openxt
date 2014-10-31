@@ -1,4 +1,7 @@
 # XenClient sysroot image
+LICENSE = "GPLv2 & MIT"
+LIC_FILES_CHKSUM = "file://${TOPDIR}/COPYING.GPLv2;md5=751419260aa954499f7abaabaa882bbe      \
+                    file://${TOPDIR}/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 
 include xenclient-image-common.inc
 
@@ -18,6 +21,8 @@ ANGSTROM_EXTRA_INSTALL += " \
 export IMAGE_BASENAME = "xenclient-sysroot-image"
 export STAGING_KERNEL_DIR
 
+FRIENDLY_NAME = "sysroot"
+
 DEPENDS = "packagegroup-base packagegroup-xenclient-dom0 packagegroup-xenclient-dom0-extra"
 IMAGE_INSTALL = "\
     ${ROOTFS_PKGMANAGE} \
@@ -32,10 +37,14 @@ IMAGE_INSTALL = "\
 
 #IMAGE_PREPROCESS_COMMAND = "create_etc_timestamp"
 
-do_post_rootfs_commands() {
-	#zap root password for release images
-	${@base_conditional("DISTRO_TYPE", "release", "zap_root_password; ", "",d)}
+inherit image openxt
+#inherit validate-package-versions
+inherit xenclient-image-src-info
+inherit xenclient-image-src-package
+inherit xenclient-licences
+require xenclient-version.inc
 
+do_post_rootfs_commands() {
 	sed -i 's|root:x:0:0:root:/home/root:/bin/sh|root:x:0:0:root:/root:/bin/bash|' ${IMAGE_ROOTFS}/etc/passwd;
 
 	rm ${IMAGE_ROOTFS}/etc/hosts;
@@ -68,15 +77,9 @@ do_post_rootfs_commands() {
 	echo 'kernel.core_pattern = /var/cores/%e-%t.%p.core' >> ${IMAGE_ROOTFS}/etc/sysctl.conf;
 }
 
-addtask post_rootfs_commands after do_rootfs
+#zap root password for release images
+ROOTFS_POSTPROCESS_COMMAND += '${@base_conditional("DISTRO_TYPE", "release", "zap_root_password; ", "",d)}'
 
-inherit image
-#inherit validate-package-versions
-inherit xenclient-image-src-info
-inherit xenclient-image-src-package
-inherit xenclient-licences
-require xenclient-version.inc
+addtask do_post_rootfs_commands after do_rootfs
+addtask do_ship after do_rootfs before do_licences
 
-LICENSE = "GPLv2 & MIT"
-LIC_FILES_CHKSUM = "file://${TOPDIR}/COPYING.GPLv2;md5=751419260aa954499f7abaabaa882bbe      \
-                    file://${TOPDIR}/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"

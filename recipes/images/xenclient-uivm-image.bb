@@ -11,6 +11,8 @@ COMPATIBLE_MACHINE = "(openxt-uivm)"
 
 IMAGE_FSTYPES = "xc.ext3.vhd.gz"
 
+FRIENDLY_NAME = "uivm"
+
 BAD_RECOMMENDATIONS += "avahi-daemon avahi-autoipd"
 # The above seems to be broken and we *really* don't want avahi!
 PACKAGE_REMOVE = "avahi-daemon avahi-autoipd"
@@ -138,9 +140,6 @@ strip_unwanted_packages() {
 }
 
 post_rootfs_commands() {
-	# zap root password for release images
-	${@base_conditional("DISTRO_TYPE", "release", "zap_root_password; ", "",d)}
-
 	echo 'x:5:respawn:/bin/su - root -c /usr/bin/startxfce4' >> ${IMAGE_ROOTFS}/etc/inittab;
 
 	# enable ctrlaltdel reboot because PV driver uses ctrl+alt+del to interpret reboot issued via xenstore
@@ -152,9 +151,14 @@ post_rootfs_commands() {
 	mkdir ${IMAGE_ROOTFS}/root/.ssh;
 }
 
+# zap root password for release images
+ROOTFS_POSTPROCESS_COMMAND += '${@base_conditional("DISTRO_TYPE", "release", "zap_root_password; ", "",d)}'
+
 ROOTFS_POSTPROCESS_COMMAND += "post_rootfs_commands; strip_unwanted_packages;"
 
-inherit image
+addtask do_ship after do_rootfs before do_licences
+
+inherit image openxt
 #inherit validate-package-versions
 inherit xenclient-image-src-info
 inherit xenclient-image-src-package

@@ -34,9 +34,11 @@ IMAGE_INSTALL = "\
 
 # IMAGE_PREPROCESS_COMMAND = "create_etc_timestamp"
 
+FRIENDLY_NAME = "dom0"
+
+inherit openxt
+
 process_password_stuff() {
-	#zap root password for release images
-	${@base_conditional("DISTRO_TYPE", "release", "zap_root_password; ", "",d)}
 
 	# zap root password in shadow
 	sed -i 's%^root:[^:]*:%root:*:%' ${IMAGE_ROOTFS}/etc/shadow;
@@ -109,7 +111,12 @@ process_tmp_stubdomain_items() {
 	cat ${STUBDOMAIN_KERNEL} > ${IMAGE_ROOTFS}/usr/lib/xen/boot/stubdomain-bzImage ; 
 }
 
+#zap root password for release images
+ROOTFS_POSTPROCESS_COMMAND += '${@base_conditional("DISTRO_TYPE", "release", "zap_root_password; ", "",d)}'
+
 ROOTFS_POSTPROCESS_COMMAND += " process_password_stuff; redirect_files; grab_initramfs; set_ratelimit; remove_unwanted_packages; remove_excess_modules; process_tmp_stubdomain_items; "
+
+addtask do_ship after do_rootfs before do_licences
 
 inherit selinux-image
 #inherit validate-package-versions

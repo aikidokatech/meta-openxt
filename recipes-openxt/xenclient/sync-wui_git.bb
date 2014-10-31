@@ -13,7 +13,7 @@ SRC_URI = "${OPENXT_GIT_MIRROR}/sync-wui.git;protocol=git;tag=${OPENXT_TAG}"
 
 S = "${WORKDIR}/git"
 
-inherit xenclient
+inherit xenclient openxt
 inherit package_tar
 
 do_configure() {
@@ -46,6 +46,16 @@ do_populate_sysroot() {
 do_package_write_ipk() {
 	:
 }
+
+do_ship() {
+	# make the output directory if it does not exist yet
+	mkdir -p "${OUT_DIR}"
+
+        cp -f ${DEPLOY_DIR}/tar/sync-wui-git-*.tar.gz "${OUT_DIR}/sync-wui-${XENCLIENT_RELEASE}.tar.gz"
+        cp -f ${DEPLOY_DIR}/tar/sync-wui-sources-git-*.tar.gz "${OUT_DIR}/sync-wui-sources-${XENCLIENT_RELEASE}.tar.gz"
+}
+
+addtask do_ship after do_rootfs before do_licences
 
 PACKAGES += "${PN}-sources"
 

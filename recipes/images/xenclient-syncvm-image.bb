@@ -11,6 +11,8 @@ ANGSTROM_EXTRA_INSTALL += ""
 
 export IMAGE_BASENAME = "xenclient-syncvm-image"
 
+FRIENDLY_NAME = "syncvm"
+
 DEPENDS = "packagegroup-base"
 
 # ifplugd removed as busybox is now >= 1.15
@@ -47,7 +49,9 @@ after_commands() {
 
 ROOTFS_POSTPROCESS_COMMAND += " after_commands; "
 
-inherit image
+addtask do_ship after do_rootfs
+
+inherit image openxt
 #inherit validate-package-versions
 inherit xenclient-image-src-info
 inherit xenclient-image-src-package

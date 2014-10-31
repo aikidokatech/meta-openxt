@@ -4,6 +4,10 @@
 # and running part 2 of the host installer, which contains the logic to install
 # or upgrade a specific version of XenClient.
 
+LICENSE = "GPLv2 & MIT"
+LIC_FILES_CHKSUM = "file://${TOPDIR}/COPYING.GPLv2;md5=751419260aa954499f7abaabaa882bbe      \
+                    file://${TOPDIR}/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+
 include xenclient-image-common.inc
 
 COMPATIBLE_MACHINE = "(openxt-dom0)"
@@ -44,6 +48,12 @@ IMAGE_INSTALL = "\
 IMAGE_FSTYPES = "cpio.gz"
 
 # IMAGE_PREPROCESS_COMMAND = "create_etc_timestamp"
+
+inherit image openxt
+inherit xenclient-image-src-info
+inherit xenclient-image-src-package
+inherit xenclient-licences
+require xenclient-version.inc
 
 post_rootfs_commands() {
 	# Create /init symlink
@@ -118,17 +128,31 @@ do_post_rootfs_items() {
     cp ${IMAGE_ROOTFS}/boot/3rd_gen_i5_i7_SINIT_67.BIN ${DEPLOY_DIR_IMAGE}/ivb_snb.acm
 }
 
-addtask post_rootfs_items after do_rootfs
+addtask do_post_rootfs_items after do_rootfs
 
-inherit image
-inherit xenclient-image-src-info
-inherit xenclient-image-src-package
-inherit xenclient-licences
-require xenclient-version.inc
 
-LICENSE = "GPLv2 & MIT"
-LIC_FILES_CHKSUM = "file://${TOPDIR}/COPYING.GPLv2;md5=751419260aa954499f7abaabaa882bbe      \
-                    file://${TOPDIR}/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+OUT_DIR_INST = "${OUT_DIR}/installer"
+BINARIES = "${DEPLOY_DIR}/images/${MACHINE}"
+
+do_ship() {
+	# make the output directory if it does not exist yet
+	mkdir -p "${OUT_DIR_INST}"
+	
+	# Copy installer
+        cp "${BINARIES}/${PN}-${MACHINE}.cpio.gz" "${OUT_DIR_INST}/rootfs.i686.cpio.gz"
+
+        # Copy extra installer files
+        rm -rf "${OUT_DIR_INST}/iso"
+        cp -r "${BINARIES}/${PN}-${MACHINE}/iso" "${OUT_DIR_INST}/iso"
+        rm -rf "${OUT_DIR_INST}/netboot"
+        cp -r "${BINARIES}/${PN}-${MACHINE}/netboot" "${OUT_DIR_INST}/netboot"
+        cp -f "${BINARIES}/bzImage-${MACHINE}.bin" "${OUT_DIR_INST}/bzImage"
+        cp -f "${BINARIES}/xen.gz" "${OUT_DIR_INST}/xen.gz"
+        cp -f "${BINARIES}/tboot.gz" "${OUT_DIR_INST}/tboot.gz"
+        cp -f "${BINARIES}"/*.acm "${OUT_DIR_INST}/"
+}
+
+addtask do_ship after do_post_rootfs_items before do_licences
 
 python() {
     bb.data.delVarFlag("do_fetch", "noexec", d);

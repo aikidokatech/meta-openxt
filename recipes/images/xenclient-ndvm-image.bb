@@ -1,4 +1,7 @@
 # XenClient secure backend-domain image
+LICENSE = "GPLv2 & MIT"
+LIC_FILES_CHKSUM = "file://${TOPDIR}/COPYING.GPLv2;md5=751419260aa954499f7abaabaa882bbe      \
+                    file://${TOPDIR}/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 
 include xenclient-image-common.inc
 IMAGE_FEATURES += "package-management"
@@ -8,6 +11,8 @@ COMPATIBLE_MACHINE = "(openxt-ndvm)"
 IMAGE_FSTYPES = "xc.ext3.vhd.gz"
 
 #IMAGE_LINGUAS = ""
+
+FRIENDLY_NAME = "ndvm"
 
 BAD_RECOMMENDATIONS += "avahi-daemon avahi-autoipd"
 # The above seems to be broken and we *really* don't want avahi!
@@ -62,6 +67,13 @@ IMAGE_INSTALL = "\
 # Packages disabled for Linux3 to be fixed
 # rt5370
 
+inherit selinux-image openxt
+#inherit validate-package-versions
+inherit xenclient-image-src-info
+inherit xenclient-image-src-package
+inherit xenclient-licences
+require xenclient-version.inc
+
 #IMAGE_PREPROCESS_COMMAND = "create_etc_timestamp"
 
 #zap root password for release images
@@ -92,13 +104,4 @@ remove_unwanted_packages() {
 
 ROOTFS_POSTPROCESS_COMMAND += "tweak_passwd; tweak_hosts; enable_three_fingered_salute; relocate_resolv; remove_unwanted_packages; "
 
-inherit selinux-image
-#inherit validate-package-versions
-inherit xenclient-image-src-info
-inherit xenclient-image-src-package
-inherit xenclient-licences
-require xenclient-version.inc
-
-LICENSE = "GPLv2 & MIT"
-LIC_FILES_CHKSUM = "file://${TOPDIR}/COPYING.GPLv2;md5=751419260aa954499f7abaabaa882bbe      \
-                    file://${TOPDIR}/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+addtask do_ship after do_rootfs before do_licences
