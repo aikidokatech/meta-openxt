@@ -6,11 +6,16 @@ LIC_FILES_CHKSUM = "file://${TOPDIR}/COPYING.GPLv2;md5=751419260aa954499f7abaaba
 
 COMPATIBLE_MACHINE = "(openxt-dom0)"
 
+SRC_URI = "file://initramfs-tcsd.conf \
+           file://initramfs-passwd \
+           file://initramfs-group \
+           file://initramfs-nsswitch.conf \
+"
+
 PACKAGE_INSTALL = " \
     busybox-static \
     lvm2-static \
     initramfs-xenclient \
-    xenclient-initramfs-tpm-config-files \
     kernel-module-tpm \
     kernel-module-tpm-bios \
     kernel-module-tpm-tis \
@@ -71,7 +76,14 @@ add_extra_initramfs_libs () {
 	done; 
 }
 
-ROOTFS_POSTPROCESS_COMMAND += "strip_unwanted_packages; add_extra_initramfs_libs; "
+write_config_files() {
+	install -m 0600 ${WORKDIR}/initramfs-tcsd.conf ${IMAGE_ROOTFS}${sysconfdir}/tcsd.conf
+	install -m 0644 ${WORKDIR}/initramfs-passwd ${IMAGE_ROOTFS}${sysconfdir}/passwd
+	install -m 0644 ${WORKDIR}/initramfs-group ${IMAGE_ROOTFS}${sysconfdir}/group
+	install -m 0644 ${WORKDIR}/initramfs-nsswitch.conf ${IMAGE_ROOTFS}${sysconfdir}/nsswitch.conf
+}
+
+ROOTFS_POSTPROCESS_COMMAND += "strip_unwanted_packages; add_extra_initramfs_libs; write_config_files; "
 
 strip_files () {
 	rm -rvf ${IMAGE_ROOTFS}/usr/lib/opkg;
@@ -90,3 +102,11 @@ strip_files () {
 }
 
 IMAGE_PREPROCESS_COMMAND += "strip_files; "
+
+addtask rootfs after do_unpack
+
+python () {
+	# Ensure we run these usually noexec tasks
+	d.delVarFlag("do_fetch", "noexec")
+	d.delVarFlag("do_unpack", "noexec")
+}
