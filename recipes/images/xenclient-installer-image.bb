@@ -99,7 +99,7 @@ post_rootfs_commands() {
 	touch ${IMAGE_ROOTFS}/etc/xenclient-host-installer;
 }
 
-ROOTFS_POSTPROCESS_COMMAND = " post_rootfs_commands; "
+ROOTFS_POSTPROCESS_COMMAND += " post_rootfs_commands; "
 
 do_post_rootfs_items() {
     install -d ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}/netboot
@@ -162,4 +162,11 @@ python() {
     bb.data.delVarFlag("do_compile", "noexec", d);
     bb.data.delVarFlag("do_install", "noexec", d);
 }
+
+# image_types.bbclass fails to find init if it is a broken symlink.  Not sure
+# of the proper way to fix so overriding the offending function.
+IMAGE_CMD_cpio () {
+	(cd ${IMAGE_ROOTFS} && find . | cpio -o -H newc >${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cpio)
+}
+
 do_rootfs[depends] += "xenclient-installer-image:do_install"
