@@ -50,6 +50,7 @@ RDEPENDS_${PN} = " \
     tboot \
     acms \
     trousers \
+    trousers-data \
     tpm-tools \
     xenclient-pcrdiff \
     xenclient-tpm-scripts \

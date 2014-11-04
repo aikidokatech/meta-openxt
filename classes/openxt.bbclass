@@ -1,5 +1,7 @@
 # Probably should add an OpenXT version variable once it exists
+OUT_DIR = "${TOPDIR}/build-output/OpenXT"
 OUT_DIR_RAW = "${TOPDIR}/build-output/OpenXT/raw"
+
 
 
 do_ship() {
@@ -20,5 +22,4 @@ do_ship() {
             fi
         done
 }
-
 

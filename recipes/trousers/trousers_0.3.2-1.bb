@@ -48,12 +48,12 @@ do_custom_install() {
         install -m 0644 ${WORKDIR}/45-trousers.rules ${D}/etc/udev/rules.d
 }
 
-addtask custom_install after do_install
+addtask custom_install after do_install before do_package
 
-do_install_append_openxt-dom0() {
-	# some files are already provided by xenclient-initramfs-tpm-config-files
-	rm -f ${D}${sysconfdir}/tcsd.conf
-}
+#do_install_append_openxt-dom0() {
+#	# some files are already provided by xenclient-initramfs-tpm-config-files
+#	rm -f ${D}${sysconfdir}/tcsd.conf
+#}
 
 PACKAGES =+ "${PN}-data"
 FILES_${PN}-data = "${datadir}/trousers/system.data.auth \
