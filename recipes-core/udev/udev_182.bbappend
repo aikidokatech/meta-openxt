@@ -7,8 +7,7 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
 
 inherit update-rc.d
 
-INITSCRIPT_NAME = "udev"
-INITSCRIPT_PARAMS = "start 03 S ."
+INITSCRIPT_PARAMS_udev = "start 03 S ."
 
 DEPENDS += " libselinux "
 
@@ -19,9 +18,10 @@ SRC_URI += " \
         "
 
 do_install_append () {
-        mkdir ${D}/${base_sbindir}
-        (cd ${D}${base_sbindir}; ln -s ..${base_libdir}/udev/udevd .)
+	mkdir ${D}/${base_sbindir}
+	(cd ${D}${base_sbindir}; ln -s ..${base_libdir}/udev/udevd .)
 
-        install -d ${D}${sysconfdir}/init.d
-        install -m 0755 ${WORKDIR}/${PACKAGE_ARCH}-init ${D}${sysconfdir}/init.d/udev
+	# Remove the default udev init script to install our own
+	rm -f ${D}${sysconfdir}/init.d/udev
+	install -m 0755 ${WORKDIR}/${PACKAGE_ARCH}-init ${D}${sysconfdir}/init.d/udev
 }
