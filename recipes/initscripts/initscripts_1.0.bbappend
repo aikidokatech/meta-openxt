@@ -1,15 +1,19 @@
-DESCRIPTION = "SysV init scripts"
-SECTION = "base"
-PRIORITY = "required"
-DEPENDS = "makedevs"
-RDEPENDS_${PN} = "makedevs"
+PR = "openxt-01"
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://${TOPDIR}/COPYING.GPLv2;md5=751419260aa954499f7abaabaa882bbe"
-PR = "r119"
 
-require generate-volatile-cache-on-target.inc
+FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}-${PV}:"
 
-SRC_URI = "file://functions \
+SRC_URI_OVERRIDES_PACKAGE_ARCH = "1"
+
+# Some machines need some special scripts.  Individual
+# image recipes may trim down after do_rootfs.  May
+# switch to full overrides here instead.
+SRC_URI_append += "\
+           file://finish.sh \
+           file://mount-special"
+
+SRC_URI_openxt-uivm = "file://functions \
            file://halt \
            file://umountfs \
            file://mountall.sh \
@@ -23,7 +27,28 @@ SRC_URI = "file://functions \
            file://save-rtc.sh \
 "
 
-do_install () {
+do_install_append_openxt-dom0 () {
+#
+# install device independent scripts
+#
+	install -m 0755    ${WORKDIR}/finish.sh		${D}${sysconfdir}/init.d
+	install -m 0755    ${WORKDIR}/mount-special	${D}${sysconfdir}/init.d
+	
+#
+# Create runlevel links
+#
+	#ln -sf		../init.d/mount-special	${D}${sysconfdir}/rcS.d/S00mount-special
+	#ln -sf		../init.d/finish.sh	${D}${sysconfdir}/rcS.d/S99finish.sh
+	update-rc.d -r ${D} mount-special start 00 S .
+	update-rc.d -r ${D} finish.sh start 99 S .
+
+}
+
+do_install_openxt-stubdomain() {
+
+}
+
+do_install_openxt-uivm () {
 #
 # Create directories and install device independent scripts
 #
@@ -49,10 +74,9 @@ do_install () {
 	install -m 0755    ${WORKDIR}/mount-special	${D}${sysconfdir}/init.d
 	install -m 0755    ${WORKDIR}/populate-volatile.sh ${D}${sysconfdir}/init.d
 	install -m 0755    ${WORKDIR}/save-rtc.sh	${D}${sysconfdir}/init.d
+	install -m 0755    ${WORKDIR}/mount-special	${D}${sysconfdir}/init.d
 	install -m 0644    ${WORKDIR}/volatiles		${D}${sysconfdir}/default/volatiles/00_core
-	if [ "${TARGET_ARCH}" = "arm" ]; then
-		install -m 0755 ${WORKDIR}/alignment.sh	${D}${sysconfdir}/init.d
-	fi
+
 #
 # Install device dependent scripts
 #
@@ -60,20 +84,19 @@ do_install () {
 #
 # Create runlevel links
 #
-	ln -sf		../init.d/sendsigs	${D}${sysconfdir}/rc6.d/S20sendsigs
-	ln -sf		../init.d/save-rtc.sh	${D}${sysconfdir}/rc6.d/S25save-rtc.sh
-	ln -sf		../init.d/umountfs	${D}${sysconfdir}/rc6.d/S40umountfs
-	ln -sf		../init.d/reboot	${D}${sysconfdir}/rc6.d/S90reboot
-
-	ln -sf		../init.d/sendsigs	${D}${sysconfdir}/rc0.d/S20sendsigs
-	ln -sf		../init.d/umountfs	${D}${sysconfdir}/rc0.d/S40umountfs
-	ln -sf		../init.d/halt		${D}${sysconfdir}/rc0.d/S90halt
-	ln -sf		../init.d/save-rtc.sh	${D}${sysconfdir}/rc0.d/S25save-rtc.sh
-
-	ln -sf		../init.d/mount-special	${D}${sysconfdir}/rcS.d/S00mount-special
-	ln -sf		../init.d/mountall.sh	${D}${sysconfdir}/rcS.d/S35mountall.sh
-	ln -sf		../init.d/bootmisc.sh	${D}${sysconfdir}/rcS.d/S55bootmisc.sh
-	#udev link is installed by udev package
-	ln -sf		../init.d/populate-volatile.sh	${D}${sysconfdir}/rcS.d/S37populate-volatile.sh
+	update-rc.d -r ${D} sendsigs start 20 0 6 .
+	update-rc.d -r ${D} umountfs start 40 0 6 .
+	update-rc.d -r ${D} reboot start 90 6 .
+	update-rc.d -r ${D} halt start 90 0 .
+	update-rc.d -r ${D} save-rtc.sh start 25 0 6 .
+	update-rc.d -r ${D} mountall.sh start 35 S .
+	update-rc.d -r ${D} bootmisc.sh start 55 S .
+	update-rc.d -r ${D} populate-volatile.sh start 37 S .
+	update-rc.d -r ${D} mount-special start 00 S .
 }
 
+pkg_postinst_${PN}_append() {
+    if [ -n "$D" ]; then
+        $D/etc/init.d/populate-volatile.sh update
+    fi
+}
