@@ -6,7 +6,6 @@ LIC_FILES_CHKSUM = "file://${TOPDIR}/COPYING.GPLv2;md5=751419260aa954499f7abaaba
 include xenclient-image-common.inc
 
 COMPATIBLE_MACHINE = "(openxt-dom0)"
-IMAGE_INITSCRIPTS = "xenclient-dom0-initscripts"
 
 IMAGE_FSTYPES = "cpio.bz2"
 
@@ -26,7 +25,7 @@ FRIENDLY_NAME = "sysroot"
 DEPENDS = "packagegroup-base packagegroup-xenclient-dom0 packagegroup-xenclient-dom0-extra"
 IMAGE_INSTALL = "\
     ${ROOTFS_PKGMANAGE} \
-    ${IMAGE_INITSCRIPTS} \
+    initscripts \
     modules \
     packagegroup-base \
     packagegroup-core-boot \
