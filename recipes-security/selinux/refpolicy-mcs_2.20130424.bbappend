@@ -49,15 +49,15 @@ sysroot_stage_all_append () {
 }
 
 pkg_postinst_${PN} () {
-	/sbin/setfiles /etc/selinux/${POL_TYPE}/contexts/files/file_contexts /
+	/sbin/setfiles $D${sysconfdir}/selinux/${POL_TYPE}/contexts/files/file_contexts /
 }
 
 pkg_postinst_${PN}_openxt-ndvm () {
     if [ -z "$D" ];then
-        /sbin/setfiles /etc/selinux/${POL_TYPE}/contexts/files/file_contexts /
+        /sbin/setfiles $D${sysconfdir}/selinux/${POL_TYPE}/contexts/files/file_contexts /
     fi
 }
 
 pkg_postinst_${PN}_append_openxt-dom0 () {
-	/sbin/setfiles /etc/selinux/${POL_TYPE}/contexts/files/file_contexts /config /storage
+	/sbin/setfiles $D${sysconfdir}/selinux/${POL_TYPE}/contexts/files/file_contexts /config /storage
 }
