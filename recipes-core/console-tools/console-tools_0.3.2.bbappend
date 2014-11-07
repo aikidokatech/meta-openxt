@@ -2,9 +2,10 @@ PR = "openxt-01"
 
 FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}-${PV}:"
 
-# this even get used?
 SRC_URI += " \
-           file://config"
+           file://config \
+           file://unicode-keysym-with-plus.patch \
+"
 
 #export SUBDIRS = "fontfiletools vttools kbdtools screenfonttools contrib examples po intl compat"
 
