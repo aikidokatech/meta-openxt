@@ -47,7 +47,15 @@ after_commands() {
     ln -s /var/volatile/etc/network/interfaces ${IMAGE_ROOTFS}/etc/network/interfaces;
 }
 
-ROOTFS_POSTPROCESS_COMMAND += " after_commands; "
+remove_initscripts() {
+    # Remove unneeded initscripts
+    if [ -f ${IMAGE_ROOTFS}${sysconfdir}/init.d/urandom ]; then
+        rm -f ${IMAGE_ROOTFS}${sysconfdir}/init.d/urandom
+        update-rc.d -r ${IMAGE_ROOTFS} urandom remove
+    fi
+}
+
+ROOTFS_POSTPROCESS_COMMAND += " after_commands; remove_initscripts; "
 
 addtask do_ship after do_rootfs before do_licences
 

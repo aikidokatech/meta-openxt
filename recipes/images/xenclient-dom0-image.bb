@@ -4,7 +4,6 @@ include xenclient-image-common.inc
 IMAGE_FEATURES += "package-management"
 
 COMPATIBLE_MACHINE = "(openxt-dom0)"
-IMAGE_INITSCRIPTS = "xenclient-dom0-initscripts"
 
 IMAGE_FSTYPES = "xc.ext3.gz"
 
@@ -22,7 +21,7 @@ export STAGING_KERNEL_DIR
 DEPENDS = "packagegroup-base packagegroup-xenclient-dom0 packagegroup-xenclient-dom0-extra"
 IMAGE_INSTALL = "\
     ${ROOTFS_PKGMANAGE} \
-    ${IMAGE_INITSCRIPTS} \
+    initscripts \
     modules \
     packagegroup-core-boot \
     packagegroup-base \
@@ -111,10 +110,33 @@ process_tmp_stubdomain_items() {
 	cat ${STUBDOMAIN_KERNEL} > ${IMAGE_ROOTFS}/usr/lib/xen/boot/stubdomain-bzImage ; 
 }
 
+# Get rid of unneeded initscripts
+remove_initscripts() {
+    if [ -f ${IMAGE_ROOTFS}${sysconfdir}/init.d/hostname.sh ]; then
+        rm -f ${IMAGE_ROOTFS}${sysconfdir}/init.d/hostname.sh
+        update-rc.d -r ${IMAGE_ROOTFS} hostname.sh remove
+    fi
+
+    if [ -f ${IMAGE_ROOTFS}${sysconfdir}/init.d/rmnologin.sh ]; then
+        rm -f ${IMAGE_ROOTFS}${sysconfdir}/init.d/rmnologin.sh
+        update-rc.d -r ${IMAGE_ROOTFS} rmnologin.sh remove
+    fi
+
+    if [ -f ${IMAGE_ROOTFS}${sysconfdir}/init.d/finish.sh ]; then
+        rm -f ${IMAGE_ROOTFS}${sysconfdir}/init.d/finish.sh
+        update-rc.d -r ${IMAGE_ROOTFS} finish.sh remove
+    fi
+
+    if [ -f ${IMAGE_ROOTFS}${sysconfdir}/init.d/mount-special ]; then
+        rm -f ${IMAGE_ROOTFS}${sysconfdir}/init.d/mount-special
+        update-rc.d -r ${IMAGE_ROOTFS} mount-special remove
+    fi
+}
+
 #zap root password for release images
 ROOTFS_POSTPROCESS_COMMAND += '${@base_conditional("DISTRO_TYPE", "release", "zap_root_password; ", "",d)}'
 
-ROOTFS_POSTPROCESS_COMMAND += " process_password_stuff; redirect_files; grab_initramfs; set_ratelimit; remove_unwanted_packages; remove_excess_modules; process_tmp_stubdomain_items; "
+ROOTFS_POSTPROCESS_COMMAND += " process_password_stuff; redirect_files; grab_initramfs; set_ratelimit; remove_unwanted_packages; remove_excess_modules; process_tmp_stubdomain_items; remove_initscripts;"
 
 addtask do_ship after do_rootfs before do_licences
 

@@ -149,6 +149,12 @@ post_rootfs_commands() {
 
 	# readonly rootfs prevents sshd from creating dirs
 	mkdir ${IMAGE_ROOTFS}/root/.ssh;
+
+	# Remove unneeded initscripts provided to dom0 machine types
+	if [ -f ${IMAGE_ROOTFS}${sysconfdir}/init.d/urandom ]; then
+		rm -f ${IMAGE_ROOTFS}${sysconfdir}/init.d/urandom
+		update-rc.d -r ${IMAGE_ROOTFS} urandom remove
+	fi
 }
 
 # zap root password for release images

@@ -76,8 +76,32 @@ do_post_rootfs_commands() {
 	echo 'kernel.core_pattern = /var/cores/%e-%t.%p.core' >> ${IMAGE_ROOTFS}/etc/sysctl.conf;
 }
 
+# Get rid of unneeded initscripts
+remove_initscripts() {
+    if [ -f ${IMAGE_ROOTFS}${sysconfdir}/init.d/hostname.sh ]; then
+        rm -f ${IMAGE_ROOTFS}${sysconfdir}/init.d/hostname.sh
+        update-rc.d -r ${IMAGE_ROOTFS} hostname.sh remove
+    fi
+
+    if [ -f ${IMAGE_ROOTFS}${sysconfdir}/init.d/rmnologin.sh ]; then
+        rm -f ${IMAGE_ROOTFS}${sysconfdir}/init.d/rmnologin.sh
+        update-rc.d -r ${IMAGE_ROOTFS} rmnologin.sh remove
+    fi
+
+    if [ -f ${IMAGE_ROOTFS}${sysconfdir}/init.d/finish.sh ]; then
+        rm -f ${IMAGE_ROOTFS}${sysconfdir}/init.d/finish.sh
+        update-rc.d -r ${IMAGE_ROOTFS} finish.sh remove
+    fi
+
+    if [ -f ${IMAGE_ROOTFS}${sysconfdir}/init.d/mount-special ]; then
+        rm -f ${IMAGE_ROOTFS}${sysconfdir}/init.d/mount-special
+        update-rc.d -r ${IMAGE_ROOTFS} mount-special remove
+    fi
+}
 #zap root password for release images
 ROOTFS_POSTPROCESS_COMMAND += '${@base_conditional("DISTRO_TYPE", "release", "zap_root_password; ", "",d)}'
+
+ROOTFS_POSTPROCESS_COMMAND += ' remove_initscripts; '
 
 addtask do_post_rootfs_commands after do_rootfs
 addtask do_ship after do_rootfs before do_licences
