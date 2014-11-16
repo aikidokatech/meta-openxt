@@ -48,7 +48,7 @@ RDEPENDS_${PN} = " \
     dmidecode \
     netcat \
     tboot \
-    acms \
+    packagegroup-tboot \
     trousers \
     trousers-data \
     tpm-tools \

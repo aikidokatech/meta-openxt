@@ -52,7 +52,7 @@ RDEPENDS_${PN} = " \
     xenclient-tpm-setup \
     squashfs-tools \
     pciutils-ids \
-    acms \
+    packagegroup-tboot \
     read-edid \
     openssl \
     ntpdate \
