@@ -17,10 +17,10 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #
 
-. $D/etc/default/rcS
+. ${ROOT_DIR}/etc/default/rcS
 
-CFGDIR="$D/etc/default/volatiles"
-TMPROOT="$D/var/tmp"
+CFGDIR="${ROOT_DIR}/etc/default/volatiles"
+TMPROOT="${ROOT_DIR}/var/tmp"
 COREDEF="00_core"
 RESTORECON="/sbin/restorecon"
 
@@ -33,12 +33,12 @@ create_file() {
 	chown ${TUSER}.${TGROUP} $1 || echo \"Failed to set owner -${TUSER}- for -$1-.\" >/dev/tty0 2>&1; 
 	chmod ${TMODE} $1 || echo \"Failed to set mode -${TMODE}- for -$1-.\" >/dev/tty0 2>&1 " 
 
-	test "$VOLATILE_ENABLE_CACHE" = yes && echo "$EXEC" >> $D/etc/volatile.cache
+	test "$VOLATILE_ENABLE_CACHE" = yes && echo "$EXEC" >> $ROOT_DIR/etc/volatile.cache
 
 	[ -e "$1" ] && {
 	  [ "${VERBOSE}" != "no" ] && echo "Target already exists. Skipping."
 	} || {
-	  [ -z "$D" ] && eval $EXEC
+	  [ -z "$ROOT_DIR" ] && eval $EXEC
 	}
 }
 
@@ -49,12 +49,12 @@ mk_dir() {
 	chown ${TUSER}.${TGROUP} $1 || echo \"Failed to set owner -${TUSER}- for -$1-.\" >/dev/tty0 2>&1; 
 	chmod ${TMODE} $1 || echo \"Failed to set mode -${TMODE}- for -$1-.\" >/dev/tty0 2>&1 "
 
-	test "$VOLATILE_ENABLE_CACHE" = yes && echo "$EXEC" >> $D/etc/volatile.cache
+	test "$VOLATILE_ENABLE_CACHE" = yes && echo "$EXEC" >> $ROOT_DIR/etc/volatile.cache
 	
 	[ -e "$1" ] && {
 	  [ "${VERBOSE}" != "no" ] && echo "Target already exists. Skipping."
 	} || {
-	  [ -z "$D" ] && eval $EXEC
+	  [ -z "$ROOT_DIR" ] && eval $EXEC
 	}
 }
 
@@ -62,12 +62,12 @@ link_file() {
 	EXEC="test -e \"$2\" -o -L $2 || ln -s \"$1\" \"$2\" >/dev/tty0 2>&1;
 	[ -x ${RESTORECON} ] && ${RESTORECON} \"$2\" >/dev/null 2>/dev/null;"
 
-	test "$VOLATILE_ENABLE_CACHE" = yes && echo "	$EXEC" >> $D/etc/volatile.cache
+	test "$VOLATILE_ENABLE_CACHE" = yes && echo "	$EXEC" >> $ROOT_DIR/etc/volatile.cache
 	
 	[ -e "$2" ] && {
 	  echo "Cannot create link over existing -${TNAME}-." >&2
 	} || {
-	  [ -z "$D" ] && eval $EXEC
+	  [ -z "$ROOT_DIR" ] && eval $EXEC
 	}
 }
 
@@ -88,7 +88,7 @@ check_requirements() {
   TMP_COMBINED="${TMPROOT}/tmpcombined.$$"
 
 
-  cat $D/etc/passwd | sed 's@\(^:\)*:.*@\1@' | sort | uniq > "${TMP_DEFINED}"
+  cat ${ROOT_DIR}/etc/passwd | sed 's@\(^:\)*:.*@\1@' | sort | uniq > "${TMP_DEFINED}"
   cat ${CFGFILE} | grep -v "^#" | cut -d " " -f 2 > "${TMP_INTERMED}"
   cat "${TMP_DEFINED}" "${TMP_INTERMED}" | sort | uniq > "${TMP_COMBINED}"
 
@@ -103,7 +103,7 @@ check_requirements() {
     }
 
 
-  cat $D/etc/group | sed 's@\(^:\)*:.*@\1@' | sort | uniq > "${TMP_DEFINED}"
+  cat ${ROOT_DIR}/etc/group | sed 's@\(^:\)*:.*@\1@' | sort | uniq > "${TMP_DEFINED}"
   cat ${CFGFILE} | grep -v "^#" | cut -d " " -f 3 > "${TMP_INTERMED}"
   cat "${TMP_DEFINED}" "${TMP_INTERMED}" | sort | uniq > "${TMP_COMBINED}"
 
