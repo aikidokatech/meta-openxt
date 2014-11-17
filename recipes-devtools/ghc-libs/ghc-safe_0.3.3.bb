@@ -1,5 +1,7 @@
 BBCLASSEXTEND = "native"
-require recipes/ghc-libs/ghc-lib-common.inc
+
+inherit ghc ghc-lib-common
+
 SRC_URI[md5sum] = "5df09a74ef9ce6d98c7fd7f97a9eb73e"
 SRC_URI[sha256sum] = "099154c843ac9c4b1831b06f0a92f56d6bba2b0163c9aa896031921bb0a2e945"
 

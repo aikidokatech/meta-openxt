@@ -1,7 +1,8 @@
 BBCLASSEXTEND = "native"
 SRC_URI[md5sum] = "624e53941566b3ef5a8ff918329843f9"
 SRC_URI[sha256sum] = "63e76de0610d35f1b576ae65a25a38e04e758ed64b9b3512de95bdffd649485c"
-require recipes/ghc-libs/ghc-lib-common.inc
+
+inherit ghc ghc-lib-common
 
 DEPENDS += "ghc-regex-base"
 DESCRIPTION = "Posix REGEX backend for GHC"

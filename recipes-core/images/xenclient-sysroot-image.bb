@@ -104,5 +104,5 @@ ROOTFS_POSTPROCESS_COMMAND += '${@base_conditional("DISTRO_TYPE", "release", "za
 ROOTFS_POSTPROCESS_COMMAND += ' remove_initscripts; '
 
 addtask do_post_rootfs_commands after do_rootfs
-addtask do_ship after do_rootfs before do_licences
+addtask ship before do_build after do_rootfs
 

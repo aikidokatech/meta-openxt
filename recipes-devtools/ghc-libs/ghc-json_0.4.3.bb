@@ -1,7 +1,8 @@
 BBCLASSEXTEND = "native"
 SRC_URI[md5sum] = "1af33c67594f69048b69d4aeafeea03e"
 SRC_URI[sha256sum] = "56192d1e922cc71ad1aaf31baea8ee7e1f1b862f95bc72f60548caee4a484a87"
-require recipes/ghc-libs/ghc-lib-common.inc
+
+inherit ghc ghc-lib-common
 
 DEPENDS += "ghc-mtl"
 DESCRIPTION = "JSON library for ghc"

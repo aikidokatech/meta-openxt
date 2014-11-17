@@ -138,7 +138,7 @@ ROOTFS_POSTPROCESS_COMMAND += '${@base_conditional("DISTRO_TYPE", "release", "za
 
 ROOTFS_POSTPROCESS_COMMAND += " process_password_stuff; redirect_files; grab_initramfs; set_ratelimit; remove_unwanted_packages; remove_excess_modules; process_tmp_stubdomain_items; remove_initscripts;"
 
-addtask do_ship after do_rootfs before do_licences
+addtask ship before do_build after do_rootfs
 
 inherit selinux-image
 #inherit validate-package-versions

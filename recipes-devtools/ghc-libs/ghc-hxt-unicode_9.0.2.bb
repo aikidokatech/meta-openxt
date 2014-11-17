@@ -1,7 +1,7 @@
 SRC_URI[md5sum] = "f18a4c873cd059eab06953694c54c31a"
 SRC_URI[sha256sum] = "ad4132d081cc5a39b67927ca3ad725300f42758cd10783aa7a5b2d20510a23e6"
 
-require recipes/ghc-libs/ghc-lib-common.inc
+inherit ghc ghc-lib-common
 
 DEPENDS += "ghc-hxt-charproperties"
 DESCRIPTION = "part of hxt"

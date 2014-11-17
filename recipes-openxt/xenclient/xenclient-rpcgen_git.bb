@@ -1,4 +1,3 @@
-require recipes/ghc/ghc-pkg.inc
 require xenclient-rpcgen.inc
 BBCLASSEXTEND = "native"
 
@@ -9,6 +8,8 @@ PACKAGES = " ${PN} ${PN}-dev ${PN}-dbg "
 RDEPENDS_${PN}-dev = ""
 
 FILES_${PN}-dev  = " /usr/bin/* /usr/share/* " 
+
+inherit ghc
 
 do_install() {
     install -d ${D}/${bindir}

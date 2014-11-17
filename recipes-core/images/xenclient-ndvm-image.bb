@@ -112,4 +112,4 @@ remove_initscripts() {
 
 ROOTFS_POSTPROCESS_COMMAND += "tweak_passwd; tweak_hosts; enable_three_fingered_salute; relocate_resolv; remove_unwanted_packages; remove_initscripts; "
 
-addtask do_ship after do_rootfs before do_licences
+addtask ship before do_build after do_rootfs

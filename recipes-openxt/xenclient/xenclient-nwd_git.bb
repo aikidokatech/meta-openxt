@@ -1,4 +1,4 @@
-require recipes/ghc/ghc-pkg.inc
+inherit ghc
 
 DESCRIPTION = "XenClient Network Daemon"
 LICENSE = "GPLv2"

@@ -1,4 +1,5 @@
-require recipes/ghc-libs/ghc-lib-common.inc
+inherit ghc ghc-lib-common
+
 SRC_URI[md5sum] = "bd99282e2daae5eecd1c953b7b77c990"
 SRC_URI[sha256sum] = "4fa9e8ae38f0ed0633251f7a18c51946ee9fa486ed768389b5b6edaacf3c7cb4"
 

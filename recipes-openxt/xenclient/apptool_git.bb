@@ -1,4 +1,4 @@
-require recipes/ghc/ghc-xcprog.inc
+inherit ghc
 
 DESCRIPTION = "XenClient appliance tool"
 LICENSE = "GPLv2"

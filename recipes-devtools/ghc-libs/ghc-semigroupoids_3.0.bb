@@ -1,5 +1,7 @@
 BBCLASSEXTEND = "native"
-require recipes/ghc-libs/ghc-lib-common.inc
+
+inherit ghc ghc-lib-common
+
 SRC_URI[md5sum] = "8bc1f6326a816d89f17f1b66e6e7b13a"
 SRC_URI[sha256sum] = "4f6576eb8d26539017a8fa1dead5d5ff02f7dbbe0ce60efcb2c38cc948e84a73"
 SRC_URI += "file://semigroupoids-flexible-contexts.patch;patch=1"

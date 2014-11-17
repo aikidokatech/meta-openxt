@@ -1,7 +1,8 @@
 BBCLASSEXTEND = "native"
 SRC_URI[md5sum] = "f308cb97953e65637bf75d0c39a67266"
 SRC_URI[sha256sum] = "610f2888ca11362e012e1ff9ff7269862fad505bc24ba80ff1fa66b9a6e5681b"
-require recipes/ghc-libs/ghc-lib-common.inc
+
+inherit ghc ghc-lib-common
 
 DESCRIPTION = "Some useful control operators for looping."
 LICENSE = "BSD-3-Clause"

@@ -1,4 +1,4 @@
-require recipes/qemu-dm/qemu-dm.inc
+require qemu-dm.inc
 
 DEPENDS += " pciutils-static "
 

@@ -162,7 +162,7 @@ ROOTFS_POSTPROCESS_COMMAND += '${@base_conditional("DISTRO_TYPE", "release", "za
 
 ROOTFS_POSTPROCESS_COMMAND += "post_rootfs_commands; strip_unwanted_packages;"
 
-addtask do_ship after do_rootfs before do_licences
+addtask ship before do_build after do_rootfs
 
 inherit image openxt
 #inherit validate-package-versions

@@ -66,10 +66,6 @@ do_install_openxt-dom0 () {
 	update-rc.d -r ${D} finish.sh start 99 S .
 }
 
-do_install_openxt-stubdomain() {
-
-}
-
 pkg_postinst_${PN}_append() {
     if [ -n "$D" ]; then
         $D/etc/init.d/populate-volatile.sh update

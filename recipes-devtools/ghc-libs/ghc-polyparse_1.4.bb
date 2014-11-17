@@ -1,7 +1,8 @@
 BBCLASSEXTEND = "native"
 SRC_URI[md5sum] = "1783867124b49eefdbdc9ac39caf3174"
 SRC_URI[sha256sum] = "6e599fb0771e8ce2e1d3a3bbe5eddc2d77b2b4bbb54602f01005dc55dc039d44"
-require recipes/ghc-libs/ghc-lib-common.inc
+
+inherit ghc ghc-lib-common
 
 DEPENDS += ""
 DESCRIPTION = "A variety of alternative parser combinator libraries for GHC"

@@ -1,4 +1,4 @@
-require recipes/ghc/ghc-pkg.inc
+inherit ghc ghc-lib-common
 
 GHC_PN  = "${PN}"
 SRC_URI = "http://hackage.haskell.org/packages/archive/${GHC_PN}/${PV}/${GHC_PN}-${PV}.tar.gz"

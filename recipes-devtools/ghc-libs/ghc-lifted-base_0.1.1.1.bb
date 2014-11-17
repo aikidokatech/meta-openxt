@@ -1,4 +1,5 @@
-require recipes/ghc-libs/ghc-lib-common.inc
+inherit ghc ghc-lib-common
+
 SRC_URI += "file://lifted-base-cabal-cheat.patch;patch=1"
 
 SRC_URI[md5sum] = "f642df016e04eea4ad494bbaabed2bdd"

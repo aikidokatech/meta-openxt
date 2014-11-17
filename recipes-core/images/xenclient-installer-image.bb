@@ -158,7 +158,7 @@ do_ship() {
         cp -f "${BINARIES}"/*.acm "${OUT_DIR_INST}/"
 }
 
-addtask do_ship after do_post_rootfs_items before do_licences
+addtask ship before do_build after do_post_rootfs_items
 
 python() {
     bb.data.delVarFlag("do_fetch", "noexec", d);
