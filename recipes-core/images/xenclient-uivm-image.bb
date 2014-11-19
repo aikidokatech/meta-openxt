@@ -157,10 +157,15 @@ post_rootfs_commands() {
 	fi
 }
 
+support_vmlinuz() {
+	# Make a vmlinuz link for items that explicitly reference it
+	ln -sf bzImage ${IMAGE_ROOTFS}/boot/vmlinuz
+}
+
 # zap root password for release images
 ROOTFS_POSTPROCESS_COMMAND += '${@base_conditional("DISTRO_TYPE", "release", "zap_root_password; ", "",d)}'
 
-ROOTFS_POSTPROCESS_COMMAND += "post_rootfs_commands; strip_unwanted_packages;"
+ROOTFS_POSTPROCESS_COMMAND += "post_rootfs_commands; strip_unwanted_packages; support_vmlinuz;"
 
 addtask ship before do_build after do_rootfs
 

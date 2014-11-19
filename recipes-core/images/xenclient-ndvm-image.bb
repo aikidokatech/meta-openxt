@@ -110,6 +110,11 @@ remove_initscripts() {
     fi
 }
 
-ROOTFS_POSTPROCESS_COMMAND += "tweak_passwd; tweak_hosts; enable_three_fingered_salute; relocate_resolv; remove_unwanted_packages; remove_initscripts; "
+support_vmlinuz() {
+	# Make a vmlinuz link for items that explicitly reference it
+	ln -sf bzImage ${IMAGE_ROOTFS}/boot/vmlinuz
+}
+
+ROOTFS_POSTPROCESS_COMMAND += "tweak_passwd; tweak_hosts; enable_three_fingered_salute; relocate_resolv; remove_unwanted_packages; remove_initscripts; support_vmlinuz;"
 
 addtask ship before do_build after do_rootfs
