@@ -38,8 +38,8 @@ dev_setup()
     mount -t devtmpfs none /dev
 
     echo "initramfs: Configuring LVM"
-    lvm vgscan
-    lvm vgchange -a y
+    lvm vgscan --ignorelockingfailure
+    lvm vgchange -a y --ignorelockingfailure
 }
 
 read_args() {
