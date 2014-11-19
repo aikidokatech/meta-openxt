@@ -30,6 +30,7 @@ IMAGE_INSTALL = "\
     rsyslog \
     openssh \
     blktap \
+    ifplugd \
     wget \
     sync-client \
     xenclient-syncvm-tweaks \
