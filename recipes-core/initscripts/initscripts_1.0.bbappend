@@ -53,7 +53,7 @@ do_install_openxt-dom0 () {
 #
 	update-rc.d -r ${D} rmnologin.sh start 99 2 3 4 5 .
 	update-rc.d -r ${D} sendsigs start 20 0 6 .
-	update-rc.d -r ${D} urandom start 30 S 0 6 .
+	update-rc.d -r ${D} urandom start 33 S 0 6 .
 	update-rc.d -r ${D} umountfs start 40 0 6 .
 	update-rc.d -r ${D} reboot start 90 6 .
 	update-rc.d -r ${D} halt start 90 0 .
