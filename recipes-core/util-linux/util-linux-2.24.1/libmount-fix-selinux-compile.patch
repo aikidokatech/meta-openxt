@@ -1,0 +1,22 @@
+diff --git a/libmount/src/Makemodule.am b/libmount/src/Makemodule.am
+index 8ef07e5..e1096cc 100644
+--- a/libmount/src/Makemodule.am
++++ b/libmount/src/Makemodule.am
+@@ -30,7 +30,7 @@ libmount_la_SOURCES = \
+ 
+ nodist_libmount_la_SOURCES = libmount/src/mountP.h
+ 
+-libmount_la_LIBADD = libcommon.la libblkid.la $(SELINUX_LIBS)
++libmount_la_LIBADD = libcommon.la libblkid.la
+ 
+ libmount_la_CFLAGS = \
+ 	$(SOLIB_CFLAGS) \
+@@ -46,7 +46,7 @@ libmount_la_DEPENDENCIES = \
+ libmount_la_LDFLAGS = \
+ 	$(SOLIB_LDFLAGS) \
+ 	-Wl,--version-script=$(top_srcdir)/libmount/src/libmount.sym \
+-	-version-info $(LIBMOUNT_VERSION_INFO)
++	-version-info $(LIBMOUNT_VERSION_INFO) $(SELINUX_LIBS)
+ 
+ EXTRA_DIST += \
+ 	libmount/src/libmount.sym \

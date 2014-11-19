@@ -1,6 +1,10 @@
 PR = "openxt-01"
 
-EXTRA_OECONF += "--enable-selinux"
+FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}-${PV}"
+
+SRC_URI += " file://libmount-fix-selinux-compile.patch \
+	"
+
 DEPENDS += "libselinux"
 
 # make ionice a separate package
