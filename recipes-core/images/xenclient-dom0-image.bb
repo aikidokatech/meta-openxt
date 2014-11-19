@@ -136,7 +136,7 @@ remove_initscripts() {
 #zap root password for release images
 ROOTFS_POSTPROCESS_COMMAND += '${@base_conditional("DISTRO_TYPE", "release", "zap_root_password; ", "",d)}'
 
-ROOTFS_POSTPROCESS_COMMAND += " process_password_stuff; redirect_files; grab_initramfs; set_ratelimit; remove_unwanted_packages; remove_excess_modules; process_tmp_stubdomain_items; remove_initscripts;"
+ROOTFS_POSTPROCESS_COMMAND += " process_password_stuff; redirect_files; grab_initramfs; set_ratelimit; set_consoles; create_mounts; remove_unwanted_packages; remove_excess_modules; process_tmp_stubdomain_items; remove_initscripts;"
 
 addtask ship before do_build after do_rootfs
 
