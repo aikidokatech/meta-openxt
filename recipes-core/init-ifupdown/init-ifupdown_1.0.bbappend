@@ -15,6 +15,7 @@ SRC_URI += "\
   file://if-down.d \
   file://if-post-down.d \
   "
+INITSCRIPT_PARAMS = "start 40 S . stop 40 0 6 1 ."
 
 do_install () {
     install -d ${D}${sysconfdir}/init.d
