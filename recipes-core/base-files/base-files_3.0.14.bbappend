@@ -16,6 +16,22 @@ SRC_URI += " \
            file://licenses/Artistic \
 	"
 
+dirs1777 += " ${localstatedir}/tmp "
+dirs755 += " ${localstatedir}/cache \
+	${localstatedir}/log \
+	"
+
+media = "card cf net ram"
+
+# We are mounting was base-files wants to link to volatiles
+volatiles = ""
+
+do_install_append() {
+	for d in ${media}; do
+		ln -sf /media/$d ${D}/mnt/$d
+	done
+}
+
 do_install_append_openxt-dom0 () {
 	install -m 0755 -d ${D}/config
 	install -m 0755 -d ${D}/var/cores
