@@ -19,20 +19,21 @@ selinux_policy_link () {
 module-store = direct
 [setfiles]
 path = ${STAGING_DIR_NATIVE}${base_sbindir_native}/setfiles
-args = -q -c \$@ \$<
+args = -c \$@ \$<
 [end]
 [sefcontext_compile]
 path = ${STAGING_DIR_NATIVE}${sbindir_native}/sefcontext_compile
 args = \$@
 [end]
 EOF
-    semodule -p ${IMAGE_ROOTFS} -s ${POL_TYPE} -n -B
+    ${STAGING_DIR_NATIVE}${base_sbindir_native}/semodule -p ${IMAGE_ROOTFS} -s ${POL_TYPE} -n -B
+    cp -f ${SEROOT}/semanage.conf ${SEROOT}/semanage.conf.tmp
     mv -f ${SEROOT}/semanage.conf.bak ${SEROOT}/semanage.conf
 }
 
 selinux_set_labels () {
     POL_TYPE=$(sed -n -e "s&SELINUXTYPE[:space:]*=[:space:]*\([0-9A-Za-z_]\+\)&\1&p" ${IMAGE_ROOTFS}/etc/selinux/config)
-    setfiles -r ${IMAGE_ROOTFS} ${IMAGE_ROOTFS}/etc/selinux/xc_policy/contexts/files/file_contexts ${IMAGE_ROOTFS} || exit 1;
+    ${STAGING_DIR_NATIVE}${base_sbindir_native}/setfiles -r ${IMAGE_ROOTFS} ${IMAGE_ROOTFS}/etc/selinux/${POL_TYPE}/contexts/files/file_contexts ${IMAGE_ROOTFS} || exit 1;
 
     bbdebug 2 "searching for files and dirs w/o an SELinux context in rootfs: ${IMAGE_ROOTFS}"
     find ${IMAGE_ROOTFS} 2> /dev/null | while read ITEM; do
