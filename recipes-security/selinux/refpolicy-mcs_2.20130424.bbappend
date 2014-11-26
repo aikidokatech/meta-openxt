@@ -2,7 +2,7 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
 FILESEXTRA := "${THISDIR}/${PN}"
 
 SRC_URI += " \
-	   ${AIKI_GIT_MIRROR}/refpolicy-xt-pq.git;protocol=git;tag=${OPENXT_TAG} \
+	   ${OPENXT_GIT_MIRROR}/refpolicy-xt-pq.git;protocol=git;tag=${OPENXT_TAG} \
 	   ${OPENXT_GIT_MIRROR}/selinux-policy.git;protocol=git;tag=${OPENXT_TAG} \
 	   file://config \
 "
