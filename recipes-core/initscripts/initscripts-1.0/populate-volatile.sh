@@ -1,192 +1,229 @@
 #!/bin/sh
 #
-# Copyright (c) 2012 Citrix Systems, Inc.
-# 
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
-# (at your option) any later version.
-# 
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-# 
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+# Adam Oliver
 #
+# Combination of daisy populate-volatiles.sh, the one from Citrix and more
+# tweaks.
+#
+### BEGIN INIT INFO
+# Provides:             volatile
+# Required-Start:       $local_fs
+# Required-Stop:      $local_fs
+# Default-Start:        S
+# Default-Stop:
+# Short-Description:  Populate the volatile filesystem
+### END INIT INFO
 
-. $D/etc/default/rcS
+# Get ROOT_DIR
+DIRNAME=`dirname $0`
+ROOT_DIR=`echo $DIRNAME | sed -ne 's:/etc/.*::p'`
 
-CFGDIR="$D/etc/default/volatiles"
-TMPROOT="$D/var/tmp"
+[ -e ${ROOT_DIR}/etc/default/rcS ] && . ${ROOT_DIR}/etc/default/rcS
+# When running populate-volatile.sh at rootfs time, disable cache.
+[ -n "$ROOT_DIR" ] && VOLATILE_ENABLE_CACHE=no
+# If rootfs is read-only, disable cache.
+[ "$ROOTFS_READ_ONLY" = "yes" ] && VOLATILE_ENABLE_CACHE=no
+
+CFGDIR="${ROOT_DIR}/etc/default/volatiles"
+TMPROOT="${ROOT_DIR}/tmp"
 COREDEF="00_core"
 RESTORECON="/sbin/restorecon"
 
 [ "${VERBOSE}" != "no" ] && echo "Populating volatile Filesystems."
 
 create_file() {
-	EXEC=" 
+	EXEC="
 	touch \"$1\";
 	[ -x ${RESTORECON} ] && ${RESTORECON} \"$1\" >/dev/null 2>/dev/null;
-	chown ${TUSER}.${TGROUP} $1 || echo \"Failed to set owner -${TUSER}- for -$1-.\" >/dev/tty0 2>&1; 
-	chmod ${TMODE} $1 || echo \"Failed to set mode -${TMODE}- for -$1-.\" >/dev/tty0 2>&1 " 
+	chown ${TUSER}.${TGROUP} $1 || echo \"Failed to set owner -${TUSER}- for -$1-.\" >/dev/tty0 2>&1;
+	chmod ${TMODE} $1 || echo \"Failed to set mode -${TMODE}- for -$1-.\" >/dev/tty0 2>&1 "
 
-	test "$VOLATILE_ENABLE_CACHE" = yes && echo "$EXEC" >> $D/etc/volatile.cache
+	test "$VOLATILE_ENABLE_CACHE" = yes && echo "$EXEC" >> /etc/volatile.cache.build
 
 	[ -e "$1" ] && {
-	  [ "${VERBOSE}" != "no" ] && echo "Target already exists. Skipping."
+		[ "${VERBOSE}" != "no" ] && echo "Target already exists. Skipping."
 	} || {
-	  [ -z "$D" ] && eval $EXEC
+		if [ -z "$ROOT_DIR" ]; then
+			eval $EXEC &
+		else
+			# Creating some files at rootfs time may fail and should fail,
+			# but these failures should not be logged to make sure the do_rootfs
+			# process doesn't fail. This does no harm, as this script will
+			# run on target to set up the correct files and directories.
+			eval $EXEC > /dev/null 2>&1
+		fi
 	}
 }
 
 mk_dir() {
-	EXEC=" 
+	EXEC="
 	mkdir -p \"$1\";
 	[ -x ${RESTORECON} ] && ${RESTORECON} \"$1\" >/dev/null 2>/dev/null;
-	chown ${TUSER}.${TGROUP} $1 || echo \"Failed to set owner -${TUSER}- for -$1-.\" >/dev/tty0 2>&1; 
+	chown ${TUSER}.${TGROUP} $1 || echo \"Failed to set owner -${TUSER}- for -$1-.\" >/dev/tty0 2>&1;
 	chmod ${TMODE} $1 || echo \"Failed to set mode -${TMODE}- for -$1-.\" >/dev/tty0 2>&1 "
 
-	test "$VOLATILE_ENABLE_CACHE" = yes && echo "$EXEC" >> $D/etc/volatile.cache
-	
+	test "$VOLATILE_ENABLE_CACHE" = yes && echo "$EXEC" >> /etc/volatile.cache.build
 	[ -e "$1" ] && {
-	  [ "${VERBOSE}" != "no" ] && echo "Target already exists. Skipping."
+		[ "${VERBOSE}" != "no" ] && echo "Target already exists. Skipping."
 	} || {
-	  [ -z "$D" ] && eval $EXEC
+		if [ -z "$ROOT_DIR" ]; then
+			eval $EXEC
+		else
+			# For the same reason with create_file(), failures should
+			# not be logged.
+			eval $EXEC > /dev/null 2>&1
+		fi
 	}
 }
 
 link_file() {
-	EXEC="test -e \"$2\" -o -L $2 || ln -s \"$1\" \"$2\" >/dev/tty0 2>&1;
-	[ -x ${RESTORECON} ] && ${RESTORECON} \"$2\" >/dev/null 2>/dev/null;"
+	EXEC="
+	if [ -L \"$2\" ]; then
+		[ \"\$(readlink -f \"$2\")\" != \"\$(readlink -f \"$1\")\" ] && { rm -f \"$2\"; ln -sf \"$1\" \"$2\"; };
+	elif [ -d \"$2\" ]; then
+		cp -a $2/* $1 2>/dev/null;
+		cp -a $2/.[!.]* $1 2>/dev/null;
+		rm -rf \"$2\";
+		ln -sf \"$1\" \"$2\";
+	else
+		ln -sf \"$1\" \"$2\";
+	fi
+        [ -x ${RESTORECON} ] && ${RESTORECON} \"$2\" >/dev/null 2>/dev/null;"
 
-	test "$VOLATILE_ENABLE_CACHE" = yes && echo "	$EXEC" >> $D/etc/volatile.cache
-	
-	[ -e "$2" ] && {
-	  echo "Cannot create link over existing -${TNAME}-." >&2
-	} || {
-	  [ -z "$D" ] && eval $EXEC
-	}
+	test "$VOLATILE_ENABLE_CACHE" = yes && echo "	$EXEC" >> /etc/volatile.cache.build
+
+	if [ -z "$ROOT_DIR" ]; then
+		eval $EXEC &
+	else
+		# For the same reason with create_file(), failures should
+		# not be logged.
+		eval $EXEC > /dev/null 2>&1
+	fi
 }
 
 check_requirements() {
+	cleanup() {
+		rm "${TMP_INTERMED}"
+		rm "${TMP_DEFINED}"
+		rm "${TMP_COMBINED}"
+	}
 
-  cleanup() {
-    rm "${TMP_INTERMED}"
-    rm "${TMP_DEFINED}"
-    rm "${TMP_COMBINED}"
-    }
-    
-  CFGFILE="$1"
+	CFGFILE="$1"
+	[ `basename "${CFGFILE}"` = "${COREDEF}" ] && return 0
 
-  [ `basename "${CFGFILE}"` = "${COREDEF}" ] && return 0
+	TMP_INTERMED="${TMPROOT}/tmp.$$"
+	TMP_DEFINED="${TMPROOT}/tmpdefined.$$"
+	TMP_COMBINED="${TMPROOT}/tmpcombined.$$"
 
-  TMP_INTERMED="${TMPROOT}/tmp.$$"
-  TMP_DEFINED="${TMPROOT}/tmpdefined.$$"
-  TMP_COMBINED="${TMPROOT}/tmpcombined.$$"
+	cat ${ROOT_DIR}/etc/passwd | sed 's@\(^:\)*:.*@\1@' | sort | uniq > "${TMP_DEFINED}"
+	cat ${CFGFILE} | grep -v "^#" | cut -s -d " " -f 2 > "${TMP_INTERMED}"
+	cat "${TMP_DEFINED}" "${TMP_INTERMED}" | sort | uniq > "${TMP_COMBINED}"
+	NR_DEFINED_USERS="`cat "${TMP_DEFINED}" | wc -l`"
+	NR_COMBINED_USERS="`cat "${TMP_COMBINED}" | wc -l`"
 
-
-  cat $D/etc/passwd | sed 's@\(^:\)*:.*@\1@' | sort | uniq > "${TMP_DEFINED}"
-  cat ${CFGFILE} | grep -v "^#" | cut -d " " -f 2 > "${TMP_INTERMED}"
-  cat "${TMP_DEFINED}" "${TMP_INTERMED}" | sort | uniq > "${TMP_COMBINED}"
-
-  NR_DEFINED_USERS="`cat "${TMP_DEFINED}" | wc -l`"
-  NR_COMBINED_USERS="`cat "${TMP_COMBINED}" | wc -l`"
-
-  [ "${NR_DEFINED_USERS}" -ne "${NR_COMBINED_USERS}" ] && {
-    echo "Undefined users:"
-    diff "${TMP_DEFINED}" "${TMP_COMBINED}" | grep "^>"
-    cleanup
-    return 1
-    }
+	[ "${NR_DEFINED_USERS}" -ne "${NR_COMBINED_USERS}" ] && {
+		echo "Undefined users:"
+		diff "${TMP_DEFINED}" "${TMP_COMBINED}" | grep "^>"
+		cleanup
+		return 1
+	}
 
 
-  cat $D/etc/group | sed 's@\(^:\)*:.*@\1@' | sort | uniq > "${TMP_DEFINED}"
-  cat ${CFGFILE} | grep -v "^#" | cut -d " " -f 3 > "${TMP_INTERMED}"
-  cat "${TMP_DEFINED}" "${TMP_INTERMED}" | sort | uniq > "${TMP_COMBINED}"
+	cat ${ROOT_DIR}/etc/group | sed 's@\(^:\)*:.*@\1@' | sort | uniq > "${TMP_DEFINED}"
+	cat ${CFGFILE} | grep -v "^#" | cut -s -d " " -f 3 > "${TMP_INTERMED}"
+	cat "${TMP_DEFINED}" "${TMP_INTERMED}" | sort | uniq > "${TMP_COMBINED}"
 
-  NR_DEFINED_GROUPS="`cat "${TMP_DEFINED}" | wc -l`"
-  NR_COMBINED_GROUPS="`cat "${TMP_COMBINED}" | wc -l`"
+	NR_DEFINED_GROUPS="`cat "${TMP_DEFINED}" | wc -l`"
+	NR_COMBINED_GROUPS="`cat "${TMP_COMBINED}" | wc -l`"
 
-  [ "${NR_DEFINED_GROUPS}" -ne "${NR_COMBINED_GROUPS}" ] && {
-    echo "Undefined groups:"
-    diff "${TMP_DEFINED}" "${TMP_COMBINED}" | grep "^>"
-    cleanup
-    return 1
-    }
+	[ "${NR_DEFINED_GROUPS}" -ne "${NR_COMBINED_GROUPS}" ] && {
+		echo "Undefined groups:"
+		diff "${TMP_DEFINED}" "${TMP_COMBINED}" | grep "^>"
+		cleanup
+		return 1
+	}
 
-  # Add checks for required directories here
+	# Add checks for required directories here
 
-  cleanup
-  return 0
-  }
+	cleanup
+	return 0
+}
 
 apply_cfgfile() {
+	CFGFILE="$1"
 
-  CFGFILE="$1"
+	check_requirements "${CFGFILE}" || {
+		echo "Skipping ${CFGFILE}"
+		return 1
+	}
 
-  check_requirements "${CFGFILE}" || {
-    echo "Skipping ${CFGFILE}"
-    return 1
-    }
+	cat ${CFGFILE} | grep -v "^#" | \
+		while read LINE; do
+		eval `echo "$LINE" | sed -n "s/\(.*\)\ \(.*\) \(.*\)\ \(.*\)\ \(.*\)\ \(.*\)/TTYPE=\1 ; TUSER=\2; TGROUP=\3; TMODE=\4; TNAME=\5 TLTARGET=\6/p"`
+		TNAME=${ROOT_DIR}${TNAME}
+		[ "${VERBOSE}" != "no" ] && echo "Checking for -${TNAME}-."
 
-  cat ${CFGFILE} | grep -v "^#" | \
-  while read LINE; do
+		[ "${TTYPE}" = "l" ] && {
+			TSOURCE="$TLTARGET"
+			[ "${VERBOSE}" != "no" ] && echo "Creating link -${TNAME}- pointing to -${TSOURCE}-."
+			link_file "${TSOURCE}" "${TNAME}"
+			continue
+		}
 
-    eval `echo "$LINE" | sed -n "s/\(.*\)\ \(.*\) \(.*\)\ \(.*\)\ \(.*\)\ \(.*\)/TTYPE=\1 ; TUSER=\2; TGROUP=\3; TMODE=\4; TNAME=\5 TLTARGET=\6/p"`
+		[ -L "${TNAME}" ] && {
+			[ "${VERBOSE}" != "no" ] && echo "Found link."
+			NEWNAME=`ls -l "${TNAME}" | sed -e 's/^.*-> \(.*\)$/\1/'`
+			echo ${NEWNAME} | grep -v "^/" >/dev/null && {
+				TNAME="`echo ${TNAME} | sed -e 's@\(.*\)/.*@\1@'`/${NEWNAME}"
+				[ "${VERBOSE}" != "no" ] && echo "Converted relative linktarget to absolute path -${TNAME}-."
+			} || {
+				TNAME="${NEWNAME}"
+				[ "${VERBOSE}" != "no" ] && echo "Using absolute link target -${TNAME}-."
+			}
+		}
 
-    [ "${VERBOSE}" != "no" ] && echo "Checking for -${TNAME}-."
+		case "${TTYPE}" in
+			"f")  [ "${VERBOSE}" != "no" ] && echo "Creating file -${TNAME}-."
+				create_file "${TNAME}" &
+				;;
+			"d")  [ "${VERBOSE}" != "no" ] && echo "Creating directory -${TNAME}-."
+				mk_dir "${TNAME}"
+				# Add check to see if there's an entry in fstab to mount.
+				;;
+			*)    [ "${VERBOSE}" != "no" ] && echo "Invalid type -${TTYPE}-."
+				continue
+				;;
+		esac
+	done
+	return 0
+}
 
+clearcache=0
+exec 9</proc/cmdline
+while read line <&9
+do
+	case "$line" in
+		*clearcache*)  clearcache=1
+			       ;;
+		*)	       continue
+			       ;;
+	esac
+done
+exec 9>&-
 
-    [ "${TTYPE}" = "l" ] && {
-      TSOURCE="$TLTARGET"
-      [ -L "${TNAME}" ] || {
-        [ "${VERBOSE}" != "no" ] && echo "Creating link -${TNAME}- pointing to -${TSOURCE}-."
-        link_file "${TSOURCE}" "${TNAME}"
-        }
-      continue
-      }
-
-    [ -L "${TNAME}" ] && {
-      [ "${VERBOSE}" != "no" ] && echo "Found link."
-      NEWNAME=`ls -l "${TNAME}" | sed -e 's/^.*-> \(.*\)$/\1/'`
-      echo ${NEWNAME} | grep -v "^/" >/dev/null && {
-        TNAME="`echo ${TNAME} | sed -e 's@\(.*\)/.*@\1@'`/${NEWNAME}"
-        [ "${VERBOSE}" != "no" ] && echo "Converted relative linktarget to absolute path -${TNAME}-."
-        } || {
-        TNAME="${NEWNAME}"
-        [ "${VERBOSE}" != "no" ] && echo "Using absolute link target -${TNAME}-."
-        }
-      }
-
-    case "${TTYPE}" in
-      "f")  [ "${VERBOSE}" != "no" ] && echo "Creating file -${TNAME}-."
-            create_file "${TNAME}"
-	    ;;
-      "d")  [ "${VERBOSE}" != "no" ] && echo "Creating directory -${TNAME}-."
-            mk_dir "${TNAME}"
-	    # Add check to see if there's an entry in fstab to mount.
-	    ;;
-      *)    [ "${VERBOSE}" != "no" ] && echo "Invalid type -${TTYPE}-."
-            continue
-	    ;;
-    esac
-
-
-    done
-
-  return 0
-
-  }
-
-if test -e /etc/volatile.cache -a "$VOLATILE_ENABLE_CACHE" = "yes" -a "x$1" != "xupdate"
+if test -e ${ROOT_DIR}/etc/volatile.cache -a "$VOLATILE_ENABLE_CACHE" = "yes" -a "x$1" != "xupdate" -a "x$clearcache" = "x0"
 then
-	sh /etc/volatile.cache
-else	
-	rm -f /etc/volatile.cache
+	sh ${ROOT_DIR}/etc/volatile.cache
+else
+	rm -f ${ROOT_DIR}/etc/volatile.cache ${ROOT_DIR}/etc/volatile.cache.build
 	for file in `ls -1 "${CFGDIR}" | sort`; do
 		apply_cfgfile "${CFGDIR}/${file}"
 	done
+
+	[ -e ${ROOT_DIR}/etc/volatile.cache.build ] && sync && mv ${ROOT_DIR}/etc/volatile.cache.build ${ROOT_DIR}/etc/volatile.cache
+fi
+
+if [ -z "${ROOT_DIR}" ] && [ -f /etc/ld.so.cache ] && [ ! -f /var/run/ld.so.cache ]
+then
+	ln -s /etc/ld.so.cache /var/run/ld.so.cache
 fi
