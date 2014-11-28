@@ -1,3 +1,3 @@
-EXTRA_OECONF = "--enable-openssl"
+EXTRA_OECONF += " --enable-openssl"
 
 LDFLAGS += "-lrt"
