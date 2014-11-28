@@ -62,4 +62,9 @@ do_install_append() {
     cp -a ${D}${base_bindir}/busybox ${D}${base_sbindir}/udhcpc
     grep -v '/udhcpc' ${D}${sysconfdir}/busybox.links > ${S}/busybox.links.tmp
     install -m 0644 ${S}/busybox.links.tmp ${D}${sysconfdir}/busybox.links
+
+    # Showkey is provided by kbd as a file, preventing an alternative to busybox.
+    # Let's not bother trying to link it.
+    grep -v '/showkey' ${D}${sysconfdir}/busybox.links > ${S}/busybox.links.tmp
+    install -m 0644 ${S}/busybox.links.tmp ${D}${sysconfdir}/busybox.links
 }
