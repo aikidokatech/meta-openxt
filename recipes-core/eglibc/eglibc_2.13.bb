@@ -30,9 +30,9 @@ SRC_URI_append_class-nativesdk = " file://ld-search-order.patch"
 S = "${WORKDIR}/${EGLIBC_BRANCH}/libc"
 B = "${WORKDIR}/build-${TARGET_SYS}"
 
-PACKAGES_DYNAMIC = "libc6*"
-RPROVIDES_${PN}-dev = "libc6-dev virtual-libc-dev"
-PROVIDES_${PN}-dbg = "glibc-dbg"
+#PACKAGES_DYNAMIC = "libc6*"
+#RPROVIDES_${PN}-dev = "libc6-dev virtual-libc-dev"
+#PROVIDES_${PN}-dbg = "glibc-dbg"
 
 # the -isystem in bitbake.conf screws up glibc do_stage
 BUILD_CPPFLAGS = "-I${STAGING_INCDIR_NATIVE}"

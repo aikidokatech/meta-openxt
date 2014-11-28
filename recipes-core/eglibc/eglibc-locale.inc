@@ -2,6 +2,7 @@ INHIBIT_DEFAULT_DEPS = "1"
 LICENSE = "GPLv2 & LGPLv2.1"
 
 BPN = "eglibc"
+LOCALEBASEPN = "eglibc"
 
 do_fetch[noexec] = "1"
 do_unpack[noexec] = "1"
@@ -25,8 +26,6 @@ BINARY_LOCALE_ARCHES ?= "arm.* i[3-6]86 x86_64 powerpc mips"
 # set "1" to use cross-localedef for locale generation
 # set "0" for qemu emulation of native localedef for locale generation
 LOCALE_GENERATION_WITH_CROSS-LOCALEDEF = "1"
-
-PR = "r20"
 
 PROVIDES = "virtual/libc-locale"
 
@@ -73,7 +72,8 @@ do_install () {
 	if [ -n "$(ls ${LOCALETREESRC}/${bindir})" ]; then
 		cp -fpPR ${LOCALETREESRC}/${bindir}/* ${D}${bindir}
 	fi
-	if [ -e ${LOCALETREESRC}/${libdir}/locale ]; then
+	if [ -e ${LOCALETREESRC}/${localedir} ]; then
+		mkdir -p ${D}${localedir}
 		cp -fpPR ${LOCALETREESRC}/${libdir}/locale ${D}${libdir}
 	fi
 	if [ -e ${LOCALETREESRC}/${libdir}/gconv ]; then
@@ -85,6 +85,7 @@ do_install () {
 	if [ -e ${LOCALETREESRC}/${datadir}/locale ]; then
 		cp -fpPR ${LOCALETREESRC}/${datadir}/locale ${D}${datadir}
 	fi
+	chown root.root -R ${D}
 	cp -fpPR ${LOCALETREESRC}/SUPPORTED ${WORKDIR}
 }
 
