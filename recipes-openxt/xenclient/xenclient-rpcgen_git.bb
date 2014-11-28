@@ -1,6 +1,8 @@
 require xenclient-rpcgen.inc
 BBCLASSEXTEND = "native"
 
+SRCREV = "${AUTOREV}"
+
 S = "${WORKDIR}/git/rpcgen"
 
 PACKAGES = " ${PN} ${PN}-dev ${PN}-dbg "

@@ -9,7 +9,10 @@ XENCLIENT_BUILD_BRANCH ?= "unknown"
 XENCLIENT_VERSION ?= "unknown"
 XENCLIENT_RELEASE ?= "unknown"
 
-SRC_URI = "${OPENXT_GIT_MIRROR}/sync-wui.git;protocol=git;tag=${OPENXT_TAG}"
+PV = "0+git${SRCPV}"
+
+SRCREV = "${AUTOREV}"
+SRC_URI = "git://${OPENXT_GIT_MIRROR}/sync-wui.git;protocol=${OPENXT_GIT_PROTOCOL};branch=${OPENXT_BRANCH}"
 
 S = "${WORKDIR}/git"
 
@@ -51,8 +54,8 @@ do_ship() {
 	# make the output directory if it does not exist yet
 	mkdir -p "${OUT_DIR}"
 
-        cp -f ${DEPLOY_DIR}/tar/sync-wui-git-*.tar.gz "${OUT_DIR}/sync-wui-${XENCLIENT_RELEASE}.tar.gz"
-        cp -f ${DEPLOY_DIR}/tar/sync-wui-sources-git-*.tar.gz "${OUT_DIR}/sync-wui-sources-${XENCLIENT_RELEASE}.tar.gz"
+        cp -f ${DEPLOY_DIR}/tar/sync-wui-0+git*.tar.gz "${OUT_DIR}/sync-wui-${XENCLIENT_RELEASE}.tar.gz"
+        cp -f ${DEPLOY_DIR}/tar/sync-wui-sources-0+git*.tar.gz "${OUT_DIR}/sync-wui-sources-${XENCLIENT_RELEASE}.tar.gz"
 }
 
 addtask ship before do_build after do_package_write_tar

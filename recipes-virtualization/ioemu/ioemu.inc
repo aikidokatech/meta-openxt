@@ -11,8 +11,16 @@ DEPENDS = "xen-tools alsa-lib pciutils libpng blktap libxenacpi libv4v libdmbus 
 
 FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
 
-SRC_URI = "${OPENXT_GIT_MIRROR}/ioemu.git;protocol=git;tag=${OPENXT_TAG} \
-	   ${OPENXT_GIT_MIRROR}/ioemu-pq.git;protocol=git;tag=${OPENXT_TAG} \
+SRCREV_FORMAT = "source_patchqueue"
+
+PV = "0+git${SRCPV}"
+
+SRCREV_FORMAT = "source_patchqueue"
+
+PV = "0+git${SRCPV}"
+
+SRC_URI = "git://${OPENXT_GIT_MIRROR}/ioemu.git;protocol=${OPENXT_GIT_PROTOCOL};branch=${OPENXT_BRANCH};name=source \
+	   git://${OPENXT_GIT_MIRROR}/ioemu-pq.git;protocol=${OPENXT_GIT_PROTOCOL};branch=${OPENXT_BRANCH};destsuffix=patchqueue;name=patchqueue \
 	   file://qemu-ifup-stubdom"
 
 S = "${WORKDIR}/git"

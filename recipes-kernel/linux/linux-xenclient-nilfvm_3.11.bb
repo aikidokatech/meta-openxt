@@ -1,6 +1,8 @@
 DESCRIPTION = "Linux kernel XenClient nilfvm"
 COMPATIBLE_MACHINE = "(openxt-nilfvm)"
 
+FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}-3.11:"
+
 require linux-xenclient-${PV}.inc
 
 inherit xenclient-deb-kernel

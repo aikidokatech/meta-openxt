@@ -6,5 +6,8 @@ RDEPENDS_${PN} += "glibc-gconv-utf-32"
 
 inherit xenclient ghc ghc-lib-common ghc-xc
 
-SRC_URI = "${OPENXT_GIT_MIRROR}/xclibs.git;protocol=git;tag=${OPENXT_TAG}"
+PV = "0+git${SRCPV}"
+
+SRCREV = "${AUTOREV}"
+SRC_URI = "git://${OPENXT_GIT_MIRROR}/xclibs.git;protocol=${OPENXT_GIT_PROTOCOL};branch=${OPENXT_BRANCH}"
 S = "${WORKDIR}/git/xch-rpc"

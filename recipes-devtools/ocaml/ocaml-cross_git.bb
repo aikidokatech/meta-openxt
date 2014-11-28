@@ -6,7 +6,10 @@ PR .= "openxt-01"
 
 FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
 
-SRC_URI = "${OPENXT_GIT_MIRROR}/ocaml.git;protocol=git;tag=${OPENXT_TAG} \
+PV = "0+git${SRCPV}"
+
+SRCREV = "${AUTOREV}"
+SRC_URI = "git://${OPENXT_GIT_MIRROR}/ocaml.git;protocol=${OPENXT_GIT_PROTOCOL};branch=${OPENXT_BRANCH} \
            file://0007-Fix-ocamlopt-w.r.t.-binutils-2.21.patch;patch=1 \
 	   file://config.patch \
 "

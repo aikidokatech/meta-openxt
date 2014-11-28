@@ -1,7 +1,6 @@
 do_apply_patchqueue(){
     # Handle insane patchqueue
     GUILT=guilt
-    MACHINE="${MACHINE_ARCH}"
 
     export EMAIL="local.changes@example.com"
     export GIT_AUTHOR_NAME="Local Changes"
@@ -33,6 +32,9 @@ do_apply_patchqueue(){
             if ! git symbolic-ref HEAD 2>/dev/null ; then
                 # If we're not on a branch, create one for guilt.
                 git checkout -b make-guilt-happy
+                # if patches are applied via normal bitbake SRC_URI
+                # and source repo is from git, we need to commit the applied changes
+                git commit -a -m "make-guilt-happy" || true
             fi
             [ -d ${WORKDIR}/git/.git/patches ] && rmdir ${WORKDIR}/git/.git/patches
             branch=$(cd ${WORKDIR}/git && git branch | grep '*' | cut -d' ' -f2)
@@ -47,7 +49,6 @@ do_apply_patchqueue(){
         pushd .git/patches/master
         if [ ! -e series ]; then
             cp series.common series
-            [ -e series.$MACHINE ] && cat series.$MACHINE >> series
         fi
         [ ! -f status ] && touch status
         popd

@@ -4,8 +4,12 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=321bf41f280cf805086dd5a720b37785"
 
 FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
 
-SRC_URI = "${OPENXT_GIT_MIRROR}/icbinn.git;protocol=git;tag=${OPENXT_TAG}"
-SRC_URI += "file://icbinn_svc.initscript"
+PV = "0+git${SRCPV}"
+
+SRCREV = "${AUTOREV}"
+SRC_URI = "git://${OPENXT_GIT_MIRROR}/icbinn.git;protocol=${OPENXT_GIT_PROTOCOL};branch=${OPENXT_BRANCH} \
+           file://icbinn_svc.initscript \
+          "
 
 DEPENDS = "libv4v libtirpc xenclient-idl xenclient-rpcgen-native libxcdbus"
 EXTRA_OECONF += "--with-idldir=${STAGING_IDLDIR} --with-v4v --with-xcdbus"
