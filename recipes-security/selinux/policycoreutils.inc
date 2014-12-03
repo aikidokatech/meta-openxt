@@ -227,7 +227,7 @@ BBCLASSEXTEND = "native"
 
 PCU_NATIVE_CMDS = "setfiles semodule_package semodule semodule_link semodule_expand semodule_deps"
 
-do_compile_virtclass-native() {
+do_compile_class-native() {
 	for PCU_CMD in ${PCU_NATIVE_CMDS} ; do
 		oe_runmake -C $PCU_CMD \
 			INCLUDEDIR='${STAGING_INCDIR}' \
@@ -248,7 +248,7 @@ do_install_prepend() {
 	export SEMODULE_PATH=${sbindir}
 }
 
-do_install_virtclass-native() {
+do_install_class-native() {
 	for PCU_CMD in ${PCU_NATIVE_CMDS} ; do
 	     oe_runmake -C $PCU_CMD install \
 			DESTDIR="${D}" \
