@@ -19,6 +19,7 @@ inherit cross
 
 S = "${WORKDIR}/git"
 
+DEPENDS = "virtual/${TARGET_PREFIX}gcc virtual/${TARGET_PREFIX}binutils"
 RDEPENDS_${PN}-dev = ""
 
 do_configure() {
