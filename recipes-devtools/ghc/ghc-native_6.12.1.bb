@@ -28,8 +28,7 @@ PR = "openxt-01"
 
 S = "${WORKDIR}/ghc-${PV}"
 
-inherit autotools
-inherit native
+inherit native pythonnative
 
 PARALLEL_MAKE=""
 CFLAGS_append = ' -Wno-unused'
@@ -75,12 +74,12 @@ do_configure() {
 }
 
 ## This is probably preventing the use of CFLAGS_append as it is not oe_make
-#do_compile() {
-#	make
-#}
+do_compile() {
+	oe_runmake
+}
 
-#do_install() {
-#    make install "DESTDIR=${D}"
+do_install() {
+    oe_runmake install "DESTDIR=${D}"
 #     this is for runtime package
 #    install -d ${D}/usr/lib
 #    install -m 755 ${S}/rts/dist/build/libHSrts-ghc6.12.1.so ${D}/usr/lib
@@ -104,7 +103,7 @@ do_configure() {
 #    install -m 755 ${S}/libraries/unix/dist-install/build/libHSunix-2.4.0.0-ghc6.12.1.so ${D}/usr/lib
 #    install -m 755 ${S}/libraries/ghc-prim/dist-install/build/libHSghc-prim-0.2.0.0-ghc6.12.1.so ${D}/usr/lib
 #    install -m 755 ${S}/libraries/haskell98/dist-install/build/libHShaskell98-1.0.1.1-ghc6.12.1.so ${D}/usr/lib
-#}
+}
 
 #FILES_ghc-runtime-native += "/usr/lib/*.so"
 #PACKAGES =+ "ghc-runtime-native"
