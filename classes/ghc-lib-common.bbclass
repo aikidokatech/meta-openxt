@@ -37,6 +37,17 @@ FILES_${PN}-dev = "/usr/lib/ghc-local/"
 do_install() {
     ${RUNSETUP} copy --destdir=${D} --verbose
     ${RUNSETUP} register --gen-pkg-config
+    # The config might get generated with the full sysroot path in the library or
+    # include path.  Getting rid of it with sed as I am not sure how to get GHC
+    # to not do that.  Room for improvement!
+    for file in ${S}/*.conf
+    do
+        if [ -e "$file" ]; then
+            echo "seding $file"
+            sed -i "s#${STAGING_LIBDIR}#/usr/lib#" "$file"
+            sed -i "s#${STAGING_INCDIR}#/usr/include#" "$file"
+        fi
+    done
     cp ${S}/*.conf ${D}/${prefix}/lib/ghc-local
 	for x in `find ${D}/${prefix}/lib/ghc-local -name libHS*.so`; do install -m 755 $x ${D}/${prefix}/lib; done
 }
