@@ -8,7 +8,7 @@ PR = "r0"
 
 inherit xfce
 
-FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}-${PV}"
+FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}-${PV}:"
 
 EXTRA_OECONF += "PERL=${STAGING_DIR_TARGET}/usr/bin/perl"
 
