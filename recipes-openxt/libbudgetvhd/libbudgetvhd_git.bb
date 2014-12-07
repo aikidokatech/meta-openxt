@@ -14,3 +14,5 @@ inherit pkgconfig
 inherit xenclient
 
 BBCLASSEXTEND="native"
+
+B = "${S}"
