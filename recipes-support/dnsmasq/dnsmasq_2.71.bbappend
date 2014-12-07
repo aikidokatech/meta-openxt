@@ -1,6 +1,6 @@
 PR = "openxt-01"
 
-FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}-${PV}:"
+FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
 SRC_URI += " \
                     file://dnsmasq_dnsout_interface.patch;patch=1 \
 "
