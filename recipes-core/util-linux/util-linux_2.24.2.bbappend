@@ -1,6 +1,6 @@
 PR = "openxt-01"
 
-FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}-${PV}"
+FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
 
 SRC_URI += " file://libmount-fix-selinux-compile.patch \
 	"
