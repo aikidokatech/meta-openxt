@@ -1,18 +1,18 @@
 diff --git a/configure.ac b/configure.ac
-index 20b788d..f7bb3cf 100644
+index 6b40353..6380828 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -170,6 +170,7 @@ AC_ARG_WITH(launchd-agent-dir, AS_HELP_STRING([--with-launchd-agent-dir=[dirname
+@@ -169,6 +169,7 @@ AC_ARG_WITH(console-owner-file, AS_HELP_STRING([--with-console-owner-file=[filen
+ AC_ARG_WITH(launchd-agent-dir, AS_HELP_STRING([--with-launchd-agent-dir=[dirname]],[directory to put the launchd agent (default: /Library/LaunchAgents)]))
  AC_ARG_WITH(dbus_user, AS_HELP_STRING([--with-dbus-user=<user>],[User for running the DBUS daemon (messagebus)]))
  AC_ARG_WITH(dbus_daemondir, AS_HELP_STRING([--with-dbus-daemondir=[dirname]],[Directory for installing the DBUS daemon]))
- AC_ARG_WITH(dbus_session_bus_default_address, AS_HELP_STRING([--with-dbus-session-bus-default-address=[nonce-tcp:/autolaunch:/tcp:host:port]],[Transport Type to be used (default: nonce-tcp:)]),with_dbus_session_bus_default_address=$withval,with_dbus_session_bus_default_address=nonce-tcp:)
 +AC_ARG_WITH(dbus_default_reply_timeout, AS_HELP_STRING([--with-dbus-default-reply-timeout=[milliseconds]],[Default reply timeout for DBus method calls]))
  
  AC_ARG_ENABLE([embedded-tests],
    AS_HELP_STRING([--enable-embedded-tests],
-@@ -1257,6 +1258,13 @@ if test x$with_valgrind != xno; then
-   AC_DEFINE([WITH_VALGRIND], [1], [Define to add Valgrind instrumentation])
- fi
+@@ -1246,6 +1247,13 @@ AC_DEFINE_UNQUOTED([DBUS_DEFAULT_MESSAGE_UNIX_FDS],
+   [Default for dbus_connection_get_max_message_unix_fds()])
+ AC_SUBST([DEFAULT_MESSAGE_UNIX_FDS])
  
 +if test -z "$with_dbus_default_reply_timeout" ; then
 +    DBUS_DEFAULT_REPLY_TIMEOUT=25000
@@ -24,16 +24,16 @@ index 20b788d..f7bb3cf 100644
  #### Set up final flags
  LIBDBUS_LIBS="$THREAD_LIBS $NETWORK_libs"
  AC_SUBST([LIBDBUS_LIBS])
-@@ -1792,6 +1800,7 @@ echo "
+@@ -1818,6 +1826,7 @@ echo "
+         Building XML docs:        ${enable_xml_docs}
          Building launchd support: ${have_launchd}
-         Using XML parser:         ${with_xml}
          Init scripts style:       ${with_init_scripts}
 +        Default reply timeout:    ${DBUS_DEFAULT_REPLY_TIMEOUT}
          Abstract socket names:    ${ac_cv_have_abstract_sockets}
          System bus socket:        ${DBUS_SYSTEM_SOCKET}
          System bus address:       ${DBUS_SYSTEM_BUS_DEFAULT_ADDRESS}
 diff --git a/dbus/dbus-connection-internal.h b/dbus/dbus-connection-internal.h
-index 3d37f18..1d069f1 100644
+index 2842f2f..039ecb0 100644
 --- a/dbus/dbus-connection-internal.h
 +++ b/dbus/dbus-connection-internal.h
 @@ -41,9 +41,6 @@ typedef enum

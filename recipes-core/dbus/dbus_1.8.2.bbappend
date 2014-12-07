@@ -4,7 +4,7 @@ DEPENDS += "libselinux"
 DEPENDS_${PN} += "libv4v xen-tools"
 RDEPENDS_${PN} += "libselinux"
 
-FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}-${PV}:"
+FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
 
 SRC_URI += " \
     file://0001-Make-the-default-DBus-reply-timeout-configurable.patch \
