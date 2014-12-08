@@ -36,7 +36,9 @@ pkg_postinst_${PN}() {
         install -o tss -g tss -m 600 $D/usr/share/trousers/system.data.auth $D/boot/system/tpm/system.data
 }
 
-inherit autotools
+inherit autotools pkgconfig
+
+B = "${S}"
 
 do_custom_install() {
 	install -m 0755 -d ${D}${datadir}/trousers
