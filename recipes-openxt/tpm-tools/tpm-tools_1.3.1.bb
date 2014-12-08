@@ -27,7 +27,9 @@ FILES_${PN}-sa += "/usr/bin/tpm_sealdata_sa"
 FILES_${PN}-sa += "/usr/bin/tpm_unsealdata_sa"
 FILES_${PN}-sa += "/usr/bin/tpm_quote_sa"
 
-inherit autotools
+inherit autotools pkgconfig
+
+B = "${S}"
 
 do_install_append() {
     rm ${D}/usr/sbin/tpm_clear
