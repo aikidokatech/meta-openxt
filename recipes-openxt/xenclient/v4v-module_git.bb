@@ -26,15 +26,27 @@ SRC_URI = "git://${OPENXT_GIT_MIRROR}/v4v.git;protocol=${OPENXT_GIT_PROTOCOL};br
 
 S = "${WORKDIR}/git/v4v"
 
+# TODO: linux-v4v-headers installs v4v.h and v4v_dev.h also. This now
+# causes a stop error with dizzy when v4v-module tries to install.  Need
+# to examine why the linux-v4v-headers recipe was required.
+
 do_install_headers() {
         install -m 0755 -d ${D}/usr/include/xen
         install -m 0755 -d ${D}/usr/include/linux
         install -m 0755 -d ${STAGING_KERNEL_DIR}/include/xen
         install -m 0755 -d ${STAGING_KERNEL_DIR}/include/linux
-	install -m 644 include/xen/v4v.h ${D}/usr/include/xen/v4v.h
-	install -m 644 include/xen/v4v.h ${STAGING_KERNEL_DIR}/include/xen/v4v.h
-	install -m 644 linux/v4v_dev.h ${D}/usr/include/linux/v4v_dev.h
-	install -m 644 linux/v4v_dev.h ${STAGING_KERNEL_DIR}/include/linux/v4v_dev.h
+	if [! -e ${D}/usr/include/xen/v4v.h]; then
+		install -m 644 include/xen/v4v.h ${D}/usr/include/xen/v4v.h
+	fi
+	if [! -e ${STAGING_KERNEL_DIR}/include/xen/v4v.h]; then
+		install -m 644 include/xen/v4v.h ${STAGING_KERNEL_DIR}/include/xen/v4v.h
+	fi
+	if [! -e ${D}/usr/include/linux/v4v_dev.h ]; then
+		install -m 644 linux/v4v_dev.h ${D}/usr/include/linux/v4v_dev.h
+	fi
+	if [! -e ${STAGING_KERNEL_DIR}/include/linux/v4v_dev.h]; then
+		install -m 644 linux/v4v_dev.h ${STAGING_KERNEL_DIR}/include/linux/v4v_dev.h
+	fi
 }
 do_install_append_openxt-nilfvm() {
 	## to generate deb package
