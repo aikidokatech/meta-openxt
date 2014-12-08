@@ -24,7 +24,7 @@ EXTRA_OECONF = "--with-user= \
                 --with-udev-prefix= \
               "
 
-inherit autotools
+inherit autotools pkgconfig
 
 do_install_append() {
     # Install machine specific configuration file
