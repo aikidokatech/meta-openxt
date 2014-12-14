@@ -2,13 +2,14 @@ DESCRIPTION = "Citrix USB Daemon for XenClient"
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM="file://COPYING;md5=4641e94ec96f98fabc56ff9cc48be14b"
 DEPENDS = " libusb-compat xen-tools libv4v libxcdbus xenclient-idl xenclient-rpcgen-native libevent libxcxenstore"
-RDEPENDS_${PN} += "libxcxenstore"
+RDEPENDS_${PN} += "libxcxenstore libudev"
 
 PV = "0+git${SRCPV}"
 
 SRCREV = "${AUTOREV}"
 SRC_URI = "git://${OPENXT_GIT_MIRROR}/xc-vusb-daemon.git;protocol=${OPENXT_GIT_PROTOCOL};branch=${OPENXT_BRANCH} \
            file://xenclient-vusb.initscript \
+           file://am-init-automake-fix.patch \
            "
 
 EXTRA_OECONF += "--with-idldir=${STAGING_IDLDIR}"
@@ -18,9 +19,7 @@ EXTRA_OECONF += "--with-libxenstore=${STAGING_LIBDIR}"
 
 S = "${WORKDIR}/git"
 
-inherit autotools
-inherit xenclient
-inherit update-rc.d
+inherit autotools pkgconfig xenclient update-rc.d
 
 INITSCRIPT_NAME = "xenclient-vusb-daemon"
 INITSCRIPT_PARAMS = "defaults 60"
