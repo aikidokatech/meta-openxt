@@ -15,3 +15,7 @@ S = "${WORKDIR}/git"
 EXTRA_OEMAKE += "LIBDIR=${STAGING_LIBDIR}"
 
 inherit autotools pkgconfig xenclient
+
+do_configure_prepend(){
+     export VERSION="${VERSION}"
+}
