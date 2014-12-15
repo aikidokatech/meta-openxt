@@ -1,4 +1,3 @@
-inherit findlib
 SRC_URI[md5sum] = "999fc48a71030a1e765b85e3c1e7b933"
 SRC_URI[sha256sum] = "ca3c50f5442fce0ec9a9d35bfa99ab78084a2b5b02638c6e95f38340f9f104e5"
 DESCRIPTION = "Camomile, unicode library for OCAML"
@@ -17,6 +16,8 @@ SRC_URI = "http://downloads.sourceforge.net/project/camomile/camomile/0.8.1/camo
 S = "${WORKDIR}/camomile-${PV}"
 
 RDEPENDS_${PN}-dev = ""
+
+inherit findlib ocaml
 
 do_configure() {
     ./configure --prefix=${prefix} --bindir=${bindir} --libdir=${libdir} --datadir=${datadir}

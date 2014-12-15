@@ -2,13 +2,13 @@ inherit findlib
 DESCRIPTION = "XenClient toolstack"
 LICENSE = "LGPLv2.1"
 LIC_FILES_CHKSUM = "file://COPYING;md5=321bf41f280cf805086dd5a720b37785"
-DEPENDS += " ocaml-cross ocaml-dbus ocaml-camomile xen-tools"
+DEPENDS += "ocaml-cross ocaml-dbus ocaml-camomile xen-tools"
 RDEPENDS_${PN} = " xen-tools-xenstore-utils "
 RDEPENDS_${PN}_openxt-ndvm += " db-tools"
 
 DEPENDS_append_openxt-nilfvm += " ${@deb_bootstrap_deps(d)} "
 
-inherit xenclient
+inherit xenclient ocaml
 inherit ${@"xenclient-simple-deb"if(bb.data.getVar("MACHINE",d,1)=="openxt-nilfvm")else("null")}
 
 PACKAGES += "${PN}-libs-dbg ${PN}-libs-staticdev ${PN}-libs-dev ${PN}-libs"
@@ -26,8 +26,6 @@ DEB_DESC_EXT="This package provides the  nilfvm XenClient toolstack scrips."
 DEB_SECTION="misc"
 DEB_PKG_MAINTAINER = "Citrix Systems <customerservice@citrix.com>"
 
-
-
 # Ocaml stuff is built with the native compiler with "-m32".
 CFLAGS_append = " -I${OCAML_HEADERS}"
 
@@ -40,6 +38,7 @@ SRC_URI = "git://${OPENXT_GIT_MIRROR}/toolstack.git;protocol=${OPENXT_GIT_PROTOC
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 S = "${WORKDIR}/git"
 
+B = "${S}"
 
 do_compile() {
         make V=1 XEN_DIST_ROOT="${STAGING_DIR}"

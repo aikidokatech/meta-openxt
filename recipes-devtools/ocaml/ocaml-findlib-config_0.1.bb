@@ -6,6 +6,7 @@ PR = "r0"
 SRC_URI = "file://findlib.conf"
 S = "${WORKDIR}"
 
+inherit ocaml
 
 do_configure() {
 }

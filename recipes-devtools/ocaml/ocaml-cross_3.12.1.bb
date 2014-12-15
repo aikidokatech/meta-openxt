@@ -13,9 +13,8 @@ SRC_URI = "git://github.com/ocaml/ocaml.git;branch=3.12 \
 	   file://config.patch \
 "
 
-inherit xenclient
+inherit xenclient cross ocaml
 #inherit native
-inherit cross
 
 S = "${WORKDIR}/git"
 

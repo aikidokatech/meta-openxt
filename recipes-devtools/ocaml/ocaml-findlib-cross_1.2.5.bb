@@ -5,7 +5,7 @@ DEPENDS = "ocaml-cross"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=a30ace4f9508a47d2c25c45c48af6492"
 
-inherit cross
+inherit cross ocaml
 
 PR = "r0"
 

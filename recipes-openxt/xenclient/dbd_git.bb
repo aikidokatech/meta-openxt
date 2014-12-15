@@ -1,6 +1,3 @@
-inherit findlib
-inherit ghc
-
 DESCRIPTION = "XenClient database daemon"
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://../COPYING;md5=4641e94ec96f98fabc56ff9cc48be14b"
@@ -21,7 +18,7 @@ FILES_${PN} += "/usr/share/xenclient/db.default"
 
 S = "${WORKDIR}/git/dbd"
 
-inherit xenclient update-rc.d
+inherit xenclient update-rc.d findlib ghc ocaml
 
 INITSCRIPT_NAME = "dbd"
 INITSCRIPT_PARAMS = "defaults 25"

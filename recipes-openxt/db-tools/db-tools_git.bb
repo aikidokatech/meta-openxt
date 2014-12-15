@@ -25,7 +25,7 @@ SRC_URI += " file://db-exists-dom0 \
 
 S = "${WORKDIR}/git/dbd"
 
-inherit xenclient
+inherit xenclient ocaml
 inherit ${@"xenclient-simple-deb"if(bb.data.getVar("MACHINE",d,1)=="xenclient-nilfvm")else("null")}
 
 FILES_${PN} = " /usr/bin/db-cmd /usr/bin/db-ls /usr/bin/db-read /usr/bin/db-write /usr/bin/db-nodes /usr/bin/db-exists /usr/bin/db-rm /usr/bin/db-cat "

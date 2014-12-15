@@ -18,7 +18,7 @@ SRC_URI += "file://uid_dbus.conf \
 
 S = "${WORKDIR}/git"
 
-inherit xenclient update-rc.d
+inherit xenclient update-rc.d ocaml
 
 INITSCRIPT_PACKAGES="${PN}"
 

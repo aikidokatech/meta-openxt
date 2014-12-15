@@ -1,4 +1,3 @@
-inherit findlib
 SRC_URI[md5sum] = "b769af9141a5c073056ed46ef76ba5be"
 SRC_URI[sha256sum] = "7c793987668e4236c63857469d2abe4a460e0b0954aa7d3262c6d9bb3c24bfdd"
 DESCRIPTION = "OCaml DBUS bindings"
@@ -19,6 +18,8 @@ SRC_URI = "http://projects.snarc.org/ocaml-dbus/download/ocaml_dbus-${PV}.tar.bz
 "
 
 RDEPENDS_${PN}-dev = ""
+
+inherit findlib ocaml
 
 PARALLEL_MAKE = ""
 
