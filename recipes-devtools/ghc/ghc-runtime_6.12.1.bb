@@ -38,13 +38,15 @@ FILES_${PN}-dev = ""
 
 PARALLEL_MAKE=""
 
+B = "${S}"
+
 # Inheriting autotools now so probalby a better way to do this but could not get it to work
 do_configure() {
 	./configure --prefix=${STAGING_DIR} --bindir ${STAGING_BINDIR} --libdir ${STAGING_LIBDIR} --datadir ${STAGING_DATADIR} --enable-shared
 }
 
 do_pre_configure() {
-	cp `which pwd` utils/ghc-pwd/ghc-pwd
+	cp `which pwd` ${S}/utils/ghc-pwd/ghc-pwd
 	export CPP=`which cpp`
 }
 
