@@ -13,7 +13,7 @@ RDEPENDS_${PN} = " \
     xfconf \
     \
     gtk-xfce-engine \
-    \
+    xfce-utils \
     xfce4-settings \
     \
     xfce4-notifyd \
