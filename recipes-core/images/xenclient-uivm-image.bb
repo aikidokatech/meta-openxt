@@ -157,15 +157,44 @@ post_rootfs_commands() {
 	fi
 }
 
+remove_initscripts() {
+    # Remove unneeded initscripts
+    if [ -f ${IMAGE_ROOTFS}${sysconfdir}/init.d/finish.sh ]; then
+        rm -f ${IMAGE_ROOTFS}${sysconfdir}/init.d/finish.sh
+        update-rc.d -r ${IMAGE_ROOTFS} finish.sh remove
+    fi
+    if [ -f ${IMAGE_ROOTFS}${sysconfdir}/init.d/hostname.sh ]; then
+        rm -f ${IMAGE_ROOTFS}${sysconfdir}/init.d/hostname.sh
+        update-rc.d -r ${IMAGE_ROOTFS} hostname.sh remove
+    fi
+    if [ -f ${IMAGE_ROOTFS}${sysconfdir}/init.d/rmnologin.sh ]; then
+        rm -f ${IMAGE_ROOTFS}${sysconfdir}/init.d/rmnologin.sh
+        update-rc.d -r ${IMAGE_ROOTFS} rmnologin.sh remove
+    fi
+    if [ -f ${IMAGE_ROOTFS}${sysconfdir}/init.d/sshd ]; then
+        rm -f ${IMAGE_ROOTFS}${sysconfdir}/init.d/sshd
+        update-rc.d -r ${IMAGE_ROOTFS} sshd remove
+    fi
+    if [ -f ${IMAGE_ROOTFS}${sysconfdir}/init.d/urandom ]; then
+        rm -f ${IMAGE_ROOTFS}${sysconfdir}/init.d/urandom
+        update-rc.d -r ${IMAGE_ROOTFS} urandom remove
+    fi
+}
+
 support_vmlinuz() {
 	# Make a vmlinuz link for items that explicitly reference it
 	ln -sf bzImage ${IMAGE_ROOTFS}/boot/vmlinuz
 }
 
+# Symlink /root to /home/root until nothing references /root anymore, e.g. SELinux file_contexts
+link_root_dir() {
+    ln -sf /home/root ${IMAGE_ROOTFS}/root
+}
+
 # zap root password for release images
 ROOTFS_POSTPROCESS_COMMAND += '${@base_conditional("DISTRO_TYPE", "release", "zap_root_password; ", "",d)}'
 
-ROOTFS_POSTPROCESS_COMMAND += "post_rootfs_commands; strip_unwanted_packages; support_vmlinuz;"
+ROOTFS_POSTPROCESS_COMMAND += "post_rootfs_commands; strip_unwanted_packages; remove_initscripts; support_vmlinuz; link_root_dir;"
 
 addtask ship before do_build after do_rootfs
 

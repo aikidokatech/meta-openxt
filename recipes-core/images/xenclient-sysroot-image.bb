@@ -98,10 +98,16 @@ remove_initscripts() {
         update-rc.d -r ${IMAGE_ROOTFS} mount-special remove
     fi
 }
+
+# Symlink /root to /home/root until nothing references /root anymore, e.g. SELinux file_contexts
+link_root_dir() {
+    ln -sf /home/root ${IMAGE_ROOTFS}/root
+}
+
 #zap root password for release images
 ROOTFS_POSTPROCESS_COMMAND += '${@base_conditional("DISTRO_TYPE", "release", "zap_root_password; ", "",d)}'
 
-ROOTFS_POSTPROCESS_COMMAND += ' remove_initscripts; '
+ROOTFS_POSTPROCESS_COMMAND += ' remove_initscripts; link_root_dir;'
 
 addtask do_post_rootfs_commands after do_rootfs
 addtask ship before do_build after do_rootfs

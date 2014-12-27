@@ -108,6 +108,10 @@ remove_initscripts() {
         rm -f ${IMAGE_ROOTFS}${sysconfdir}/init.d/urandom
         update-rc.d -r ${IMAGE_ROOTFS} urandom remove
     fi
+    if [ -f ${IMAGE_ROOTFS}${sysconfdir}/init.d/sshd ]; then
+        rm -f ${IMAGE_ROOTFS}${sysconfdir}/init.d/sshd
+        update-rc.d -r ${IMAGE_ROOTFS} sshd remove
+    fi
 }
 
 support_vmlinuz() {
@@ -115,6 +119,11 @@ support_vmlinuz() {
 	ln -sf bzImage ${IMAGE_ROOTFS}/boot/vmlinuz
 }
 
-ROOTFS_POSTPROCESS_COMMAND += "tweak_passwd; tweak_hosts; enable_three_fingered_salute; relocate_resolv; remove_unwanted_packages; remove_initscripts; support_vmlinuz;"
+# Symlink /root to /home/root until nothing references /root anymore, e.g. SELinux file_contexts
+link_root_dir() {
+    ln -sf /home/root ${IMAGE_ROOTFS}/root
+}
+
+ROOTFS_POSTPROCESS_COMMAND += "tweak_passwd; tweak_hosts; enable_three_fingered_salute; relocate_resolv; remove_unwanted_packages; remove_initscripts; support_vmlinuz; link_root_dir;"
 
 addtask ship before do_build after do_rootfs

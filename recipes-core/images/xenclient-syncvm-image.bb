@@ -61,7 +61,12 @@ support_vmlinuz() {
 	ln -sf bzImage ${IMAGE_ROOTFS}/boot/vmlinuz
 }
 
-ROOTFS_POSTPROCESS_COMMAND += " after_commands; remove_initscripts; support_vmlinuz;"
+# Symlink /root to /home/root until nothing references /root anymore, e.g. SELinux file_contexts
+link_root_dir() {
+    ln -sf /home/root ${IMAGE_ROOTFS}/root
+}
+
+ROOTFS_POSTPROCESS_COMMAND += " after_commands; remove_initscripts; support_vmlinuz; link_root_dir;"
 
 addtask ship before do_build after do_rootfs
 
