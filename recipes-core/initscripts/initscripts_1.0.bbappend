@@ -11,7 +11,7 @@ SRC_URI += "file://mount-special \
 	"
 
 # Override to reduce the number of scripts installed
-do_install_openxt-dom0 () {
+do_install () {
 #
 # Create directories and install device independent scripts
 #
