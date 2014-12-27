@@ -22,7 +22,9 @@ dirs755 += " \
 	${localstatedir}/volatile/lock/subsys \
 	${localstatedir}/cache \
 	${localstatedir}/log \
-	"
+	/mnt /media /media/card /media/cf /media/net /media/ram \
+	/media/union /media/realroot /media/hdd \
+	/media/mmc1"
 
 media = "card cf net ram"
 volatiles = ""
