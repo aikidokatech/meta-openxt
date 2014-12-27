@@ -91,7 +91,7 @@ do_install () {
 	mkdir -p ${D}/opt/xensource
 	ln -sf /usr/bin ${D}/opt/xensource/libexec
 
-        install -d ${D}/root/.ssh
+        install -d ${D}/home/root/.ssh
 
     install -m 0755 -d ${D}${localstatedir}/lib/ovf
 
