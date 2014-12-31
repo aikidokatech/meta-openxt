@@ -144,11 +144,11 @@ post_rootfs_commands() {
 
 	# enable ctrlaltdel reboot because PV driver uses ctrl+alt+del to interpret reboot issued via xenstore
 	echo 'ca:12345:ctrlaltdel:/sbin/shutdown -t1 -a -r now' >> ${IMAGE_ROOTFS}/etc/inittab;
-	sed -i 's|root:x:0:0:root:/home/root:/bin/sh|root:x:0:0:root:/root:/bin/bash|' ${IMAGE_ROOTFS}/etc/passwd;
+	sed -i 's|root:x:0:0:root:/home/root:/bin/sh|root:x:0:0:root:/home/root:/bin/bash|' ${IMAGE_ROOTFS}/etc/passwd;
 	echo '1.0.0.0 dom0' >> ${IMAGE_ROOTFS}/etc/hosts;
 
 	# readonly rootfs prevents sshd from creating dirs
-	mkdir ${IMAGE_ROOTFS}/root/.ssh;
+	mkdir ${IMAGE_ROOTFS}/home/root/.ssh;
 
 	# Remove unneeded initscripts provided to dom0 machine types
 	if [ -f ${IMAGE_ROOTFS}${sysconfdir}/init.d/urandom ]; then
